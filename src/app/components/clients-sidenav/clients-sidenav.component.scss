@@ -1,0 +1,15 @@
+@import '../toolbar/toolbar';
+
+:host {
+  display: block;
+  flex: 1;
+
+  > mat-drawer-container {
+    height: 100%;
+
+    > mat-drawer,
+    > mat-drawer-content {
+      padding-top: $rdx-toolbar-height;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+
+@import './actionbar';
+
+:host {
+  display: block;
+  height: $rdx-actionbar-height;
+  background-color: #0066B8;
+}
