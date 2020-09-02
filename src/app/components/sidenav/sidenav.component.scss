@@ -4,5 +4,9 @@
 
   > mat-drawer-container {
     height: 100%;
+
+    > mat-drawer {
+      padding: 5px;
+    }
   }
 }

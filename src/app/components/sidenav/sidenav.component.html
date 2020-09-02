@@ -1,6 +1,17 @@
 <mat-drawer-container autosize>
   <mat-drawer mode="side" opened>
-    sidenav...
+    <mat-list dense>
+      <a
+        *ngFor="let item of items"
+        mat-icon-button
+        [matTooltip]="item.text"
+        matTooltipPosition="right"
+        [routerLink]="item.route"
+        routerLinkActive="mat-accent"
+      >
+        <mat-icon [svgIcon]="item.icon"></mat-icon>
+      </a>
+    </mat-list>
   </mat-drawer>
 
   <mat-drawer-content>

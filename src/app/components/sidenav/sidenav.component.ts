@@ -1,4 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+
+import { ISidenavItem } from './sidenav-item.interface';
 
 @Component({
   selector: 'rdx-sidenav',
@@ -6,4 +8,6 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./sidenav.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidenavComponent { }
+export class SidenavComponent {
+  @Input() items: ISidenavItem[] = [];
+}
