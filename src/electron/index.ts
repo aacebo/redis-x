@@ -35,6 +35,7 @@ class App {
         backgroundThrottling: false,
         worldSafeExecuteJavaScript: true,
         contextIsolation: true,
+        preload: `${__dirname}/preload.js`,
       },
     });
 

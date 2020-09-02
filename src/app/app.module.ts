@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { ToolbarModule } from './components/toolbar';
 import { ActionbarModule } from './components/actionbar';
-import { ClientsSidenavModule } from './components/clients-sidenav';
+import { SidenavModule } from './components/sidenav';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,7 +19,7 @@ import { AppComponent } from './app.component';
 
     ToolbarModule,
     ActionbarModule,
-    ClientsSidenavModule,
+    SidenavModule,
   ],
 })
 export class AppModule { }

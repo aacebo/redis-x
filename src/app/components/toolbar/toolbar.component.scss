@@ -1,12 +1,7 @@
-@import './toolbar';
-
 :host {
-  position: absolute;
   display: block;
-  top: 0;
-  left: 0;
   width: 100%;
-  height: $rdx-toolbar-height;
+  height: 20px;
   -webkit-user-select: none;
   -webkit-app-region: drag;
 }
