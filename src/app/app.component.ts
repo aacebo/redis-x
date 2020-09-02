@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
-import { ApiService, ISystem } from './api';
+import { ApiService } from './api';
+import { SystemService } from './stores/system';
 
 @Component({
   selector: 'rdx-root',
@@ -10,13 +10,14 @@ import { ApiService, ISystem } from './api';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  readonly system$ = new BehaviorSubject<ISystem>(undefined);
-
-  constructor(private readonly _apiService: ApiService) { }
+  constructor(
+    private readonly _apiService: ApiService,
+    private readonly _systemService: SystemService,
+  ) { }
 
   ngOnInit() {
     this._apiService.once('system', (_, v) => {
-      this.system$.next(v);
+      this._systemService.set(v);
     });
   }
 }
