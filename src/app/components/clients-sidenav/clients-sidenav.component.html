@@ -1,6 +1,12 @@
 <mat-drawer-container autosize>
   <mat-drawer mode="side" opened>
-    connections here...
+    <div class="toolbar">
+      <div class="title">CONNECTIONS</div>
+      <div class="spacer"></div>
+      <mat-icon svgIcon="plus" (click)="createClient()"></mat-icon>
+    </div>
+
+    {{ (redisService.clients$ | async).length }}
   </mat-drawer>
 
   <mat-drawer-content>

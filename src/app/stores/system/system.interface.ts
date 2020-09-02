@@ -3,4 +3,5 @@ export interface ISystem {
   readonly platform: NodeJS.Platform;
   readonly version: string;
   readonly build: 'development' | 'production';
+  readonly fullscreen: boolean;
 }

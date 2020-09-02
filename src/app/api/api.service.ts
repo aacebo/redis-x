@@ -16,4 +16,14 @@ export class ApiService implements IApi {
       this._zone.run(() => cb(e, data));
     });
   }
+
+  on<T = any>(event: string, cb: (e: IpcRendererEvent, data: T) => void) {
+    this._api.on(event, (e, data: T) => {
+      this._zone.run(() => cb(e, data));
+    });
+  }
+
+  send<T = any>(event: string, data: T) {
+    this._api.send(event, data);
+  }
 }

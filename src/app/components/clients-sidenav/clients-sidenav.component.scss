@@ -4,5 +4,26 @@
 
   > mat-drawer-container {
     height: 100%;
+
+    > mat-drawer {
+      display: flex;
+      flex-direction: column;
+
+      .toolbar {
+        display: flex;
+
+        > .title {
+          font-size: 10pt;
+          margin: auto 5px;
+        }
+
+        > mat-icon {
+          cursor: pointer;
+          height: 18px;
+          width: 18px;
+          margin: 5px;
+        }
+      }
+    }
   }
 }

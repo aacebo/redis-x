@@ -35,8 +35,10 @@
     "@angular/platform-browser-dynamic": "~10.0.9",
     "@angular/router": "~10.0.9",
     "feather-icons": "^4.28.0",
+    "redis": "^3.0.2",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
+    "uuid": "^8.3.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {
@@ -46,6 +48,8 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
+    "@types/redis": "^2.8.27",
+    "@types/uuid": "^8.3.0",
     "codelyzer": "^6.0.0",
     "electron": "^10.1.0",
     "electron-is-dev": "^1.2.0",

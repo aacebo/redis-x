@@ -3,19 +3,22 @@ import * as dev from 'electron-is-dev';
 import * as path from 'path';
 import * as url from 'url';
 
-function getSystem() {
-  return {
-    pid: process.pid,
-    platform: process.platform,
-    version: electron.app.getVersion(),
-    build: dev ? 'development' : 'production',
-  };
-}
+import './redis';
 
 let app: App;
 
 class App {
   private _window: electron.BrowserWindow;
+
+  private get _system() {
+    return {
+      pid: process.pid,
+      platform: process.platform,
+      version: electron.app.getVersion(),
+      build: dev ? 'development' : 'production',
+      fullscreen: this._window.isFullScreen(),
+    };
+  }
 
   constructor() {
     this._window = new electron.BrowserWindow({
@@ -53,8 +56,7 @@ class App {
 
   private _onDomReady() {
     this._window.show();
-    this._window.webContents.send('system', getSystem());
-    this._window.webContents.send('fullscreen', this._window.isFullScreen());
+    this._window.webContents.send('system', this._system);
 
     if (dev) {
       this._window.webContents.openDevTools();
