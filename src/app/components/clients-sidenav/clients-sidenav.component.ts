@@ -1,8 +1,6 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
-import { RedisService } from '../../stores/redis';
-
-import { CreateClientDialogService } from '../create-client-dialog';
+import { IRedisClient } from '../../stores/redis';
 
 @Component({
   selector: 'rdx-clients-sidenav',
@@ -11,16 +9,7 @@ import { CreateClientDialogService } from '../create-client-dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientsSidenavComponent {
-  constructor(
-    readonly redisService: RedisService,
-    private readonly _createClientDialogService: CreateClientDialogService,
-  ) { }
+  @Input() clients: IRedisClient[] = [];
 
-  createClient() {
-    this._createClientDialogService.open().afterClosed().subscribe(v => {
-      if (v) {
-        this.redisService.create(v);
-      }
-    });
-  }
+  @Output() create = new EventEmitter<void>();
 }

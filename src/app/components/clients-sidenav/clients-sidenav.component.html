@@ -2,11 +2,21 @@
   <mat-drawer mode="side" opened>
     <div class="toolbar">
       <div class="title">CONNECTIONS</div>
+
       <div class="spacer"></div>
-      <mat-icon svgIcon="plus" (click)="createClient()"></mat-icon>
+
+      <mat-icon
+        svgIcon="plus"
+        (click)="create.emit()"
+      ></mat-icon>
     </div>
 
-    {{ (redisService.clients$ | async).length }}
+    <div class="content">
+      <rdx-clients-sidenav-item
+        *ngFor="let client of clients"
+        [client]="client"
+      ></rdx-clients-sidenav-item>
+    </div>
   </mat-drawer>
 
   <mat-drawer-content>

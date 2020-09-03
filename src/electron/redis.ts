@@ -8,13 +8,17 @@ class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
 
   constructor() {
-    ipcMain.on('redis:create', this._create.bind(this));
+    ipcMain.on('redis:create', this.create.bind(this));
+    ipcMain.on('redis:close', this.close.bind(this));
+    ipcMain.on('redis:remove', this.remove.bind(this));
+    ipcMain.on('redis:keys', this.keys.bind(this));
   }
 
-  private _create(e: IpcMainEvent, v: dtos.ICreateRedis) {
+  create(e: IpcMainEvent, v: dtos.ICreateRedis) {
     const id = uuid.v1();
     this._clients[id] = redis.createClient({ ...v });
 
+    this._clients[id].on('ready', () => this.keys(e, id));
     this._clients[id].on('connect', () => this._onConnect(e, id));
     this._clients[id].on('reconnecting', () => this._onReconnect(e, id));
     this._clients[id].on('end', () => this._onEnd(e, id));
@@ -24,6 +28,26 @@ class Redis {
       status: this._clients[id].connected ? 'open' : 'reconnecting',
       ...v,
     });
+  }
+
+  keys(e: IpcMainEvent, id: string) {
+    this._clients[id].keys('*', (err, keys) => {
+      if (err) throw err;
+
+      e.sender.send('redis:keys.return', {
+        id,
+        keys,
+      });
+    });
+  }
+
+  close(_: IpcMainEvent, id: string) {
+    this._clients[id].quit();
+  }
+
+  remove(_: IpcMainEvent, id: string) {
+    this._clients[id].quit();
+    delete this._clients[id];
   }
 
   private _onConnect(e: IpcMainEvent, id: string) {

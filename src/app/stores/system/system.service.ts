@@ -8,10 +8,10 @@ import { ISystem } from './system.interface';
   providedIn: 'root',
 })
 export class SystemService implements IStore<ISystem> {
-  get value$() { return this._value$.asObservable(); }
-  private readonly _value$ = new BehaviorSubject<ISystem>(undefined);
+  get state$() { return this._state$.asObservable(); }
+  private readonly _state$ = new BehaviorSubject<ISystem>(undefined);
 
   set(v: ISystem) {
-    this._value$.next(v);
+    this._state$.next(v);
   }
 }

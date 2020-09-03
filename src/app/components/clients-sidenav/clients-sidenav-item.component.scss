@@ -1,0 +1,51 @@
+@import '../../../styles/utils';
+
+:host {
+  display: flex;
+  padding: 5px;
+  cursor: pointer;
+
+  @include luc-ellipsis;
+
+  &:hover {
+    .name {
+      text-decoration: underline;
+    }
+  }
+
+  > .status {
+    min-width: 5px;
+    width: 5px;
+    height: 5px;
+    margin: 0 5px auto 0;
+    border: 1px solid transparent;
+    border-radius: 100%;
+
+    &.open {
+      background-color: #4BCA81;
+    }
+
+    &.reconnecting {
+      background-color: #FFCC00;
+    }
+
+    &.closed {
+      border-color: grey;
+    }
+  }
+
+  > .content {
+    @include luc-ellipsis;
+
+    > .name {
+      @include luc-ellipsis;
+    }
+
+    > .url {
+      font-size: 9pt;
+      opacity: 0.7;
+
+      @include luc-ellipsis;
+    }
+  }
+}

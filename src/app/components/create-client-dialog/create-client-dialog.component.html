@@ -2,6 +2,16 @@
 
 <mat-dialog-content [formGroup]="form">
   <mat-form-field appearance="outline" color="accent">
+    <mat-label>Name</mat-label>
+    <input
+      matInput
+      formControlName="name"
+      placeholder="Name..."
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" color="accent">
     <mat-label>Host</mat-label>
     <input
       matInput

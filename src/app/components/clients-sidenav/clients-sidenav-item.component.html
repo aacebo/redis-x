@@ -1,0 +1,9 @@
+<div
+  class="status"
+  [ngClass]="client.status"
+></div>
+
+<div class="content">
+  <div *ngIf="client.name" class="name">{{ client.name }}</div>
+  <div class="url">redis://{{ client.host }}:{{ client.port }}</div>
+</div>

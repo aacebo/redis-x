@@ -1,5 +1,8 @@
-<rdx-clients-sidenav>
+<rdx-clients-sidenav
+  [clients]="redisService.clients$ | async"
+  (create)="create()"
+>
   <pre>
-    {{ systemService.value$ | async | json }}
+    {{ redisService.state$ | async | json }}
   </pre>
 </rdx-clients-sidenav>

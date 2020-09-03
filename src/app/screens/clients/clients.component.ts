@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { SystemService } from '../../stores/system';
+import { RedisService } from '../../stores/redis';
+
+import { CreateClientDialogService } from '../../components/create-client-dialog';
 
 @Component({
   selector: 'rdx-clients',
@@ -9,5 +11,16 @@ import { SystemService } from '../../stores/system';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientsComponent {
-  constructor(readonly systemService: SystemService) { }
+  constructor(
+    readonly redisService: RedisService,
+    private readonly _createClientDialogService: CreateClientDialogService,
+  ) { }
+
+  create() {
+    this._createClientDialogService.open().afterClosed().subscribe(v => {
+      if (v) {
+        this.redisService.create(v);
+      }
+    });
+  }
 }

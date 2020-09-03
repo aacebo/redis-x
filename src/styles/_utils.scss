@@ -1,0 +1,20 @@
+@mixin luc-center() {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin luc-ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.luc-center {
+  @include luc-center;
+}
+
+.luc-ellipsis {
+  @include luc-ellipsis;
+}
