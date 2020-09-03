@@ -26,7 +26,7 @@ export class RedisService implements IStore<IRedisState> {
     });
 
     this._apiService.on<IKeysRedis>('redis:keys.return', (_, keys) => {
-      this._setClientProp(keys.id, 'keys', keys.keys);
+      this._setClientProp(keys.id, 'map', keys.keys);
     });
   }
 

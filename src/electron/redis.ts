@@ -31,8 +31,14 @@ class Redis {
   }
 
   keys(e: IpcMainEvent, id: string) {
-    this._clients[id].keys('*', (err, keys) => {
+    this._clients[id].keys('*', (err, v) => {
       if (err) throw err;
+
+      const keys = { };
+
+      for (const key of v) {
+        keys[key] = null;
+      }
 
       e.sender.send('redis:keys.return', {
         id,

@@ -4,5 +4,5 @@ export interface IRedisClient {
   readonly host: string;
   readonly port: number;
   readonly status: 'open' | 'reconnecting' | 'closed';
-  readonly keys: string[];
+  readonly map: { [key: string]: any };
 }
