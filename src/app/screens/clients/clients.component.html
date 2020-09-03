@@ -1,8 +1,11 @@
 <rdx-clients-sidenav
+  [active]="redisService.active$ | async"
   [clients]="redisService.clients$ | async"
   (create)="create()"
+  (activate)="activate($event)"
+  (remove)="remove($event)"
 >
   <pre>
-    {{ redisService.state$ | async | json }}
+    {{ redisService.activeClient$ | async | json }}
   </pre>
 </rdx-clients-sidenav>

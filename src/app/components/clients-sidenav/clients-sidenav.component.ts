@@ -9,7 +9,10 @@ import { IRedisClient } from '../../stores/redis';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientsSidenavComponent {
+  @Input() active: string;
   @Input() clients: IRedisClient[] = [];
 
   @Output() create = new EventEmitter<void>();
+  @Output() activate = new EventEmitter<string>();
+  @Output() remove = new EventEmitter<string>();
 }

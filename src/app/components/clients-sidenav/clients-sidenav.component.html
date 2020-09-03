@@ -9,12 +9,20 @@
         svgIcon="plus"
         (click)="create.emit()"
       ></mat-icon>
+
+      <mat-icon
+        *ngIf="active"
+        svgIcon="trash"
+        (click)="remove.emit(active)"
+      ></mat-icon>
     </div>
 
     <div class="content">
       <rdx-clients-sidenav-item
         *ngFor="let client of clients"
+        [active]="active"
         [client]="client"
+        (click)="activate.emit(client.id)"
       ></rdx-clients-sidenav-item>
     </div>
   </mat-drawer>

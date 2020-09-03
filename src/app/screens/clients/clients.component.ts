@@ -23,4 +23,12 @@ export class ClientsComponent {
       }
     });
   }
+
+  activate(id: string) {
+    this.redisService.activate(id);
+  }
+
+  remove(id: string) {
+    this.redisService.remove(id);
+  }
 }

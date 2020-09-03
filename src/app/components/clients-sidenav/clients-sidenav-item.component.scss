@@ -13,6 +13,10 @@
     }
   }
 
+  &.active {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
   > .status {
     min-width: 5px;
     width: 5px;
