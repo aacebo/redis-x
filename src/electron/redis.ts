@@ -16,7 +16,7 @@ class Redis {
     ipcMain.on('redis:keys', this.keys.bind(this));
   }
 
-  create(e: IpcMainEvent, v: dtos.ICreateRedis) {
+  create(e: IpcMainEvent, v: dtos.IRedisCreateRequest) {
     const id = uuid.v1();
     this._clients[id] = redis.createClient({ ...v });
 
@@ -33,7 +33,7 @@ class Redis {
     });
   }
 
-  key(e: IpcMainEvent, v: dtos.IKeyRedis) {
+  key(e: IpcMainEvent, v: dtos.IRedisKeyValueRequest) {
     this._clients[v.id].get(v.key, (err, res) => {
       if (err) throw err;
 
