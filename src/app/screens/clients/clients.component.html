@@ -5,7 +5,8 @@
   (activate)="activate($event)"
   (remove)="remove($event)"
 >
-  <pre>
-    {{ redisService.activeClient$ | async | json }}
-  </pre>
+  <rdx-json-tree
+    [json]="(redisService.activeClient$ | async)?.map || { }"
+    (propertyValueClick)="onKeyClick($event)"
+  ></rdx-json-tree>
 </rdx-clients-sidenav>

@@ -1,20 +1,20 @@
-@mixin luc-center() {
+@mixin rdx-center() {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
-@mixin luc-ellipsis() {
+@mixin rdx-ellipsis() {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.luc-center {
-  @include luc-center;
+.rdx-center {
+  @include rdx-center;
 }
 
-.luc-ellipsis {
-  @include luc-ellipsis;
+.rdx-ellipsis {
+  @include rdx-ellipsis;
 }

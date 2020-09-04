@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
 
-import { ICreateRedis, IStatusRedis, IKeysRedis } from '../../../electron/dtos/redis';
+import { ICreateRedis, IStatusRedis, IKeysRedis, IErrorRedis } from '../../../electron/dtos/redis';
 import { ApiService } from '../../api';
 
 import { IStore } from '../store.interface';
@@ -27,6 +27,10 @@ export class RedisService implements IStore<IRedisState> {
 
     this._apiService.on<IKeysRedis>('redis:keys.return', (_, keys) => {
       this._setClientProp(keys.id, 'map', keys.keys);
+    });
+
+    this._apiService.on<IErrorRedis>('redis:error', (_, error) => {
+      console.error(error);
     });
   }
 
@@ -59,8 +63,29 @@ export class RedisService implements IStore<IRedisState> {
     this._apiService.send('redis:remove', id);
   }
 
+  key(key: string) {
+    this._apiService.once('redis:key.return', (_, v) => {
+      this._setKeyValue(this._state$.value.active, key, v);
+    });
+
+    this._apiService.send('redis:key', {
+      id: this._state$.value.active,
+      key,
+    });
+  }
+
   close(id: string) {
     this._apiService.send('redis:close', id);
+  }
+
+  hasKey(key: string) {
+    const active = this._state$.value.clients[this._state$.value.active];
+
+    if (active) {
+      return Object.keys(active.map).includes(key);
+    }
+
+    return false;
   }
 
   private _setClient(id: string, v: IRedisClient) {
@@ -94,6 +119,24 @@ export class RedisService implements IStore<IRedisState> {
     this._state$.next({
       ...this._state$.value,
       active,
+    });
+  }
+
+  private _setKeyValue<V = any>(id: string, key: string, v: V) {
+    const client = this._state$.value.clients[id];
+
+    this._state$.next({
+      ...this._state$.value,
+      clients: {
+        ...this._state$.value.clients,
+        [id]: {
+          ...client,
+          map: {
+            ...client.map,
+            [key]: v,
+          },
+        },
+      },
     });
   }
 }

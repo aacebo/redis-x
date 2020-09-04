@@ -3,6 +3,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RedisService } from '../../stores/redis';
 
 import { CreateClientDialogService } from '../../components/create-client-dialog';
+import { IJsonTreeNode } from '../../components/json-tree';
 
 @Component({
   selector: 'rdx-clients',
@@ -30,5 +31,11 @@ export class ClientsComponent {
 
   remove(id: string) {
     this.redisService.remove(id);
+  }
+
+  onKeyClick(e: IJsonTreeNode) {
+    if (this.redisService.hasKey(e.key)) {
+      this.redisService.key(e.key);
+    }
   }
 }
