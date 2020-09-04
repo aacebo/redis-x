@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+@mixin rdx-color($name, $color) {
+  .rdx-bg-#{ $name } {
+    background-color: mat-color($color);
+  }
+
+  .rdx-text-#{ $name } {
+    color: mat-color($color);
+  }
+}

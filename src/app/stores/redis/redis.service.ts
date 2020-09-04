@@ -47,6 +47,10 @@ export class RedisService implements IStore<IRedisState> {
     const clients = this._state$.value.clients;
     delete clients[id];
 
+    if (id === this._state$.value.active) {
+      this._setActive(undefined);
+    }
+
     this._state$.next({
       ...this._state$.value,
       clients,

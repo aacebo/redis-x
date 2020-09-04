@@ -7,7 +7,7 @@ import { IRedisClient } from '../../stores/redis';
   templateUrl: './clients-sidenav-item.component.html',
   styleUrls: ['./clients-sidenav-item.component.scss'],
   host: {
-    '[class.active]': 'active === client.id',
+    '[class.rdx-bg-primary]': 'active === client.id',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
