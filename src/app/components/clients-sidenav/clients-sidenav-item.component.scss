@@ -6,7 +6,7 @@
   transition: background-color 0.2s ease-in-out;
   cursor: pointer;
 
-  @include luc-ellipsis;
+  @include rdx-ellipsis;
 
   &:hover {
     .name {
@@ -36,17 +36,17 @@
   }
 
   > .content {
-    @include luc-ellipsis;
+    @include rdx-ellipsis;
 
     > .name {
-      @include luc-ellipsis;
+      @include rdx-ellipsis;
     }
 
     > .url {
       font-size: 9pt;
       opacity: 0.7;
 
-      @include luc-ellipsis;
+      @include rdx-ellipsis;
     }
   }
 }
