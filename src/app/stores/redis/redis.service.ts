@@ -34,6 +34,10 @@ export class RedisService implements IStore<IRedisState> {
     });
   }
 
+  getStateProp<P extends keyof IRedisState, R = IRedisState[P]>(prop: P): R {
+    return this._state$.value[prop as any];
+  }
+
   create(v: dtos.IRedisCreateRequest) {
     this._apiService.once<IRedisClient>('redis:create.return', (_, client) => {
       this._setClient(client.id, client);
@@ -72,6 +76,14 @@ export class RedisService implements IStore<IRedisState> {
       id: this._state$.value.active,
       key,
     });
+  }
+
+  keyValueSet(v: dtos.IRedisKeyValueSetRequest) {
+    this._apiService.once<dtos.IRedisKeyValueSetRequest>('redis:key-value-set.return', (_, res) => {
+      this._setKeyValue(res.id, res.key, res.value);
+    });
+
+    this._apiService.send('redis:key-value-set', v);
   }
 
   close(id: string) {

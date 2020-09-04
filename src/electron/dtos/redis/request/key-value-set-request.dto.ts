@@ -1,4 +1,5 @@
 export interface IRedisKeyValueSetRequest<T = any> {
-  readonly path: string[];
+  readonly id: string;
+  readonly key: string;
   readonly value: T;
 }

@@ -3,7 +3,7 @@ import * as redis from 'redis';
 import * as uuid from 'uuid';
 
 import * as dtos from './dtos/redis';
-import { jsonTryParse } from './utils';
+import { jsonTryParse, jsonTryStringify } from './utils';
 
 class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
@@ -14,6 +14,7 @@ class Redis {
     ipcMain.on('redis:remove', this.remove.bind(this));
     ipcMain.on('redis:key', this.key.bind(this));
     ipcMain.on('redis:keys', this.keys.bind(this));
+    ipcMain.on('redis:key-value-set', this.keyValueSet.bind(this));
   }
 
   create(e: IpcMainEvent, v: dtos.IRedisCreateRequest) {
@@ -56,6 +57,14 @@ class Redis {
         id,
         keys,
       });
+    });
+  }
+
+  keyValueSet(e: IpcMainEvent, v: dtos.IRedisKeyValueSetRequest) {
+    this._clients[v.id].set(v.key, jsonTryStringify(v.value) || v.value, (err) => {
+      if (err) throw err;
+
+      e.sender.send('redis:key-value-set.return', v);
     });
   }
 

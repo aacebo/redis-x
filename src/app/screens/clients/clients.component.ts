@@ -31,6 +31,28 @@ export class ClientsComponent {
     this._keyValueDialogService.open({
       path: e.path,
       value: e.value,
+    }).afterClosed().subscribe(v => {
+      if (v) {
+        const id = this.redisService.getStateProp('active');
+        const client = this.redisService.getStateProp('clients')[id];
+        let value = client.map;
+
+        for (let i = 0; i < v.path.length - 1; i++) {
+          value = value[v.path[i]];
+        }
+
+        value[v.key] = v.value;
+
+        if (e.key !== v.key) {
+          delete value[e.key];
+        }
+
+        this.redisService.keyValueSet({
+          id,
+          key: v.path[0],
+          value: client.map[v.path[0]],
+        });
+      }
     });
   }
 
