@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { IKeyValue } from './key-value.interface';
+import { IRedisKeyValueSetRequest } from '../../../electron/dtos/redis/request';
 
 @Component({
   selector: 'rdx-key-value-dialog',
@@ -10,5 +10,5 @@ import { IKeyValue } from './key-value.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeyValueDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) readonly data: IKeyValue) { }
+  constructor(@Inject(MAT_DIALOG_DATA) readonly data: IRedisKeyValueSetRequest) { }
 }

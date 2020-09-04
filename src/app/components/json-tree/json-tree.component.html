@@ -39,6 +39,7 @@
         class="rdx-json-tree--node-children"
       >
         <rdx-json-tree
+          [path]="path.concat(node.key)"
           [json]="node.value"
           [state]="state[node.key].state"
           [expanded]="expanded"

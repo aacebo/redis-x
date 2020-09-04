@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
+import { IRedisKeyValueSetRequest } from '../../../electron/dtos/redis/request';
+
 import { KeyValueDialogModule } from './key-value-dialog.module';
 import { KeyValueDialogComponent } from './key-value-dialog.component';
-import { IKeyValue } from './key-value.interface';
 
 @Injectable({
   providedIn: KeyValueDialogModule,
@@ -11,7 +12,7 @@ import { IKeyValue } from './key-value.interface';
 export class KeyValueDialogService {
   constructor(private readonly _dialog: MatDialog) { }
 
-  open<T = any>(data: IKeyValue<T>) {
-    return this._dialog.open<KeyValueDialogComponent, IKeyValue<T>, any>(KeyValueDialogComponent, { data });
+  open<T = any>(data: IRedisKeyValueSetRequest<T>) {
+    return this._dialog.open<KeyValueDialogComponent, IRedisKeyValueSetRequest<T>, any>(KeyValueDialogComponent, { data });
   }
 }

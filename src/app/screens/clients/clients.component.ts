@@ -29,7 +29,7 @@ export class ClientsComponent {
 
   keyValue(e: IJsonTreeNode) {
     this._keyValueDialogService.open({
-      key: e.key,
+      path: e.path,
       value: e.value,
     });
   }
