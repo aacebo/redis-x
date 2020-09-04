@@ -7,6 +7,7 @@
 >
   <rdx-json-tree
     [json]="(redisService.activeClient$ | async)?.map || { }"
-    (propertyValueClick)="onKeyClick($event)"
+    (propertyValueClick)="keyValue($event)"
+    (propertyLoadClick)="keyLoad($event)"
   ></rdx-json-tree>
 </rdx-clients-sidenav>

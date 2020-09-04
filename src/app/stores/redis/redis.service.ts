@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { ICreateRedis, IStatusRedis, IKeysRedis, IErrorRedis } from '../../../electron/dtos/redis';
 import { ApiService } from '../../api';
@@ -76,16 +76,6 @@ export class RedisService implements IStore<IRedisState> {
 
   close(id: string) {
     this._apiService.send('redis:close', id);
-  }
-
-  hasKey(key: string) {
-    const active = this._state$.value.clients[this._state$.value.active];
-
-    if (active) {
-      return Object.keys(active.map).includes(key);
-    }
-
-    return false;
   }
 
   private _setClient(id: string, v: IRedisClient) {

@@ -50,6 +50,7 @@ export class JsonTreeComponent implements OnInit {
   private _state: { [key: string]: IJsonTreeNodeExpanded } = { };
 
   @Output() propertyValueClick = new EventEmitter<IJsonTreeNode>();
+  @Output() propertyLoadClick = new EventEmitter<IJsonTreeNode>();
 
   get nodes() { return this._nodes; }
   private _nodes: IJsonTreeNode[] = [];
@@ -69,6 +70,14 @@ export class JsonTreeComponent implements OnInit {
       e.stopImmediatePropagation();
       e.preventDefault();
       this.state[node.key].expanded = !this.state[node.key].expanded;
+    }
+  }
+
+  onPropertyValueClick(node: IJsonTreeNode) {
+    if (node.value === undefined) {
+      this.propertyLoadClick.emit(node);
+    } else {
+      this.propertyValueClick.emit(node);
     }
   }
 

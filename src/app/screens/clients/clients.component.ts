@@ -3,6 +3,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RedisService } from '../../stores/redis';
 
 import { CreateClientDialogService } from '../../components/create-client-dialog';
+import { KeyValueDialogService } from '../../components/key-value-dialog';
 import { IJsonTreeNode } from '../../components/json-tree';
 
 @Component({
@@ -15,6 +16,7 @@ export class ClientsComponent {
   constructor(
     readonly redisService: RedisService,
     private readonly _createClientDialogService: CreateClientDialogService,
+    private readonly _keyValueDialogService: KeyValueDialogService,
   ) { }
 
   create() {
@@ -25,17 +27,22 @@ export class ClientsComponent {
     });
   }
 
+  keyValue(e: IJsonTreeNode) {
+    this._keyValueDialogService.open({
+      key: e.key,
+      value: e.value,
+    });
+  }
+
+  keyLoad(e: IJsonTreeNode) {
+    this.redisService.key(e.key);
+  }
+
   activate(id: string) {
     this.redisService.activate(id);
   }
 
   remove(id: string) {
     this.redisService.remove(id);
-  }
-
-  onKeyClick(e: IJsonTreeNode) {
-    if (this.redisService.hasKey(e.key)) {
-      this.redisService.key(e.key);
-    }
   }
 }
