@@ -1,6 +1,18 @@
 <h2 mat-dialog-title>Key/Value Update</h2>
 
 <mat-dialog-content [formGroup]="form">
+  <mat-button-toggle-group
+    [value]="type"
+    (change)="onTypeChange($event.value)"
+  >
+    <mat-button-toggle
+        *ngFor="let type of types"
+        [value]="type"
+    >
+      {{ type | uppercase }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
   <mat-form-field appearance="outline" color="accent">
     <mat-label>Key</mat-label>
     <input
@@ -11,15 +23,46 @@
     />
   </mat-form-field>
 
-  <mat-form-field appearance="outline" color="accent">
+  <mat-form-field
+    *ngIf="typeViews[type] === 'input'"
+    appearance="outline"
+    color="accent"
+  >
     <mat-label>Value</mat-label>
     <input
+      [type]="inputType"
       matInput
       formControlName="value"
       placeholder="Value..."
       required
     />
   </mat-form-field>
+
+  <mat-form-field
+    *ngIf="typeViews[type] === 'date'"
+    appearance="outline"
+    color="accent"
+  >
+    <mat-label>Date Value</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="value"
+      placeholder="Date Value..."
+      required
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <mat-slide-toggle
+    *ngIf="typeViews[type] === 'boolean'"
+    color="accent"
+    [checked]="value.value"
+    (click)="toggle()"
+  >
+    {{ value.value }}
+  </mat-slide-toggle>
 </mat-dialog-content>
 
 <mat-dialog-actions>
@@ -28,6 +71,6 @@
     mat-button
     color="accent"
     (click)="update()"
-    [disabled]="form.invalid"
+    [disabled]="form.invalid || form.pristine"
   >Update</button>
 </mat-dialog-actions>

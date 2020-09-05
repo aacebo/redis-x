@@ -31,6 +31,7 @@ export class ClientsComponent {
     this._keyValueDialogService.open({
       path: e.path,
       value: e.value,
+      type: e.type,
     }).afterClosed().subscribe(v => {
       if (v) {
         const id = this.redisService.getStateProp('active');
