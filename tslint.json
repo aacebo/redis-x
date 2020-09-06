@@ -146,7 +146,8 @@
     "interface-name": [true, "always-prefix"],
     "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
     "prefer-readonly": true,
-    "prefer-const": true
+    "prefer-const": true,
+    "forin": false
   },
   "rulesDirectory": [
     "codelyzer"
