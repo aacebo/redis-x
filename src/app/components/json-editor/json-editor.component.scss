@@ -1,6 +1,11 @@
 .rdx-json-editor {
   display: block;
   overflow: auto;
+  border: 1px solid transparent;
+
+  &.rdx-json-editor--invalid {
+    border-color: red;
+  }
 
   .CodeMirror {
     height: auto;

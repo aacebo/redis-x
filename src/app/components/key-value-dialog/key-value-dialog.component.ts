@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 
-import { jsonTryStringify } from '../../../electron/utils';
+import { jsonTryStringify, jsonTryParse } from '../../../electron/utils';
 import { JsonTreeNodeType } from '../json-tree';
 
 import { IKeyValueData } from './key-value-data.interface';
@@ -68,7 +68,7 @@ export class KeyValueDialogComponent implements OnInit {
     this._dialogRef.close({
       path,
       key: this.form.value.key,
-      value: this._parseValue(this.type, this.form.value.value),
+      value: this._parseValue(this.type, this.form.value.value, true),
     });
   }
 
@@ -84,7 +84,7 @@ export class KeyValueDialogComponent implements OnInit {
     this.type = e;
   }
 
-  private _parseValue(type: JsonTreeNodeType, value: any) {
+  private _parseValue(type: JsonTreeNodeType, value: any, save = false) {
     if (type === JsonTreeNodeType.String) {
       return `${value}`;
     } else if (type === JsonTreeNodeType.Number) {
@@ -93,6 +93,6 @@ export class KeyValueDialogComponent implements OnInit {
       return coerceBooleanProperty(value);
     }
 
-    return jsonTryStringify(value);
+    return save ? jsonTryParse(value) : jsonTryStringify(value);
   }
 }

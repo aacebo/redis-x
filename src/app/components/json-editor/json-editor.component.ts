@@ -32,7 +32,10 @@ let nextId = 0;
     useExisting: forwardRef(() => JsonEditorComponent),
     multi: true,
   }],
-  host: { class: 'rdx-json-editor' },
+  host: {
+    class: 'rdx-json-editor',
+    '[class.rdx-json-editor--invalid]': '!!invalid',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })

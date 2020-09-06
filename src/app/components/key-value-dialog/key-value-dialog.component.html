@@ -49,10 +49,15 @@
     {{ value.value }}
   </mat-slide-toggle>
 
-  <rdx-json-editor
-    *ngIf="typeViews[type] === 'code'"
-    formControlName="value"
-  ></rdx-json-editor>
+  <ng-container *ngIf="typeViews[type] === 'code'">
+    <rdx-json-editor
+      formControlName="value"
+      rdxJson
+    ></rdx-json-editor>
+    <mat-error *ngIf="value.errors?.json">
+      {{ value.errors.json }}
+    </mat-error>
+  </ng-container>
 </mat-dialog-content>
 
 <mat-dialog-actions>
