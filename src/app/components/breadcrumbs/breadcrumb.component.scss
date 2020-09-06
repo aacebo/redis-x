@@ -1,0 +1,17 @@
+@import '../../../styles/utils';
+
+:host {
+  display: inline-block;
+  font-size: 10pt;
+  max-width: 200px;
+
+  @include rdx-ellipsis;
+
+  &:not(:first-child) {
+    &:before {
+      display: inline-block;
+      position: relative;
+      content: '>';
+    }
+  }
+}

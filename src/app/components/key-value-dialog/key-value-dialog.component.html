@@ -1,4 +1,8 @@
-<h2 mat-dialog-title>Key/Value Update</h2>
+<rdx-breadcrumbs>
+  <rdx-breadcrumb *ngFor="let key of data.path">
+    {{ key }}
+  </rdx-breadcrumb>
+</rdx-breadcrumbs>
 
 <mat-dialog-content [formGroup]="form" spellcheck="false">
   <mat-button-toggle-group
