@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>Key/Value Update</h2>
 
-<mat-dialog-content [formGroup]="form">
+<mat-dialog-content [formGroup]="form" spellcheck="false">
   <mat-button-toggle-group
     [value]="type"
     (change)="onTypeChange($event.value)"
@@ -48,6 +48,11 @@
   >
     {{ value.value }}
   </mat-slide-toggle>
+
+  <rdx-json-editor
+    *ngIf="typeViews[type] === 'code'"
+    formControlName="value"
+  ></rdx-json-editor>
 </mat-dialog-content>
 
 <mat-dialog-actions>

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 
+import { jsonTryStringify } from '../../../electron/utils';
 import { JsonTreeNodeType } from '../json-tree';
 
 import { IKeyValueData } from './key-value-data.interface';
@@ -19,7 +20,6 @@ export class KeyValueDialogComponent implements OnInit {
   key: FormControl;
   value: FormControl;
   type = JsonTreeNodeType.String;
-  originalValue: any;
 
   readonly types = [
     JsonTreeNodeType.String,
@@ -54,7 +54,6 @@ export class KeyValueDialogComponent implements OnInit {
 
   ngOnInit() {
     this.type = this.data.type;
-    this.originalValue = this.data.value;
     this.key = this._fb.control(this.data.path[this.data.path.length - 1]);
     this.value = this._fb.control(this._parseValue(this.data.type, this.data.value));
     this.form = this._fb.group({
@@ -68,13 +67,21 @@ export class KeyValueDialogComponent implements OnInit {
 
     this._dialogRef.close({
       path,
-      ...this.form.value,
+      key: this.form.value.key,
+      value: this._parseValue(this.type, this.form.value.value),
     });
   }
 
   onTypeChange(e: JsonTreeNodeType) {
+    this.type = undefined;
+    this.value.reset(this._parseValue(e, this.data.value));
+
+    if (e !== this.data.type) {
+      this.form.markAsTouched();
+      this.form.markAsDirty();
+    }
+
     this.type = e;
-    this.value.reset(this._parseValue(e, this.originalValue));
   }
 
   private _parseValue(type: JsonTreeNodeType, value: any) {
@@ -85,5 +92,7 @@ export class KeyValueDialogComponent implements OnInit {
     } else if (type === JsonTreeNodeType.Boolean) {
       return coerceBooleanProperty(value);
     }
+
+    return jsonTryStringify(value);
   }
 }

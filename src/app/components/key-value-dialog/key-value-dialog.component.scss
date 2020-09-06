@@ -4,9 +4,15 @@
   > mat-dialog-content {
     display: flex;
     flex-direction: column;
+    min-height: 1px;
+    overflow-y: auto;
 
     > mat-button-toggle-group {
       margin-bottom: 10px;
+    }
+
+    > rdx-json-editor {
+      max-height: 200px;
     }
   }
 }
