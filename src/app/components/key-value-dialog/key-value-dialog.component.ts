@@ -24,7 +24,6 @@ export class KeyValueDialogComponent implements OnInit {
   readonly types = [
     JsonTreeNodeType.String,
     JsonTreeNodeType.Number,
-    JsonTreeNodeType.Date,
     JsonTreeNodeType.Boolean,
     JsonTreeNodeType.Object,
     JsonTreeNodeType.Array,
@@ -35,7 +34,7 @@ export class KeyValueDialogComponent implements OnInit {
     [JsonTreeNodeType.Number]: 'input',
     [JsonTreeNodeType.Undefined]: 'input',
     [JsonTreeNodeType.Null]: 'input',
-    [JsonTreeNodeType.Date]: 'date',
+    [JsonTreeNodeType.Date]: 'input',
     [JsonTreeNodeType.Boolean]: 'boolean',
     [JsonTreeNodeType.Object]: 'code',
     [JsonTreeNodeType.Array]: 'code',
@@ -57,7 +56,7 @@ export class KeyValueDialogComponent implements OnInit {
     this.type = this.data.type;
     this.originalValue = this.data.value;
     this.key = this._fb.control(this.data.path[this.data.path.length - 1]);
-    this.value = this._fb.control(this.data.value);
+    this.value = this._fb.control(this._parseValue(this.data.type, this.data.value));
     this.form = this._fb.group({
       key: this.key,
       value: this.value,
@@ -73,25 +72,18 @@ export class KeyValueDialogComponent implements OnInit {
     });
   }
 
-  toggle() {
-    this.value.setValue(!this.value.value);
-    this.value.markAsDirty();
-  }
-
   onTypeChange(e: JsonTreeNodeType) {
     this.type = e;
-    let value: string | number | Date | boolean;
+    this.value.reset(this._parseValue(e, this.originalValue));
+  }
 
-    if (e === JsonTreeNodeType.String) {
-      value = `${this.originalValue}`;
-    } else if (e === JsonTreeNodeType.Number) {
-      value = coerceNumberProperty(this.originalValue, 0);
-    } else if (e === JsonTreeNodeType.Date) {
-      value = new Date(this.originalValue);
-    } else if (e === JsonTreeNodeType.Boolean) {
-      value = coerceBooleanProperty(this.originalValue);
+  private _parseValue(type: JsonTreeNodeType, value: any) {
+    if (type === JsonTreeNodeType.String) {
+      return `${value}`;
+    } else if (type === JsonTreeNodeType.Number) {
+      return coerceNumberProperty(value, 0);
+    } else if (type === JsonTreeNodeType.Boolean) {
+      return coerceBooleanProperty(value);
     }
-
-    this.form.get('value').setValue(value);
   }
 }

@@ -6,9 +6,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
+import { NumberValidatorModule } from '../../validators/number';
 
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 
@@ -23,9 +24,10 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatDatepickerModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
+
+    NumberValidatorModule,
   ],
 })
 export class KeyValueDialogModule { }

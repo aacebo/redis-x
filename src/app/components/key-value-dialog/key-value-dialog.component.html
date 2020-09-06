@@ -30,36 +30,21 @@
   >
     <mat-label>Value</mat-label>
     <input
-      [type]="inputType"
       matInput
       formControlName="value"
       placeholder="Value..."
+      [rdxNumber]="type === 'number'"
       required
     />
-  </mat-form-field>
-
-  <mat-form-field
-    *ngIf="typeViews[type] === 'date'"
-    appearance="outline"
-    color="accent"
-  >
-    <mat-label>Date Value</mat-label>
-    <input
-      matInput
-      [matDatepicker]="picker"
-      formControlName="value"
-      placeholder="Date Value..."
-      required
-    />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="value.errors?.number">
+      {{ value.errors.number }}
+    </mat-error>
   </mat-form-field>
 
   <mat-slide-toggle
     *ngIf="typeViews[type] === 'boolean'"
     color="accent"
-    [checked]="value.value"
-    (click)="toggle()"
+    formControlName="value"
   >
     {{ value.value }}
   </mat-slide-toggle>
