@@ -10,7 +10,7 @@ import { IAlertData } from './alert-data.interface';
 })
 export class AlertService {
   private readonly _config: MatSnackBarConfig<IAlertData> = {
-    // duration: 5000,
+    duration: 5000,
     horizontalPosition: 'end',
     verticalPosition: 'bottom',
   };

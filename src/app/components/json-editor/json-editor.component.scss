@@ -2,6 +2,7 @@
   display: block;
   overflow: auto;
   border: 1px solid transparent;
+  border-radius: 4px;
 
   &.rdx-json-editor--invalid {
     border-color: red;

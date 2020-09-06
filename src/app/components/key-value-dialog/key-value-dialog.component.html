@@ -76,4 +76,14 @@
   >
     Update
   </button>
+
+  <div class="spacer"></div>
+
+  <button
+    mat-button
+    *ngIf="typeViews[type] === 'code'"
+    (click)="format()"
+  >
+    {{ jsonEditor?.pretty ? 'Uglify' : 'Beautify' }}
+  </button>
 </mat-dialog-actions>

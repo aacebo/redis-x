@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, Inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 
 import { jsonTryStringify, jsonTryParse } from '../../../electron/utils';
 import { JsonTreeNodeType } from '../json-tree';
+import { JsonEditorComponent } from '../json-editor';
 
 import { IKeyValueData } from './key-value-data.interface';
 import { IKeyValueResponse } from './key-value-response.interface';
@@ -16,6 +17,9 @@ import { IKeyValueResponse } from './key-value-response.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeyValueDialogComponent implements OnInit {
+  @ViewChild(JsonEditorComponent)
+  readonly jsonEditor?: JsonEditorComponent;
+
   form: FormGroup;
   key: FormControl;
   value: FormControl;
@@ -70,6 +74,12 @@ export class KeyValueDialogComponent implements OnInit {
       key: this.form.value.key,
       value: this._parseValue(this.type, this.form.value.value, true),
     });
+  }
+
+  format() {
+    if (this.jsonEditor) {
+      this.jsonEditor.format();
+    }
   }
 
   onTypeChange(e: JsonTreeNodeType) {

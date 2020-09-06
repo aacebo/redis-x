@@ -113,7 +113,7 @@ export class JsonEditorComponent implements AfterViewInit, OnDestroy, ControlVal
     }
   }
 
-  beautify() {
+  format() {
     if (this.value && !this.invalid) {
       if (this.pretty) {
         this.editor.setValue(this._getPretty(this.value, null));
