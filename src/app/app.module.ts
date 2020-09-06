@@ -6,6 +6,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ToolbarModule } from './components/toolbar';
 import { ActionbarModule } from './components/actionbar';
 import { SidenavModule } from './components/sidenav';
+import { AlertModule } from './components/alert';
 
 import { FeatherModule } from './feather.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,7 @@ import { AppComponent } from './app.component';
     ToolbarModule,
     ActionbarModule,
     SidenavModule,
+    AlertModule,
   ],
 })
 export class AppModule { }

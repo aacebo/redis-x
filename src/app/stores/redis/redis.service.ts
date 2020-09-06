@@ -3,9 +3,10 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import * as dtos from '../../../electron/dtos/redis';
+import { AlertService } from '../../components/alert';
 import { ApiService } from '../../api';
-
 import { IStore } from '../store.interface';
+
 import { IRedisState } from './redis-state.interface';
 import { IRedisClient } from './redis-client.interface';
 
@@ -20,9 +21,16 @@ export class RedisService implements IStore<IRedisState> {
   get state$() { return this._state$.asObservable(); }
   private readonly _state$ = new BehaviorSubject<IRedisState>({ clients: { } });
 
-  constructor(private readonly _apiService: ApiService) {
+  constructor(
+    private readonly _apiService: ApiService,
+    private readonly _alertService: AlertService,
+  ) {
     this._apiService.on<dtos.IRedisStatusResponse>('redis:status', (_, status) => {
       this._setClientProp(status.id, 'status', status.status);
+
+      if (status.status === 'open') {
+        this._alertService.info(`Connected to ${this._state$.value.clients[status.id].host}`);
+      }
     });
 
     this._apiService.on<dtos.IRedisKeysResponse>('redis:keys.return', (_, keys) => {
@@ -30,7 +38,7 @@ export class RedisService implements IStore<IRedisState> {
     });
 
     this._apiService.on<dtos.IRedisErrorResponse>('redis:error', (_, error) => {
-      console.error(error);
+      this._alertService.error(error.err?.message || 'an error has occurred');
     });
   }
 
@@ -81,6 +89,7 @@ export class RedisService implements IStore<IRedisState> {
   keyValueSet(v: dtos.IRedisKeyValueSetRequest) {
     this._apiService.once<dtos.IRedisKeyValueSetRequest>('redis:key-value-set.return', (_, res) => {
       this._setKeyValue(res.id, res.key, res.value);
+      this._alertService.success('Updated Key/Value');
     });
 
     this._apiService.send('redis:key-value-set', v);
