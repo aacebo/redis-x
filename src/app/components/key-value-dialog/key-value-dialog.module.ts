@@ -10,6 +10,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { NumberValidatorModule } from '../../validators/number';
+import { JsonEditorModule } from '../json-editor';
 
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 
@@ -28,6 +29,7 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
     MatButtonToggleModule,
 
     NumberValidatorModule,
+    JsonEditorModule,
   ],
 })
 export class KeyValueDialogModule { }
