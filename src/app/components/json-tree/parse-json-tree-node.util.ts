@@ -1,9 +1,10 @@
 import { IJsonTreeNode } from './json-tree-node.interface';
 import { JsonTreeNodeType } from './json-tree-node-type.enum';
 
-export function parseJsonTreeNode(key: string, value: any) {
+export function parseJsonTreeNode(path: string[], key: string, value: any) {
   const type = typeof value;
   const node: IJsonTreeNode = {
+    path: [...path, key],
     key,
     value,
     description: `${value}`,

@@ -1,4 +1,4 @@
-export interface IKeysRedis {
+export interface IRedisKeysResponse {
   readonly id: string;
   readonly keys: string[];
 }

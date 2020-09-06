@@ -1,0 +1,79 @@
+<h2 mat-dialog-title>Key/Value Update</h2>
+
+<mat-dialog-content [formGroup]="form" spellcheck="false">
+  <mat-button-toggle-group
+    [value]="type"
+    (change)="onTypeChange($event.value)"
+  >
+    <mat-button-toggle
+        *ngFor="let type of types"
+        [value]="type"
+    >
+      {{ type | uppercase }}
+    </mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <mat-form-field appearance="outline" color="accent">
+    <mat-label>Key</mat-label>
+    <input
+      matInput
+      formControlName="key"
+      placeholder="Key..."
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="typeViews[type] === 'input'"
+    appearance="outline"
+    color="accent"
+  >
+    <mat-label>Value</mat-label>
+    <input
+      matInput
+      formControlName="value"
+      placeholder="Value..."
+      [rdxNumber]="type === 'number'"
+      required
+    />
+    <mat-error *ngIf="value.errors?.number">
+      {{ value.errors.number }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-slide-toggle
+    *ngIf="typeViews[type] === 'boolean'"
+    color="accent"
+    formControlName="value"
+  >
+    {{ value.value }}
+  </mat-slide-toggle>
+
+  <ng-container *ngIf="typeViews[type] === 'code'">
+    <rdx-json-editor
+      formControlName="value"
+      rdxJson
+    ></rdx-json-editor>
+    <mat-error *ngIf="value.errors?.json">
+      {{ value.errors.json }}
+    </mat-error>
+  </ng-container>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button
+    mat-button
+    mat-dialog-close
+  >
+    Cancel
+  </button>
+
+  <button
+    mat-button
+    color="accent"
+    (click)="update()"
+    [disabled]="form.invalid || form.pristine"
+  >
+    Update
+  </button>
+</mat-dialog-actions>

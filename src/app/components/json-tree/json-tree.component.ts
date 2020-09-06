@@ -23,11 +23,13 @@ import { IJsonTreeNodeExpanded } from './json-tree-node-expanded.interface';
   encapsulation: ViewEncapsulation.None,
 })
 export class JsonTreeComponent implements OnInit {
+  @Input() path: string[] = [];
+
   @Input()
   get json() { return this._json; }
   set json(v: any) {
     this._json = v;
-    this._nodes = v !== undefined ? parseJsonTreeNodes(v) : [];
+    this._nodes = v !== undefined ? parseJsonTreeNodes(this.path, v) : [];
     this._generateState();
     this._cdr.markForCheck();
   }
@@ -50,6 +52,7 @@ export class JsonTreeComponent implements OnInit {
   private _state: { [key: string]: IJsonTreeNodeExpanded } = { };
 
   @Output() propertyValueClick = new EventEmitter<IJsonTreeNode>();
+  @Output() propertyLoadClick = new EventEmitter<IJsonTreeNode>();
 
   get nodes() { return this._nodes; }
   private _nodes: IJsonTreeNode[] = [];
@@ -58,7 +61,7 @@ export class JsonTreeComponent implements OnInit {
 
   ngOnInit() {
     if (this._json !== undefined && !this.nodes.length) {
-      this._nodes = parseJsonTreeNodes(this._json);
+      this._nodes = parseJsonTreeNodes(this.path, this._json);
     }
 
     this._generateState();
@@ -69,6 +72,14 @@ export class JsonTreeComponent implements OnInit {
       e.stopImmediatePropagation();
       e.preventDefault();
       this.state[node.key].expanded = !this.state[node.key].expanded;
+    }
+  }
+
+  onPropertyValueClick(node: IJsonTreeNode) {
+    if (node.value === undefined) {
+      this.propertyLoadClick.emit(node);
+    } else {
+      this.propertyValueClick.emit(node);
     }
   }
 

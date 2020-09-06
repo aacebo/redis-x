@@ -29,7 +29,7 @@
         *ngIf="!state[node.key]?.expanded || !node.expandable"
         class="rdx-json-tree--node-value rdx-ellipsis"
         [title]="node.description"
-        (click)="propertyValueClick.emit(node)"
+        (click)="onPropertyValueClick(node)"
       >
         {{ node.value === undefined ? '{ ... }' : node.description }}
       </div>
@@ -39,6 +39,7 @@
         class="rdx-json-tree--node-children"
       >
         <rdx-json-tree
+          [path]="path.concat(node.key)"
           [json]="node.value"
           [state]="state[node.key].state"
           [expanded]="expanded"

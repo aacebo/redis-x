@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
-import { ICreateRedis, IStatusRedis, IKeysRedis, IErrorRedis } from '../../../electron/dtos/redis';
+import * as dtos from '../../../electron/dtos/redis';
 import { ApiService } from '../../api';
 
 import { IStore } from '../store.interface';
@@ -21,20 +21,24 @@ export class RedisService implements IStore<IRedisState> {
   private readonly _state$ = new BehaviorSubject<IRedisState>({ clients: { } });
 
   constructor(private readonly _apiService: ApiService) {
-    this._apiService.on<IStatusRedis>('redis:status', (_, status) => {
+    this._apiService.on<dtos.IRedisStatusResponse>('redis:status', (_, status) => {
       this._setClientProp(status.id, 'status', status.status);
     });
 
-    this._apiService.on<IKeysRedis>('redis:keys.return', (_, keys) => {
+    this._apiService.on<dtos.IRedisKeysResponse>('redis:keys.return', (_, keys) => {
       this._setClientProp(keys.id, 'map', keys.keys);
     });
 
-    this._apiService.on<IErrorRedis>('redis:error', (_, error) => {
+    this._apiService.on<dtos.IRedisErrorResponse>('redis:error', (_, error) => {
       console.error(error);
     });
   }
 
-  create(v: ICreateRedis) {
+  getStateProp<P extends keyof IRedisState, R = IRedisState[P]>(prop: P): R {
+    return this._state$.value[prop as any];
+  }
+
+  create(v: dtos.IRedisCreateRequest) {
     this._apiService.once<IRedisClient>('redis:create.return', (_, client) => {
       this._setClient(client.id, client);
       this._setActive(client.id);
@@ -74,18 +78,16 @@ export class RedisService implements IStore<IRedisState> {
     });
   }
 
-  close(id: string) {
-    this._apiService.send('redis:close', id);
+  keyValueSet(v: dtos.IRedisKeyValueSetRequest) {
+    this._apiService.once<dtos.IRedisKeyValueSetRequest>('redis:key-value-set.return', (_, res) => {
+      this._setKeyValue(res.id, res.key, res.value);
+    });
+
+    this._apiService.send('redis:key-value-set', v);
   }
 
-  hasKey(key: string) {
-    const active = this._state$.value.clients[this._state$.value.active];
-
-    if (active) {
-      return Object.keys(active.map).includes(key);
-    }
-
-    return false;
+  close(id: string) {
+    this._apiService.send('redis:close', id);
   }
 
   private _setClient(id: string, v: IRedisClient) {
