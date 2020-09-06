@@ -2,14 +2,14 @@
 
 <mat-dialog-content [formGroup]="form" spellcheck="false">
   <mat-button-toggle-group
-    [value]="type"
+    [value]="view"
     (change)="onTypeChange($event.value)"
   >
     <mat-button-toggle
-        *ngFor="let type of types"
-        [value]="type"
+        *ngFor="let v of views"
+        [value]="v"
     >
-      {{ type | uppercase }}
+      {{ v | uppercase }}
     </mat-button-toggle>
   </mat-button-toggle-group>
 
@@ -24,7 +24,7 @@
   </mat-form-field>
 
   <mat-form-field
-    *ngIf="typeViews[type] === 'input'"
+    *ngIf="view === 'string'"
     appearance="outline"
     color="accent"
   >
@@ -33,7 +33,22 @@
       matInput
       formControlName="value"
       placeholder="Value..."
-      [rdxNumber]="type === 'number'"
+      rdxNumber="false"
+      required
+    />
+  </mat-form-field>
+
+  <mat-form-field
+    *ngIf="view === 'number'"
+    appearance="outline"
+    color="accent"
+  >
+    <mat-label>Value</mat-label>
+    <input
+      matInput
+      formControlName="value"
+      placeholder="Value..."
+      rdxNumber
       required
     />
     <mat-error *ngIf="value.errors?.number">
@@ -42,14 +57,14 @@
   </mat-form-field>
 
   <mat-slide-toggle
-    *ngIf="typeViews[type] === 'boolean'"
+    *ngIf="view === 'boolean'"
     color="accent"
     formControlName="value"
   >
     {{ value.value }}
   </mat-slide-toggle>
 
-  <ng-container *ngIf="typeViews[type] === 'code'">
+  <ng-container *ngIf="view === 'json'">
     <rdx-json-editor
       formControlName="value"
       rdxJson
@@ -81,7 +96,7 @@
 
   <button
     mat-button
-    *ngIf="typeViews[type] === 'code'"
+    *ngIf="view === 'json'"
     (click)="format()"
   >
     {{ jsonEditor?.pretty ? 'Uglify' : 'Beautify' }}
