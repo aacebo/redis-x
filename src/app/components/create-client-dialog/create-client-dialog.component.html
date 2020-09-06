@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>New Connection</h2>
 
-<mat-dialog-content [formGroup]="form">
+<mat-dialog-content [formGroup]="form" spellcheck="false">
   <mat-form-field appearance="outline" color="accent">
     <mat-label>Name</mat-label>
     <input
@@ -34,11 +34,19 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    mat-dialog-close
+  >
+    Cancel
+  </button>
+
   <button
     mat-button
     color="accent"
     [mat-dialog-close]="form.value"
     [disabled]="form.invalid"
-  >Save and Connect</button>
+  >
+    Connect
+  </button>
 </mat-dialog-actions>

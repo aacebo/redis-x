@@ -61,11 +61,19 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-button
+    mat-dialog-close
+  >
+    Cancel
+  </button>
+
   <button
     mat-button
     color="accent"
     (click)="update()"
     [disabled]="form.invalid || form.pristine"
-  >Update</button>
+  >
+    Update
+  </button>
 </mat-dialog-actions>
