@@ -14,7 +14,7 @@ import { IRedisClient } from './redis-client.interface';
   providedIn: 'root',
 })
 export class RedisService implements IStore<IRedisState> {
-  get active$() { return this._state$.pipe(map(v => v.active)); }
+  get active$() { return this.state$.pipe(map(v => v.active)); }
   get clients$() { return this.state$.pipe(map(v => Object.values(v.clients))); }
   get activeClient$() { return this.state$.pipe(map(v => v.clients[v.active])); }
 

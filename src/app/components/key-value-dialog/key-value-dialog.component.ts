@@ -80,6 +80,12 @@ export class KeyValueDialogComponent implements OnInit {
     this.value.reset(this._parseValue(e, this.data.value));
     this.value.clearValidators();
     this.value.updateValueAndValidity();
+
+    if (e !== this._typeViews[this.data.type]) {
+      this.value.markAsDirty();
+      this.value.markAsTouched();
+    }
+
     this.view = e;
   }
 
