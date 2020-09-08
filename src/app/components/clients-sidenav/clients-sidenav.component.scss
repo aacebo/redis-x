@@ -2,10 +2,10 @@
   display: block;
   flex: 1;
 
-  > mat-drawer-container {
+  > rdx-drawer {
     height: 100%;
 
-    > mat-drawer {
+    > rdx-drawer-aside {
       display: flex;
       flex-direction: column;
       max-width: 200px;

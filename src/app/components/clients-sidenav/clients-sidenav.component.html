@@ -1,5 +1,5 @@
-<mat-drawer-container autosize>
-  <mat-drawer mode="side" opened>
+<rdx-drawer>
+  <rdx-drawer-aside>
     <div class="toolbar">
       <div class="title">CONNECTIONS</div>
 
@@ -25,9 +25,9 @@
         (click)="activate.emit(client.id)"
       ></rdx-clients-sidenav-item>
     </div>
-  </mat-drawer>
+  </rdx-drawer-aside>
 
-  <mat-drawer-content>
+  <rdx-drawer-content>
     <ng-content></ng-content>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </rdx-drawer-content>
+</rdx-drawer>
