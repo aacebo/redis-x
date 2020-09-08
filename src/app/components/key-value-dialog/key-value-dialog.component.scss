@@ -1,6 +1,10 @@
 :host {
   display: block;
 
+  > rdx-breadcrumbs {
+    margin-bottom: 10px;
+  }
+
   > mat-dialog-content {
     display: flex;
     flex-direction: column;

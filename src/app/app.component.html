@@ -1,4 +1,4 @@
-<rdx-toolbar></rdx-toolbar>
+<rdx-toolbar [fullscreen]="systemService.fullscreen$ | async"></rdx-toolbar>
 
 <rdx-sidenav [items]="sidenavItems">
   <router-outlet></router-outlet>

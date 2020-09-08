@@ -23,32 +23,25 @@ export class KeyValueDialogComponent implements OnInit {
   form: FormGroup;
   key: FormControl;
   value: FormControl;
-  type = JsonTreeNodeType.String;
+  view: 'string' | 'number' | 'boolean' | 'json' = 'string';
 
-  readonly types = [
-    JsonTreeNodeType.String,
-    JsonTreeNodeType.Number,
-    JsonTreeNodeType.Boolean,
-    JsonTreeNodeType.Object,
-    JsonTreeNodeType.Array,
+  readonly views = [
+    'string',
+    'number',
+    'boolean',
+    'json',
   ];
 
-  readonly typeViews = {
-    [JsonTreeNodeType.String]: 'input',
-    [JsonTreeNodeType.Number]: 'input',
-    [JsonTreeNodeType.Undefined]: 'input',
-    [JsonTreeNodeType.Null]: 'input',
-    [JsonTreeNodeType.Date]: 'input',
+  private readonly _typeViews = {
+    [JsonTreeNodeType.String]: 'string',
+    [JsonTreeNodeType.Number]: 'number',
+    [JsonTreeNodeType.Undefined]: 'string',
+    [JsonTreeNodeType.Null]: 'string',
+    [JsonTreeNodeType.Date]: 'string',
     [JsonTreeNodeType.Boolean]: 'boolean',
-    [JsonTreeNodeType.Object]: 'code',
-    [JsonTreeNodeType.Array]: 'code',
+    [JsonTreeNodeType.Object]: 'json',
+    [JsonTreeNodeType.Array]: 'json',
   };
-
-  get inputType() {
-    return this.type === JsonTreeNodeType.String ? 'text' :
-           this.type === JsonTreeNodeType.Number ? 'number' :
-           undefined;
-  }
 
   constructor(
     @Inject(MAT_DIALOG_DATA) readonly data: IKeyValueData,
@@ -57,9 +50,9 @@ export class KeyValueDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.type = this.data.type;
+    this.view = this._typeViews[this.data.type];
     this.key = this._fb.control(this.data.path[this.data.path.length - 1]);
-    this.value = this._fb.control(this._parseValue(this.data.type, this.data.value));
+    this.value = this._fb.control(this._parseValue(this.view, this.data.value));
     this.form = this._fb.group({
       key: this.key,
       value: this.value,
@@ -72,7 +65,7 @@ export class KeyValueDialogComponent implements OnInit {
     this._dialogRef.close({
       path,
       key: this.form.value.key,
-      value: this._parseValue(this.type, this.form.value.value, true),
+      value: this._parseValue(this.view, this.form.value.value, true),
     });
   }
 
@@ -82,24 +75,26 @@ export class KeyValueDialogComponent implements OnInit {
     }
   }
 
-  onTypeChange(e: JsonTreeNodeType) {
-    this.type = undefined;
+  onTypeChange(e: 'string' | 'number' | 'boolean' | 'json') {
+    this.view = undefined;
     this.value.reset(this._parseValue(e, this.data.value));
+    this.value.clearValidators();
+    this.value.updateValueAndValidity();
 
-    if (e !== this.data.type) {
-      this.form.markAsTouched();
-      this.form.markAsDirty();
+    if (e !== this._typeViews[this.data.type]) {
+      this.value.markAsDirty();
+      this.value.markAsTouched();
     }
 
-    this.type = e;
+    this.view = e;
   }
 
-  private _parseValue(type: JsonTreeNodeType, value: any, save = false) {
-    if (type === JsonTreeNodeType.String) {
+  private _parseValue(view: 'string' | 'number' | 'boolean' | 'json', value: any, save = false) {
+    if (view === 'string') {
       return `${value}`;
-    } else if (type === JsonTreeNodeType.Number) {
+    } else if (view === 'number') {
       return coerceNumberProperty(value, 0);
-    } else if (type === JsonTreeNodeType.Boolean) {
+    } else if (view === 'boolean') {
       return coerceBooleanProperty(value);
     }
 

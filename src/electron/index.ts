@@ -49,8 +49,8 @@ class App {
     }));
 
     this._window.webContents.on('dom-ready', this._onDomReady.bind(this));
-    this._window.on('enter-full-screen', () => this._window.webContents.send('fullscreen', true));
-    this._window.on('leave-full-screen', () => this._window.webContents.send('fullscreen', false));
+    this._window.on('enter-full-screen', () => this._window.webContents.send('system', this._system));
+    this._window.on('leave-full-screen', () => this._window.webContents.send('system', this._system));
     this._window.on('closed', () => this._window = null);
   }
 

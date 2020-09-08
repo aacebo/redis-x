@@ -5,4 +5,8 @@
   border-bottom: solid 1px rgba(255, 255, 255, 0.12);
   -webkit-user-select: none;
   -webkit-app-region: drag;
+
+  &.fullscreen {
+    display: none;
+  }
 }

@@ -13,6 +13,7 @@ import { NumberValidatorModule } from '../../validators/number';
 import { JsonValidatorModule } from '../../validators/json';
 
 import { JsonEditorModule } from '../json-editor';
+import { BreadcrumbsModule } from '../breadcrumbs';
 
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 
@@ -32,7 +33,9 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
 
     NumberValidatorModule,
     JsonValidatorModule,
+
     JsonEditorModule,
+    BreadcrumbsModule,
   ],
 })
 export class KeyValueDialogModule { }
