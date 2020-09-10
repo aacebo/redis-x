@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { MatNativeDateModule } from '@angular/material/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ToolbarModule } from './components/toolbar';
 import { ActionbarModule } from './components/actionbar';
@@ -18,7 +18,6 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatNativeDateModule,
 
     AppRoutingModule,
     FeatherModule,
@@ -27,6 +26,7 @@ import { AppComponent } from './app.component';
     ActionbarModule,
     SidenavModule,
     AlertModule,
+    NgbModule,
   ],
 })
 export class AppModule { }

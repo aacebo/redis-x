@@ -1,7 +1,7 @@
 :host {
   display: block;
 
-  > mat-dialog-content {
+  > .modal-body {
     display: flex;
     flex-direction: column;
   }

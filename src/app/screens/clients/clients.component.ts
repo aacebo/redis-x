@@ -20,11 +20,11 @@ export class ClientsComponent {
   ) { }
 
   create() {
-    this._createClientDialogService.open().afterClosed().subscribe(v => {
+    this._createClientDialogService.open().result.then(v => {
       if (v) {
         this.redisService.create(v);
       }
-    });
+    }).catch(() => undefined);
   }
 
   keyValue(e: IJsonTreeNode) {

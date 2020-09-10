@@ -1,52 +1,49 @@
-<h2 mat-dialog-title>New Connection</h2>
+<div class="modal-header">
+  <h5 class="modal-title">New Connection</h5>
+</div>
 
-<mat-dialog-content [formGroup]="form" spellcheck="false">
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Name</mat-label>
+<div class="modal-body" [formGroup]="form" spellcheck="false">
+  <div class="form-group">
+    <label for="name">Name</label>
     <input
-      matInput
+      id="name"
+      class="form-control"
       formControlName="name"
       placeholder="Name..."
       required
     />
-  </mat-form-field>
+  </div>
 
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Host</mat-label>
+  <div class="form-group">
+    <label for="host">Host</label>
     <input
-      matInput
+      id="host"
+      class="form-control"
       formControlName="host"
       placeholder="Host Name..."
       required
     />
-  </mat-form-field>
+  </div>
 
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Port</mat-label>
+  <div class="form-group">
+    <label for="port">Port</label>
     <input
-      matInput
+      id="port"
       type="number"
+      class="form-control"
       formControlName="port"
       placeholder="Host Port..."
       required
     />
-  </mat-form-field>
-</mat-dialog-content>
+  </div>
+</div>
 
-<mat-dialog-actions>
+<div class="modal-footer">
   <button
-    mat-button
-    mat-dialog-close
-  >
-    Cancel
-  </button>
-
-  <button
-    mat-button
-    color="accent"
-    [mat-dialog-close]="form.value"
+    class="btn btn-primary"
     [disabled]="form.invalid"
+    (click)="connect()"
   >
     Connect
   </button>
-</mat-dialog-actions>
+</div>
