@@ -4,8 +4,8 @@ import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coerci
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { jsonTryStringify, jsonTryParse } from '../../../electron/utils';
-import { JsonTreeNodeType } from '../json-tree';
-import { JsonEditorComponent } from '../json-editor';
+import { JsonEditorComponent } from '../../common/json-editor';
+import { JsonTreeNodeType } from '../../common/json-tree';
 
 import { IKeyValueData } from './key-value-data.interface';
 

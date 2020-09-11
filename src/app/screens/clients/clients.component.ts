@@ -1,10 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { RedisService } from '../../stores/redis';
+import { IJsonTreeNode } from '../../common/json-tree';
 
 import { CreateClientDialogService } from '../../components/create-client-dialog';
 import { KeyValueDialogService } from '../../components/key-value-dialog';
-import { IJsonTreeNode } from '../../components/json-tree';
 
 @Component({
   selector: 'rdx-clients',

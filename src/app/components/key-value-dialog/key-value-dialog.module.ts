@@ -7,7 +7,7 @@ import { NgbModalModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NumberValidatorModule } from '../../validators/number';
 import { JsonValidatorModule } from '../../validators/json';
 
-import { JsonEditorModule } from '../json-editor';
+import { JsonEditorModule } from '../../common/json-editor';
 
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 
