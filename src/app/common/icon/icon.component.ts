@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { coerceNumberProperty } from '@angular/cdk/coercion';
+import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import feather from 'feather-icons/dist/feather.min.js';
@@ -10,17 +11,33 @@ import feather from 'feather-icons/dist/feather.min.js';
   host: { '[innerHTML]': 'icon' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IconComponent {
+export class IconComponent implements OnInit {
+  @Input() name: string;
+
   @Input()
-  get name() { return this._name; }
-  set name(v) {
-    this._name = v;
-    this._icon = this._sanitizer.bypassSecurityTrustHtml(feather.icons[v].toSvg());
+  get diameter() { return this._diameter; }
+  set diameter(v) {
+    this._diameter = coerceNumberProperty(v);
   }
-  private _name: string;
+  private _diameter = 24;
+
+  @Input()
+  get strokeWidth() { return this._strokeWidth; }
+  set strokeWidth(v) {
+    this._strokeWidth = coerceNumberProperty(v);
+  }
+  private _strokeWidth = 2;
 
   get icon() { return this._icon; }
   private _icon: SafeHtml;
 
   constructor(private readonly _sanitizer: DomSanitizer) { }
+
+  ngOnInit() {
+    this._icon = this._sanitizer.bypassSecurityTrustHtml(feather.icons[this.name].toSvg({
+      height: this._diameter,
+      width: this._diameter,
+      'stroke-width': this._strokeWidth,
+    }));
+  }
 }

@@ -2,11 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
 
 import { ToolbarModule } from './components/toolbar';
 import { ActionbarModule } from './components/actionbar';
 import { SidenavModule } from './components/sidenav';
-import { AlertModule } from './components/alert';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,12 +19,14 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
 
     AppRoutingModule,
+    NgbModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
 
     ToolbarModule,
     ActionbarModule,
     SidenavModule,
-    AlertModule,
-    NgbModule,
   ],
 })
 export class AppModule { }

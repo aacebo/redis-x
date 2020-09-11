@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 import * as dtos from '../../../electron/dtos/redis';
-import { AlertService } from '../../components/alert';
 import { ApiService } from '../../api';
 import { IStore } from '../store.interface';
 
@@ -23,13 +23,13 @@ export class RedisService implements IStore<IRedisState> {
 
   constructor(
     private readonly _apiService: ApiService,
-    private readonly _alertService: AlertService,
+    private readonly _toastr: ToastrService,
   ) {
     this._apiService.on<dtos.IRedisStatusResponse>('redis:status', (_, status) => {
       this._setClientProp(status.id, 'status', status.status);
 
       if (status.status === 'open') {
-        this._alertService.info(`Connected to ${this._state$.value.clients[status.id].host}`);
+        this._toastr.info(`Connected to ${this._state$.value.clients[status.id].host}`);
       }
     });
 
@@ -38,7 +38,7 @@ export class RedisService implements IStore<IRedisState> {
     });
 
     this._apiService.on<dtos.IRedisErrorResponse>('redis:error', (_, error) => {
-      this._alertService.error(error.err?.message || 'an error has occurred');
+      this._toastr.error(error.err?.message || 'an error has occurred');
     });
   }
 
@@ -89,7 +89,7 @@ export class RedisService implements IStore<IRedisState> {
   keyValueSet(v: dtos.IRedisKeyValueSetRequest) {
     this._apiService.once<dtos.IRedisKeyValueSetRequest>('redis:key-value-set.return', (_, res) => {
       this._setKeyValue(res.id, res.key, res.value);
-      this._alertService.success('Updated Key/Value');
+      this._toastr.success('Updated Key/Value');
     });
 
     this._apiService.send('redis:key-value-set', v);

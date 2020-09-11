@@ -3,18 +3,20 @@
     <div class="toolbar">
       <div class="title">CONNECTIONS</div>
 
-      <div class="spacer"></div>
+      <div class="rdx-spacer"></div>
 
-      <mat-icon
-        svgIcon="plus"
+      <rdx-icon
+        name="plus"
+        diameter="16"
         (click)="create.emit()"
-      ></mat-icon>
+      ></rdx-icon>
 
-      <mat-icon
+      <rdx-icon
         *ngIf="active"
-        svgIcon="trash"
+        name="trash"
+        diameter="16"
         (click)="remove.emit(active)"
-      ></mat-icon>
+      ></rdx-icon>
     </div>
 
     <div class="content">
