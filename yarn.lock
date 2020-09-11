@@ -228,13 +228,6 @@
     glob "7.1.2"
     yargs "15.3.0"
 
-"@angular/material@^10.1.3":
-  version "10.1.3"
-  resolved "https://registry.yarnpkg.com/@angular/material/-/material-10.1.3.tgz#016fafae127a6c3ac9594790074418bad3f69d4c"
-  integrity sha512-6ygbCVcejFydmZUlOcNreiWQTvL4kOrEp/M51DV70hqffTnxajCzaRe2MQhxisENB/bR8mtMvf8YY3Rsys/HCw==
-  dependencies:
-    tslib "^2.0.0"
-
 "@angular/platform-browser-dynamic@~10.0.9":
   version "10.0.14"
   resolved "https://registry.yarnpkg.com/@angular/platform-browser-dynamic/-/platform-browser-dynamic-10.0.14.tgz#4ee2257b2ccb94949f0a8083884020a814b5d47c"
