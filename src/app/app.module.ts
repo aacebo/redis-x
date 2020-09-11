@@ -8,7 +8,6 @@ import { ActionbarModule } from './components/actionbar';
 import { SidenavModule } from './components/sidenav';
 import { AlertModule } from './components/alert';
 
-import { FeatherModule } from './feather.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -20,7 +19,6 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
 
     AppRoutingModule,
-    FeatherModule,
 
     ToolbarModule,
     ActionbarModule,
