@@ -2,18 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { NgbModalModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { NumberValidatorModule } from '../../validators/number';
 import { JsonValidatorModule } from '../../validators/json';
 
 import { JsonEditorModule } from '../json-editor';
-import { BreadcrumbsModule } from '../breadcrumbs';
 
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 
@@ -24,18 +18,13 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
     CommonModule,
     ReactiveFormsModule,
 
-    MatDialogModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSlideToggleModule,
-    MatButtonToggleModule,
+    NgbModalModule,
+    NgbNavModule,
 
     NumberValidatorModule,
     JsonValidatorModule,
 
     JsonEditorModule,
-    BreadcrumbsModule,
   ],
 })
 export class KeyValueDialogModule { }

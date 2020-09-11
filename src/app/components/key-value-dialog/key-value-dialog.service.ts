@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { KeyValueDialogModule } from './key-value-dialog.module';
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 import { IKeyValueData } from './key-value-data.interface';
-import { IKeyValueResponse } from './key-value-response.interface';
 
 @Injectable({
   providedIn: KeyValueDialogModule,
 })
 export class KeyValueDialogService {
-  constructor(private readonly _dialog: MatDialog) { }
+  constructor(private readonly _modal: NgbModal) { }
 
   open<T = any>(data: IKeyValueData<T>) {
-    return this._dialog.open<KeyValueDialogComponent, IKeyValueData<T>, IKeyValueResponse<T>>(KeyValueDialogComponent, { data });
+    const modal = this._modal.open(KeyValueDialogComponent);
+    modal.componentInstance.data = data;
+    return modal;
   }
 }

@@ -32,7 +32,7 @@ export class ClientsComponent {
       path: e.path,
       value: e.value,
       type: e.type,
-    }).afterClosed().subscribe(v => {
+    }).result.then(v => {
       if (v) {
         const id = this.redisService.getStateProp('active');
         const client = this.redisService.getStateProp('clients')[id];
@@ -54,7 +54,7 @@ export class ClientsComponent {
           value: client.map[v.path[0]],
         });
       }
-    });
+    }).catch(() => undefined);
   }
 
   keyLoad(e: IJsonTreeNode) {

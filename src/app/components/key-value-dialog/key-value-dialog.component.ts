@@ -1,14 +1,13 @@
-import { Component, ChangeDetectionStrategy, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ViewChild, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { jsonTryStringify, jsonTryParse } from '../../../electron/utils';
 import { JsonTreeNodeType } from '../json-tree';
 import { JsonEditorComponent } from '../json-editor';
 
 import { IKeyValueData } from './key-value-data.interface';
-import { IKeyValueResponse } from './key-value-response.interface';
 
 @Component({
   selector: 'rdx-key-value-dialog',
@@ -17,6 +16,8 @@ import { IKeyValueResponse } from './key-value-response.interface';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeyValueDialogComponent implements OnInit {
+  @Input() data: IKeyValueData;
+
   @ViewChild(JsonEditorComponent)
   readonly jsonEditor?: JsonEditorComponent;
 
@@ -44,9 +45,8 @@ export class KeyValueDialogComponent implements OnInit {
   };
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) readonly data: IKeyValueData,
     private readonly _fb: FormBuilder,
-    private readonly _dialogRef: MatDialogRef<IKeyValueResponse>,
+    private readonly _modalRef: NgbActiveModal,
   ) { }
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class KeyValueDialogComponent implements OnInit {
   update() {
     const path = [...this.data.path.slice(0, this.data.path.length - 1), this.form.value.key];
 
-    this._dialogRef.close({
+    this._modalRef.close({
       path,
       key: this.form.value.key,
       value: this._parseValue(this.view, this.form.value.value, true),
@@ -87,6 +87,10 @@ export class KeyValueDialogComponent implements OnInit {
     }
 
     this.view = e;
+  }
+
+  close() {
+    this._modalRef.dismiss();
   }
 
   private _parseValue(view: 'string' | 'number' | 'boolean' | 'json', value: any, save = false) {
