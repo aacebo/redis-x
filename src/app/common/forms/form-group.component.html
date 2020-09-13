@@ -1,0 +1,9 @@
+<ng-content select="[rdx-label]"></ng-content>
+<ng-content select="[rdx-form-control]"></ng-content>
+<ng-content select="rdx-form-group"></ng-content>
+<ng-content select="rdx-error"></ng-content>
+
+<rdx-error *ngFor="let error of errors$ | async">
+  {{ error }}
+</rdx-error>
+

@@ -1,41 +1,42 @@
 <div class="modal-header">
   <h5 class="modal-title">New Connection</h5>
+
+  <button class="close" (click)="dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 
 <div class="modal-body" [formGroup]="form" spellcheck="false">
-  <div class="form-group">
-    <label for="name">Name</label>
+  <rdx-form-group>
+    <label rdx-label>Name</label>
     <input
-      id="name"
-      class="form-control"
+      rdx-form-control
       formControlName="name"
       placeholder="Name..."
       required
     />
-  </div>
+  </rdx-form-group>
 
-  <div class="form-group">
-    <label for="host">Host</label>
+  <rdx-form-group>
+    <label rdx-label>Host</label>
     <input
-      id="host"
-      class="form-control"
+      rdx-form-control
       formControlName="host"
       placeholder="Host Name..."
       required
     />
-  </div>
+  </rdx-form-group>
 
-  <div class="form-group">
-    <label for="port">Port</label>
+  <rdx-form-group>
+    <label rdx-label>Port</label>
     <input
-      id="port"
+      rdx-form-control
       type="number"
-      class="form-control"
       formControlName="port"
       placeholder="Host Port..."
       required
     />
-  </div>
+  </rdx-form-group>
 </div>
 
 <div class="modal-footer">

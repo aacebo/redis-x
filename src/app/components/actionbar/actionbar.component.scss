@@ -1,7 +1,10 @@
 
+@import '../../../styles/colors';
 @import './actionbar';
 
 :host {
   display: block;
+  border-top: solid 1px $rdx-hairline;
+  background-color: var(--blue);
   height: $rdx-actionbar-height;
 }

@@ -27,4 +27,8 @@ export class CreateClientDialogComponent implements OnInit {
   connect() {
     this._modalRef.close(this.form.value);
   }
+
+  dismiss() {
+    this._modalRef.dismiss();
+  }
 }

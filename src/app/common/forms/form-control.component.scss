@@ -1,0 +1,10 @@
+.rdx-form-control {
+  display: block;
+  background-color: transparent !important;
+  color: var(--text-color) !important;
+
+  &.is-invalid {
+    color: var(--danger) !important;
+    caret-color: var(--danger);
+  }
+}

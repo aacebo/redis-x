@@ -4,6 +4,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { FormsModule } from '../../common/forms';
+import { IconModule } from '../../common/icon';
+
 import { CreateClientDialogComponent } from './create-client-dialog.component';
 
 @NgModule({
@@ -14,6 +17,9 @@ import { CreateClientDialogComponent } from './create-client-dialog.component';
     ReactiveFormsModule,
 
     NgbModalModule,
+
+    FormsModule,
+    IconModule,
   ],
 })
 export class CreateClientDialogModule { }

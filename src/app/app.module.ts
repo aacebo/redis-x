@@ -22,6 +22,11 @@ import { AppComponent } from './app.component';
     NgbModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
+      maxOpened: 3,
+      progressBar: true,
+      autoDismiss: true,
+      tapToDismiss: true,
+      timeOut: 5000,
     }),
 
     ToolbarModule,
