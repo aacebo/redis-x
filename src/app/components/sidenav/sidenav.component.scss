@@ -1,4 +1,12 @@
 :host {
   display: block;
   flex: 1;
+
+  .list {
+    padding: 5px;
+
+    .active {
+      color: var(--text-color) !important;
+    }
+  }
 }

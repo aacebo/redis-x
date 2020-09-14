@@ -1,5 +1,5 @@
 import { coerceNumberProperty } from '@angular/cdk/coercion';
-import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import feather from 'feather-icons/dist/feather.min.js';
@@ -8,7 +8,11 @@ import feather from 'feather-icons/dist/feather.min.js';
   selector: 'rdx-icon',
   template: '',
   styleUrls: ['./icon.component.scss'],
-  host: { '[innerHTML]': 'icon' },
+  host: {
+    class: 'rdx-icon',
+    '[innerHTML]': 'icon',
+  },
+  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconComponent implements OnInit {
@@ -26,7 +30,7 @@ export class IconComponent implements OnInit {
   set strokeWidth(v) {
     this._strokeWidth = coerceNumberProperty(v);
   }
-  private _strokeWidth = 2;
+  private _strokeWidth = 1;
 
   get icon() { return this._icon; }
   private _icon: SafeHtml;

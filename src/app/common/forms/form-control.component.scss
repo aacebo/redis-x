@@ -2,9 +2,18 @@
   display: block;
   background-color: transparent !important;
   color: var(--text-color) !important;
+  border-color: rgba(255, 255, 255, .2) !important;
 
   &.is-invalid {
     color: var(--danger) !important;
     caret-color: var(--danger);
+
+    &:focus {
+      border-color: var(--danger) !important;
+    }
+  }
+
+  &:focus {
+    border-color: var(--primary) !important;
   }
 }

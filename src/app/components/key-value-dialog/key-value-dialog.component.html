@@ -1,4 +1,19 @@
-<div class="modal-body" [formGroup]="form" spellcheck="false">
+<div class="modal-header">
+  <h5 class="modal-title">Edit Key/Value</h5>
+
+  <button
+    rdx-icon-button
+    (click)="dismiss()"
+  >
+    <rdx-icon name="x"></rdx-icon>
+  </button>
+</div>
+
+<div
+  class="modal-body"
+  spellcheck="false"
+  [formGroup]="form"
+>
   <ul
     ngbNav
     #nav="ngbNav"
@@ -9,37 +24,35 @@
     <li ngbNavItem="string">
       <a ngbNavLink>String</a>
       <ng-template ngbNavContent>
-        <div class="form-group">
-          <label for="value">Value</label>
+        <rdx-form-group>
+          <label rdx-label>Value</label>
           <input
-            id="value"
-            class="form-control"
+            rdx-form-control
+            ngbAutoFocus
             formControlName="value"
             placeholder="Value..."
-            rdxNumber="false"
             required
+            (rdxSubmit)="update()"
           />
-        </div>
+        </rdx-form-group>
       </ng-template>
     </li>
 
     <li ngbNavItem="number">
       <a ngbNavLink>Number</a>
       <ng-template ngbNavContent>
-        <div class="form-group">
-          <label for="value">Value</label>
+        <rdx-form-group>
+          <label rdx-label>Value</label>
           <input
-            id="value"
-            class="form-control"
+            rdx-form-control
+            ngbAutoFocus
             formControlName="value"
             placeholder="Value..."
             rdxNumber
             required
+            (rdxSubmit)="update()"
           />
-          <small *ngIf="value.errors?.number" class="form-text text-danger">
-            {{ value.errors.number }}
-          </small>
-        </div>
+        </rdx-form-group>
       </ng-template>
     </li>
 
@@ -58,50 +71,44 @@
           rdxJson
         ></rdx-json-editor>
 
-        <div *ngIf="value.errors?.json" class="form-text text-danger">
+        <rdx-error *ngIf="value.errors?.json" class="form-text text-danger">
           {{ value.errors.json }}
-        </div>
+        </rdx-error>
       </ng-template>
     </li>
   </ul>
 
-  <div class="form-group">
-    <label for="key">Key</label>
+  <rdx-form-group>
+    <label rdx-label>Key</label>
     <input
-      id="key"
-      class="form-control"
+      rdx-form-control
       formControlName="key"
       placeholder="Key..."
       required
+      (rdxSubmit)="update()"
     />
-  </div>
+  </rdx-form-group>
 
   <div [ngbNavOutlet]="nav"></div>
 </div>
 
 <div class="modal-footer">
   <button
-    class="btn"
-    (click)="close()"
+    *ngIf="view === 'json'"
+    rdx-button
+    (click)="format()"
   >
-    Cancel
-  </button>
-
-  <button
-    class="btn btn-primary"
-    (click)="update()"
-    [disabled]="form.invalid || form.pristine"
-  >
-    Update
+    {{ jsonEditor?.pretty ? 'Uglify' : 'Beautify' }}
   </button>
 
   <div class="rdx-spacer"></div>
 
   <button
-    *ngIf="view === 'json'"
-    class="btn"
-    (click)="format()"
+    rdx-button
+    appearance="primary"
+    [disabled]="form.invalid || form.pristine"
+    (click)="update()"
   >
-    {{ jsonEditor?.pretty ? 'Uglify' : 'Beautify' }}
+    Update
   </button>
 </div>

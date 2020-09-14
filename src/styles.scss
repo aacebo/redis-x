@@ -8,8 +8,13 @@ body {
   &.rdx-dark {
     @import './themes/dark';
 
-    background-color: var(--dark);
-    color: var(--light);
+    background-color: $body-bg;
+    color: $body-color;
+
+    --text-color: $light;
+    @each $name, $color in $theme-colors {
+      --#{ $name }: #{ $color };
+    }
   }
 }
 

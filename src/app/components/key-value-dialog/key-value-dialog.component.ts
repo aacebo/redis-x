@@ -89,7 +89,7 @@ export class KeyValueDialogComponent implements OnInit {
     this.view = e;
   }
 
-  close() {
+  dismiss() {
     this._modalRef.dismiss();
   }
 

@@ -6,6 +6,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormsModule } from '../../common/forms';
 import { IconModule } from '../../common/icon';
+import { ButtonModule } from '../../common/button';
 
 import { CreateClientDialogComponent } from './create-client-dialog.component';
 
@@ -20,6 +21,7 @@ import { CreateClientDialogComponent } from './create-client-dialog.component';
 
     FormsModule,
     IconModule,
+    ButtonModule,
   ],
 })
 export class CreateClientDialogModule { }

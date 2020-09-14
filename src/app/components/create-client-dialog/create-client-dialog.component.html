@@ -1,19 +1,28 @@
 <div class="modal-header">
   <h5 class="modal-title">New Connection</h5>
 
-  <button class="close" (click)="dismiss()">
-    <span aria-hidden="true">&times;</span>
+  <button
+    rdx-icon-button
+    (click)="dismiss()"
+  >
+    <rdx-icon name="x"></rdx-icon>
   </button>
 </div>
 
-<div class="modal-body" [formGroup]="form" spellcheck="false">
+<div
+  class="modal-body"
+  spellcheck="false"
+  [formGroup]="form"
+>
   <rdx-form-group>
     <label rdx-label>Name</label>
     <input
       rdx-form-control
+      ngbAutoFocus
       formControlName="name"
       placeholder="Name..."
       required
+      (rdxSubmit)="connect()"
     />
   </rdx-form-group>
 
@@ -24,6 +33,7 @@
       formControlName="host"
       placeholder="Host Name..."
       required
+      (rdxSubmit)="connect()"
     />
   </rdx-form-group>
 
@@ -35,13 +45,15 @@
       formControlName="port"
       placeholder="Host Port..."
       required
+      (rdxSubmit)="connect()"
     />
   </rdx-form-group>
 </div>
 
 <div class="modal-footer">
   <button
-    class="btn btn-primary"
+    rdx-button
+    appearance="primary"
     [disabled]="form.invalid"
     (click)="connect()"
   >

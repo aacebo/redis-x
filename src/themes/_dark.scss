@@ -1,9 +1,11 @@
+$body-bg: var(--dark);
+$body-color: var(--light);
+$theme-colors: (
+  'primary': #9575cd
+);
+
 @import '~bootstrap/scss/bootstrap';
 @import '../styles/colors';
-
-:root {
-  --text-color: $light;
-}
 
 .rdx-drawer-aside {
   background-color: darken($dark, 5%);
@@ -14,6 +16,10 @@
 
   .modal-header {
     border-bottom-color: $rdx-hairline;
+
+    .modal-title {
+      margin: auto 0;
+    }
   }
 
   .modal-footer {

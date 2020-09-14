@@ -2,11 +2,12 @@
   <rdx-drawer-aside>
     <div class="list">
       <a
+        rdx-icon-button
         *ngFor="let item of items"
         [ngbTooltip]="item.text"
         placement="right"
         [routerLink]="item.route"
-        routerLinkActive=""
+        routerLinkActive="active"
       >
         <rdx-icon [name]="item.icon"></rdx-icon>
       </a>

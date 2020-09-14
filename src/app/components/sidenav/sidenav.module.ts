@@ -6,6 +6,7 @@ import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DrawerModule } from '../../common/drawer';
 import { IconModule } from '../../common/icon';
+import { ButtonModule } from '../../common/button';
 
 import { SidenavComponent } from './sidenav.component';
 
@@ -20,6 +21,7 @@ import { SidenavComponent } from './sidenav.component';
 
     DrawerModule,
     IconModule,
+    ButtonModule,
   ],
 })
 export class SidenavModule { }

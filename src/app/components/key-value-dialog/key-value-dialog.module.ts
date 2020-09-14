@@ -8,6 +8,9 @@ import { NumberValidatorModule } from '../../validators/number';
 import { JsonValidatorModule } from '../../validators/json';
 
 import { JsonEditorModule } from '../../common/json-editor';
+import { FormsModule } from '../../common/forms';
+import { ButtonModule } from '../../common/button';
+import { IconModule } from '../../common/icon';
 
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 
@@ -25,6 +28,9 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
     JsonValidatorModule,
 
     JsonEditorModule,
+    FormsModule,
+    ButtonModule,
+    IconModule,
   ],
 })
 export class KeyValueDialogModule { }
