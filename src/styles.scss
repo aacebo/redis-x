@@ -21,3 +21,12 @@ body {
 .rdx-spacer {
   flex: 1 1 auto;
 }
+
+.modal-header {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
+  button {
+    -webkit-app-region: no-drag;
+  }
+}

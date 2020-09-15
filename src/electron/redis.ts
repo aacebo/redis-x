@@ -27,6 +27,8 @@ class Redis {
     this._clients[id].on('end', () => this._onEnd(e, id));
     this._clients[id].on('error', (err) => this._onError(e, id, err));
 
+    this._clients[id].info('memory', (_err, info) => console.log(typeof info));
+
     e.sender.send('redis:create.return', {
       id,
       status: this._clients[id].connected ? 'open' : 'reconnecting',
