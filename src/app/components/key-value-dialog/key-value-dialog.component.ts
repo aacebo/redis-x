@@ -102,6 +102,6 @@ export class KeyValueDialogComponent implements OnInit {
       return coerceBooleanProperty(value);
     }
 
-    return save ? jsonTryParse(value) : jsonTryStringify(value);
+    return save ? jsonTryParse(value) : jsonTryStringify(value, 2);
   }
 }

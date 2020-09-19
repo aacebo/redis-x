@@ -3,10 +3,21 @@
   flex: 1;
 
   .list {
+    display: flex;
+    flex-direction: column;
     padding: 5px;
+    height: 100%;
 
-    .active {
-      color: var(--text-color) !important;
+    .list-item {
+      box-shadow: none !important;
+
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+
+      &.active {
+        color: var(--text-color) !important;
+      }
     }
   }
 }

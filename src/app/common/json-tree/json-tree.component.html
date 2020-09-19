@@ -11,6 +11,12 @@
         class="rdx-json-tree--node-key-container"
         (click)="toggle($event, node)"
       >
+        <rdx-icon
+          class="rdx-json-tree--node-actions"
+          name="more-vertical"
+          diameter="12"
+        ></rdx-icon>
+
         <div
           *ngIf="node.expandable"
           class="rdx-json-tree--node-toggler"
@@ -39,6 +45,7 @@
         class="rdx-json-tree--node-children"
       >
         <rdx-json-tree
+          child
           [path]="path.concat(node.key)"
           [json]="node.value"
           [state]="state[node.key].state"

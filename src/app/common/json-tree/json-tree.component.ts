@@ -18,12 +18,22 @@ import { IJsonTreeNodeExpanded } from './json-tree-node-expanded.interface';
   selector: 'rdx-json-tree',
   templateUrl: './json-tree.component.html',
   styleUrls: ['./json-tree.component.scss'],
-  host: { class: 'rdx-json-tree' },
+  host: {
+    class: 'rdx-json-tree',
+    '[class.rdx-json-tree--root]': '!child',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class JsonTreeComponent implements OnInit {
   @Input() path: string[] = [];
+
+  @Input()
+  get child() { return this._child; }
+  set child(v) {
+    this._child = coerceBooleanProperty(v);
+  }
+  private _child?: boolean;
 
   @Input()
   get json() { return this._json; }

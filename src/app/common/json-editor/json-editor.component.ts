@@ -15,6 +15,7 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 import CodeMirror from 'codemirror';
 import 'codemirror/addon/edit/closebrackets';
+import 'codemirror/addon/edit/matchbrackets.js';
 import 'codemirror/addon/fold/brace-fold.js';
 import 'codemirror/addon/lint/lint.js';
 import 'codemirror/mode/javascript/javascript.js';
@@ -101,6 +102,7 @@ export class JsonEditorComponent implements AfterViewInit, OnDestroy, ControlVal
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
       viewportMargin: Infinity,
       autoCloseBrackets: true,
+      matchBrackets: true,
     });
 
     this.editor.on('change', this._onEditorChange.bind(this));

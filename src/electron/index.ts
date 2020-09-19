@@ -9,6 +9,8 @@ let app: App;
 
 class App {
   private _window: electron.BrowserWindow;
+  private readonly _height = 600;
+  private readonly _width = 900;
 
   private get _system() {
     return {
@@ -21,12 +23,17 @@ class App {
   }
 
   constructor() {
+    const cursor = electron.screen.getCursorScreenPoint();
+    const { bounds } = electron.screen.getDisplayNearestPoint(cursor);
+
     this._window = new electron.BrowserWindow({
       title: 'RedisX',
-      width: 900,
-      height: 600,
+      width: this._width,
+      height: this._height,
       minWidth: 600,
       minHeight: 600,
+      x: bounds.x + ((bounds.width - this._width) / 2),
+      y: bounds.y + ((bounds.height - this._height) / 2),
       autoHideMenuBar: false,
       darkTheme: true,
       show: false,
