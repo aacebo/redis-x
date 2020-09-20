@@ -26,19 +26,35 @@
         display: flex;
         position: relative;
 
-        &.expandable > .rdx-json-tree--node-key-container {
-          cursor: pointer;
+        &:hover {
+          > .rdx-json-tree--node-key-container {
+            > .rdx-json-tree--node-actions {
+              opacity: 0.5;
+            }
+          }
         }
 
-        &.expanded > .rdx-json-tree--node-key-container > .rdx-json-tree--node-toggler {
-          &:after {
-            transform: rotate(90deg);
+        &.expandable {
+          > .rdx-json-tree--node-key-container {
+            cursor: pointer;
+
+            > .rdx-json-tree--node-actions {
+              left: -28px;
+            }
           }
         }
 
         &.expanded {
           &.expandable {
             flex-direction: column;
+          }
+
+          > .rdx-json-tree--node-key-container {
+            > .rdx-json-tree--node-toggler {
+              &:after {
+                transform: rotate(90deg);
+              }
+            }
           }
         }
 
@@ -53,12 +69,6 @@
         .rdx-json-tree--node-key-container {
           display: flex;
 
-          &:hover {
-            > .rdx-json-tree--node-actions {
-              opacity: 0.5;
-            }
-          }
-
           .rdx-json-tree--node-key {
             color: #66d9ef;
             user-select: none;
@@ -72,11 +82,12 @@
 
           .rdx-json-tree--node-actions {
             position: absolute;
-            left: -27px;
-            top: 2px;
+            left: -14px;
+            top: 3px;
             color: var(--text-light);
-            opacity: 0;
+            opacity: 0.5;
             transition: opacity 0.2s ease-in-out;
+            cursor: pointer;
 
             &:hover {
               opacity: 1;

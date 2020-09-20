@@ -18,3 +18,7 @@
 .rdx-ellipsis {
   @include rdx-ellipsis;
 }
+
+.rdx-spacer {
+  flex: 1 1 auto;
+}

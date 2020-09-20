@@ -11,10 +11,20 @@
         class="rdx-json-tree--node-key-container"
         (click)="toggle($event, node)"
       >
+        <ng-template #actions>
+          <p>test</p>
+        </ng-template>
+
         <rdx-icon
+          [ngbPopover]="actions"
+          #p="ngbPopover"
+          triggers="manual"
+          placement="auto"
+          container="body"
           class="rdx-json-tree--node-actions"
           name="more-vertical"
           diameter="12"
+          (click)="onActionClick($event, p)"
         ></rdx-icon>
 
         <div

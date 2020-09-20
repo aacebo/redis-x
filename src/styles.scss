@@ -1,3 +1,7 @@
+@import './styles/utils';
+@import './styles/bootstrap/modal';
+@import './styles/bootstrap/popover';
+
 html, body {
   height: 100%;
   margin: 0;
@@ -14,32 +18,6 @@ body {
     --text-color: $light;
     @each $name, $color in $theme-colors {
       --#{ $name }: #{ $color };
-    }
-  }
-}
-
-.rdx-spacer {
-  flex: 1 1 auto;
-}
-
-.modal {
-  max-height: 100vh;
-
-  .modal-dialog {
-    .modal-content {
-      .modal-header {
-        -webkit-user-select: none;
-        -webkit-app-region: drag;
-
-        button {
-          -webkit-app-region: no-drag;
-        }
-      }
-
-      .modal-body {
-        max-height: calc(80vh - 140px);
-        overflow-y: auto;
-      }
     }
   }
 }

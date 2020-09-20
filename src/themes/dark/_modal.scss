@@ -1,0 +1,17 @@
+@import '../../styles/colors';
+
+.modal-content {
+  background-color: var(--dark);
+
+  .modal-header {
+    border-bottom-color: $rdx-hairline;
+
+    .modal-title {
+      margin: auto 0;
+    }
+  }
+
+  .modal-footer {
+    border-top-color: $rdx-hairline;
+  }
+}

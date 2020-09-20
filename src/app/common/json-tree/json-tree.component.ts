@@ -9,6 +9,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { IJsonTreeNode } from './json-tree-node.interface';
 import { parseJsonTreeNodes } from './parse-json-tree-nodes.util';
@@ -91,6 +92,12 @@ export class JsonTreeComponent implements OnInit {
     } else {
       this.propertyValueClick.emit(node);
     }
+  }
+
+  onActionClick(e: Event, popover: NgbPopover) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    popover.open();
   }
 
   private _generateState() {

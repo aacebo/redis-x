@@ -1,0 +1,14 @@
+.popover {
+  background-color: var(--dark);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  .arrow {
+    &:before {
+      border-top-color: rgba(255, 255, 255, 0.25);
+    }
+
+    &:after {
+      border-top-color: var(--dark);
+    }
+  }
+}
