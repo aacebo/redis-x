@@ -1,6 +1,8 @@
 :host {
   display: block;
   flex: 1;
+  min-width: 1px;
+  min-height: 1px;
 
   .list {
     display: flex;
