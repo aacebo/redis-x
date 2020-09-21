@@ -3,7 +3,7 @@ import * as redis from 'redis';
 import * as uuid from 'uuid';
 
 import * as dtos from './dtos/redis';
-import { jsonTryParse, jsonTryStringify } from './utils';
+import { jsonTryParse, jsonTryStringify, parseRedisInfo } from './utils';
 
 class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
@@ -28,7 +28,9 @@ class Redis {
     this._clients[id].on('end', () => this._onEnd(e, id));
     this._clients[id].on('error', (err) => this._onError(e, id, err));
 
-    this._clients[id].info('memory', (_err, info) => console.log(typeof info));
+    this._clients[id].info((_err, info) => {
+      console.log(parseRedisInfo(info as any));
+    });
 
     e.sender.send('redis:create.return', {
       id,
