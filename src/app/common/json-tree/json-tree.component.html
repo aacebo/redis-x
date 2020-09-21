@@ -11,20 +11,29 @@
         class="rdx-json-tree--node-key-container"
         (click)="toggle($event, node)"
       >
-        <ng-template #actions>
-          <p>test</p>
+        <ng-template #actionsTpl>
+          <div
+            *ngFor="let action of actions"
+            class="rdx-json-tree--action"
+            (click)="onActionClick(action.type, node)"
+          >
+            <rdx-icon [name]="action.icon" diameter="12"></rdx-icon>
+            {{ action.text }}
+          </div>
         </ng-template>
 
         <rdx-icon
-          [ngbPopover]="actions"
+          *ngIf="node.value !== undefined"
+          [ngbPopover]="actionsTpl"
           #p="ngbPopover"
+          popoverClass="rdx-popover-tree-action"
           triggers="manual"
           placement="auto"
           container="body"
           class="rdx-json-tree--node-actions"
           name="more-vertical"
           diameter="12"
-          (click)="onActionClick($event, p)"
+          (click)="onActionToggleClick($event, p)"
         ></rdx-icon>
 
         <div
@@ -61,6 +70,7 @@
           [state]="state[node.key].state"
           [expanded]="expanded"
           (propertyValueClick)="propertyValueClick.emit($event)"
+          (propertyActionClick)="propertyActionClick.emit($event)"
         ></rdx-json-tree>
       </div>
     </div>

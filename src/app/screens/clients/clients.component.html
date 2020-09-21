@@ -8,7 +8,8 @@
   <rdx-json-tree
     *ngIf="redisService.activeClient$ | async; let activeClient"
     [json]="activeClient.map"
-    (propertyValueClick)="keyValue($event)"
-    (propertyLoadClick)="keyLoad($event)"
+    (propertyActionClick)="onActionClick($event)"
+    (propertyLoadClick)="onKeyLoad($event)"
+    (propertyValueClick)="openKeyValueDialog($event)"
   ></rdx-json-tree>
 </rdx-clients-sidenav>

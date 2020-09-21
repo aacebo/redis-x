@@ -15,6 +15,7 @@ class Redis {
     ipcMain.on('redis:key', this.key.bind(this));
     ipcMain.on('redis:keys', this.keys.bind(this));
     ipcMain.on('redis:key-value-set', this.keyValueSet.bind(this));
+    ipcMain.on('redis:key-value-remove', this.keyValueRemove.bind(this));
   }
 
   create(e: IpcMainEvent, v: dtos.IRedisCreateRequest) {
@@ -67,6 +68,14 @@ class Redis {
       if (err) throw err;
 
       e.sender.send('redis:key-value-set.return', v);
+    });
+  }
+
+  keyValueRemove(e: IpcMainEvent, v: dtos.IRedisKeyValueRemoveRequest) {
+    this._clients[v.id].del(v.key, (err) => {
+      if (err) throw err;
+
+      e.sender.send('redis:key-value-remove.return', v);
     });
   }
 

@@ -14,6 +14,8 @@ import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { IJsonTreeNode } from './json-tree-node.interface';
 import { parseJsonTreeNodes } from './parse-json-tree-nodes.util';
 import { IJsonTreeNodeExpanded } from './json-tree-node-expanded.interface';
+import { JsonTreeNodeAction } from './json-tree-node-action.type';
+import { IJsonTreeNodeActionClickEvent } from './json-tree-node-action-click-event.interface';
 
 @Component({
   selector: 'rdx-json-tree',
@@ -64,9 +66,21 @@ export class JsonTreeComponent implements OnInit {
 
   @Output() propertyValueClick = new EventEmitter<IJsonTreeNode>();
   @Output() propertyLoadClick = new EventEmitter<IJsonTreeNode>();
+  @Output() propertyActionClick = new EventEmitter<IJsonTreeNodeActionClickEvent>();
 
   get nodes() { return this._nodes; }
   private _nodes: IJsonTreeNode[] = [];
+
+  readonly actions: Array<{
+    readonly type: JsonTreeNodeAction,
+    readonly icon: string;
+    readonly text: string;
+  }> = [
+    { type: 'add', icon: 'plus', text: 'Add' },
+    { type: 'edit', icon: 'edit', text: 'Edit' },
+    { type: 'copy', icon: 'copy', text: 'Copy' },
+    { type: 'remove', icon: 'trash', text: 'Remove' },
+  ];
 
   constructor(private readonly _cdr: ChangeDetectorRef) { }
 
@@ -94,10 +108,17 @@ export class JsonTreeComponent implements OnInit {
     }
   }
 
-  onActionClick(e: Event, popover: NgbPopover) {
+  onActionToggleClick(e: Event, popover: NgbPopover) {
     e.stopImmediatePropagation();
     e.preventDefault();
     popover.open();
+  }
+
+  onActionClick(type: JsonTreeNodeAction, node: IJsonTreeNode) {
+    this.propertyActionClick.emit({
+      type,
+      node,
+    });
   }
 
   private _generateState() {
