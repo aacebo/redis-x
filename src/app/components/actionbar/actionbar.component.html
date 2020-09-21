@@ -1,1 +1,11 @@
-{{ keys }}
+<ng-container *ngIf="info[active]">
+  <div class="rdx-actionbar--item">
+    v{{ info[active].server.redisVersion }}
+  </div>
+
+  <div class="rdx-spacer"></div>
+
+  <div class="rdx-actionbar--item">
+    Memory: {{ info[active].memory.usedMemoryDatasetPerc }}
+  </div>
+</ng-container>

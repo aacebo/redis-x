@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { SystemService } from './stores/system';
+import { ClientsService } from './stores/clients';
+import { InfoService } from './stores/info';
 
 import { ISidenavItem } from './components/sidenav';
 
@@ -17,5 +19,7 @@ export class AppComponent {
 
   constructor(
     readonly systemService: SystemService,
+    readonly clientsService: ClientsService,
+    readonly infoService: InfoService,
   ) { }
 }

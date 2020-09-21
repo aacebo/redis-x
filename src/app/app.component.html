@@ -4,4 +4,8 @@
   <router-outlet></router-outlet>
 </rdx-sidenav>
 
-<rdx-actionbar></rdx-actionbar>
+<rdx-actionbar
+  *ngIf="clientsService.active$ | async; let active"
+  [active]="active"
+  [info]="infoService.state$ | async"
+></rdx-actionbar>

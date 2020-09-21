@@ -51,13 +51,19 @@ export class KeysService implements IStore<IKeysState> {
     this._api.send('redis:key-value-set', v);
   }
 
-  remove(v: dtos.IRedisKeyValueRemoveRequest) {
-    this._api.once<dtos.IRedisKeyValueRemoveRequest>('redis:key-value-remove.return', (_, res) => {
+  delete(v: dtos.IRedisKeyValueDeleteRequest) {
+    this._api.once<dtos.IRedisKeyValueDeleteRequest>('redis:key-value-delete.return', (_, res) => {
       this._removeKeyValue(res.id, res.key);
-      this._toastr.success('Removed Key/Value');
+      this._toastr.success('Deleted Key/Value');
     });
 
-    this._api.send('redis:key-value-remove', v);
+    this._api.send('redis:key-value-delete', v);
+  }
+
+  remove(clientId: string) {
+    const state = this._state$.value;
+    delete state[clientId];
+    this._state$.next(state);
   }
 
   private _setKeyValue<V = any>(clientId: string, key: string, v: V) {

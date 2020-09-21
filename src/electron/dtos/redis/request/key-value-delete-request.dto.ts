@@ -1,4 +1,4 @@
-export interface IRedisKeyValueRemoveRequest {
+export interface IRedisKeyValueDeleteRequest {
   readonly id: string;
   readonly key: string;
 }

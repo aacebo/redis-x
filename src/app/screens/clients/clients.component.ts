@@ -4,6 +4,7 @@ import { jsonTryStringify } from '../../../electron/utils';
 
 import { ClientsService } from '../../stores/clients';
 import { KeysService } from '../../stores/keys';
+import { InfoService } from '../../stores/info';
 
 import { ApiService } from '../../api';
 import { IJsonTreeNode, IJsonTreeNodeActionClickEvent } from '../../common/json-tree';
@@ -21,6 +22,7 @@ export class ClientsComponent {
   constructor(
     readonly clientsService: ClientsService,
     readonly keysService: KeysService,
+    private readonly _infoService: InfoService,
     private readonly _api: ApiService,
     private readonly _createClientDialogService: CreateClientDialogService,
     private readonly _keyValueDialogService: KeyValueDialogService,
@@ -40,6 +42,8 @@ export class ClientsComponent {
 
   remove(id: string) {
     this.clientsService.remove(id);
+    this.keysService.remove(id);
+    this._infoService.remove(id);
   }
 
   onActionClick(e: IJsonTreeNodeActionClickEvent) {
@@ -55,7 +59,7 @@ export class ClientsComponent {
     } else if (e.type === 'copy') {
       this._api.copy(this._parse(e.node.value));
     } else {
-      this._removeNode(e.node);
+      this._deleteNode(e.node);
     }
   }
 
@@ -72,7 +76,7 @@ export class ClientsComponent {
              .catch(() => undefined);
   }
 
-  private _removeNode(node: IJsonTreeNode) {
+  private _deleteNode(node: IJsonTreeNode) {
     const isRoot = node.key === node.path[0];
     const id = this.clientsService.getStateProp('active');
     const keys = this.keysService.getClientKeys(id);
@@ -85,7 +89,7 @@ export class ClientsComponent {
     delete value[node.key];
 
     if (isRoot) {
-      this.keysService.remove({
+      this.keysService.delete({
         id,
         key: node.key,
       });

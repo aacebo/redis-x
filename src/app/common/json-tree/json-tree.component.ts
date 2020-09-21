@@ -76,7 +76,7 @@ export class JsonTreeComponent implements OnInit {
     readonly icon: string;
     readonly text: string;
   }> = [
-    { type: 'add', icon: 'plus', text: 'Add' },
+    { type: 'add', icon: 'plus', text: 'Add Sibling' },
     { type: 'edit', icon: 'edit', text: 'Edit' },
     { type: 'copy', icon: 'copy', text: 'Copy' },
     { type: 'remove', icon: 'trash', text: 'Remove' },
