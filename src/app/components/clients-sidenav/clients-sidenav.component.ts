@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
-import { IRedisClient } from '../../stores/redis';
+import { IClient } from '../../stores/clients';
 
 @Component({
   selector: 'rdx-clients-sidenav',
@@ -10,7 +10,7 @@ import { IRedisClient } from '../../stores/redis';
 })
 export class ClientsSidenavComponent {
   @Input() active: string;
-  @Input() clients: IRedisClient[] = [];
+  @Input() clients: IClient[] = [];
 
   @Output() create = new EventEmitter<void>();
   @Output() activate = new EventEmitter<string>();

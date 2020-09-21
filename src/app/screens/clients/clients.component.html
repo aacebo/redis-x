@@ -1,15 +1,17 @@
 <rdx-clients-sidenav
-  [active]="redisService.active$ | async"
-  [clients]="redisService.clients$ | async"
+  [active]="clientsService.active$ | async"
+  [clients]="clientsService.clients$ | async"
   (create)="create()"
   (activate)="activate($event)"
   (remove)="remove($event)"
 >
-  <rdx-json-tree
-    *ngIf="redisService.activeClient$ | async; let activeClient"
-    [json]="activeClient.map"
-    (propertyActionClick)="onActionClick($event)"
-    (propertyLoadClick)="onKeyLoad($event)"
-    (propertyValueClick)="openKeyValueDialog($event)"
-  ></rdx-json-tree>
+  <ng-container *ngIf="clientsService.active$ | async; let active">
+    <rdx-json-tree
+      *ngIf="keysService.state$ | async; let keys"
+      [json]="keys[active]"
+      (propertyActionClick)="onActionClick($event)"
+      (propertyLoadClick)="onKeyLoad($event)"
+      (propertyValueClick)="openKeyValueDialog($event)"
+    ></rdx-json-tree>
+  </ng-container>
 </rdx-clients-sidenav>

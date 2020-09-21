@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { SystemService } from './stores/system';
-import { RedisService } from './stores/redis';
 
 import { ISidenavItem } from './components/sidenav';
 
@@ -18,6 +17,5 @@ export class AppComponent {
 
   constructor(
     readonly systemService: SystemService,
-    readonly redisService: RedisService,
   ) { }
 }

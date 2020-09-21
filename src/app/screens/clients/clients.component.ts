@@ -1,7 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { RedisService } from '../../stores/redis';
 import { jsonTryStringify } from '../../../electron/utils';
+
+import { ClientsService } from '../../stores/clients';
+import { KeysService } from '../../stores/keys';
+
 import { ApiService } from '../../api';
 import { IJsonTreeNode, IJsonTreeNodeActionClickEvent } from '../../common/json-tree';
 
@@ -16,7 +19,8 @@ import { IKeyValueResponse, KeyValueDialogService } from '../../components/key-v
 })
 export class ClientsComponent {
   constructor(
-    readonly redisService: RedisService,
+    readonly clientsService: ClientsService,
+    readonly keysService: KeysService,
     private readonly _api: ApiService,
     private readonly _createClientDialogService: CreateClientDialogService,
     private readonly _keyValueDialogService: KeyValueDialogService,
@@ -25,17 +29,17 @@ export class ClientsComponent {
   create() {
     this._createClientDialogService.open().result.then(v => {
       if (v) {
-        this.redisService.create(v);
+        this.clientsService.create(v);
       }
     }).catch(() => undefined);
   }
 
   activate(id: string) {
-    this.redisService.activate(id);
+    this.clientsService.activate(id);
   }
 
   remove(id: string) {
-    this.redisService.remove(id);
+    this.clientsService.remove(id);
   }
 
   onActionClick(e: IJsonTreeNodeActionClickEvent) {
@@ -56,7 +60,7 @@ export class ClientsComponent {
   }
 
   onKeyLoad(e: IJsonTreeNode) {
-    this.redisService.key(e.key);
+    this.keysService.get(this.clientsService.getStateProp('active'), e.key);
   }
 
   openKeyValueDialog(node: IJsonTreeNode) {
@@ -69,10 +73,10 @@ export class ClientsComponent {
   }
 
   private _removeNode(node: IJsonTreeNode) {
-    const id = this.redisService.getStateProp('active');
-    const client = this.redisService.getStateProp('clients')[id];
     const isRoot = node.key === node.path[0];
-    let value = client.map;
+    const id = this.clientsService.getStateProp('active');
+    const keys = this.keysService.getClientKeys(id);
+    let value = keys;
 
     for (let i = 0; i < node.path.length - 1; i++) {
       value = value[node.path[i]];
@@ -81,15 +85,15 @@ export class ClientsComponent {
     delete value[node.key];
 
     if (isRoot) {
-      this.redisService.keyValueRemove({
+      this.keysService.remove({
         id,
         key: node.key,
       });
     } else {
-      this.redisService.keyValueSet({
+      this.keysService.set({
         id,
         key: node.path[0],
-        value: client.map[node.path[0]],
+        value: keys[node.path[0]],
       });
     }
   }
@@ -104,9 +108,9 @@ export class ClientsComponent {
 
   private _onKeyValueDialogClose(node: IJsonTreeNode, v: IKeyValueResponse) {
     if (v) {
-      const id = this.redisService.getStateProp('active');
-      const client = this.redisService.getStateProp('clients')[id];
-      let value = client.map;
+      const id = this.clientsService.getStateProp('active');
+      const keys = this.keysService.getClientKeys(id);
+      let value = keys;
 
       for (let i = 0; i < v.path.length - 1; i++) {
         value = value[v.path[i]];
@@ -118,10 +122,10 @@ export class ClientsComponent {
         delete value[node.key];
       }
 
-      this.redisService.keyValueSet({
+      this.keysService.set({
         id,
         key: v.path[0],
-        value: client.map[v.path[0]],
+        value: keys[v.path[0]],
       });
     }
   }

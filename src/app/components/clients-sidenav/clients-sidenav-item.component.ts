@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 
-import { IRedisClient } from '../../stores/redis';
+import { IClient } from '../../stores/clients';
 
 @Component({
   selector: 'rdx-clients-sidenav-item',
@@ -11,5 +11,5 @@ import { IRedisClient } from '../../stores/redis';
 })
 export class ClientsSidenavItemComponent {
   @Input() active: string;
-  @Input() client: IRedisClient;
+  @Input() client: IClient;
 }
