@@ -3,7 +3,7 @@ import * as redis from 'redis';
 import * as uuid from 'uuid';
 
 import * as dtos from './dtos/redis';
-import { jsonTryParse, jsonTryStringify } from './utils';
+import { jsonTryParse, jsonTryStringify, parseRedisInfo } from './utils';
 
 class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
@@ -15,6 +15,7 @@ class Redis {
     ipcMain.on('redis:key', this.key.bind(this));
     ipcMain.on('redis:keys', this.keys.bind(this));
     ipcMain.on('redis:key-value-set', this.keyValueSet.bind(this));
+    ipcMain.on('redis:key-value-remove', this.keyValueRemove.bind(this));
   }
 
   create(e: IpcMainEvent, v: dtos.IRedisCreateRequest) {
@@ -26,6 +27,10 @@ class Redis {
     this._clients[id].on('reconnecting', () => this._onReconnect(e, id));
     this._clients[id].on('end', () => this._onEnd(e, id));
     this._clients[id].on('error', (err) => this._onError(e, id, err));
+
+    this._clients[id].info((_err, info) => {
+      console.log(parseRedisInfo(info as any));
+    });
 
     e.sender.send('redis:create.return', {
       id,
@@ -65,6 +70,14 @@ class Redis {
       if (err) throw err;
 
       e.sender.send('redis:key-value-set.return', v);
+    });
+  }
+
+  keyValueRemove(e: IpcMainEvent, v: dtos.IRedisKeyValueRemoveRequest) {
+    this._clients[v.id].del(v.key, (err) => {
+      if (err) throw err;
+
+      e.sender.send('redis:key-value-remove.return', v);
     });
   }
 

@@ -1,18 +1,18 @@
 :host {
   display: block;
   flex: 1;
+  min-width: 1px;
+  min-height: 1px;
 
-  > mat-drawer-container {
-    height: 100%;
-
-    > mat-drawer {
+  > rdx-drawer {
+    > rdx-drawer-aside {
       display: flex;
       flex-direction: column;
       max-width: 200px;
 
       &:hover {
         .toolbar {
-          > mat-icon {
+          > rdx-icon {
             opacity: 0.5;
           }
         }
@@ -26,9 +26,7 @@
           margin: auto 5px;
         }
 
-        > mat-icon {
-          height: 16px;
-          width: 16px;
+        > rdx-icon {
           margin: 5px 5px 5px 0;
           opacity: 0;
           transition: opacity 0.2s ease-in-out;

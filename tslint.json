@@ -25,6 +25,7 @@
     "component-selector": [
       true,
       "element",
+      "attribute",
       "rdx",
       "kebab-case"
     ],
@@ -133,11 +134,11 @@
     },
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": false,
-    "no-input-rename": true,
+    "no-input-rename": false,
     "no-inputs-metadata-property": true,
     "no-output-native": true,
     "no-output-on-prefix": true,
-    "no-output-rename": true,
+    "no-output-rename": false,
     "no-outputs-metadata-property": true,
     "template-banana-in-box": true,
     "template-no-negated-async": true,

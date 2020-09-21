@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatIconModule } from '@angular/material/icon';
+import { IconModule } from '../../common/icon';
+import { DrawerModule } from '../../common/drawer';
 
 import { ClientsSidenavComponent } from './clients-sidenav.component';
 import { ClientsSidenavItemComponent } from './clients-sidenav-item.component';
@@ -13,8 +13,8 @@ import { ClientsSidenavItemComponent } from './clients-sidenav-item.component';
   imports: [
     CommonModule,
 
-    MatSidenavModule,
-    MatIconModule,
+    DrawerModule,
+    IconModule,
   ],
 })
 export class ClientsSidenavModule { }

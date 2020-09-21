@@ -1,4 +1,4 @@
-import { JsonTreeNodeType } from '../json-tree';
+import { JsonTreeNodeType } from '../../common/json-tree';
 
 export interface IKeyValueData<T = any> {
   readonly path: string[];

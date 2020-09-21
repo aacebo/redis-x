@@ -6,7 +6,7 @@ declare module 'feather-icons/*' {
         readonly contents: string;
         readonly name: string;
         readonly tags: string[];
-        readonly toSvg: () => string;
+        readonly toSvg: (attr: any) => string;
       };
     };
   }

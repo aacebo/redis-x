@@ -1,0 +1,9 @@
+.rdx-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  > svg {
+    vertical-align: initial !important;
+  }
+}

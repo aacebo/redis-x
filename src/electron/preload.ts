@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { contextBridge, ipcRenderer, IpcRendererEvent, clipboard } from 'electron';
 
 contextBridge.exposeInMainWorld(
   'api',
@@ -11,6 +11,9 @@ contextBridge.exposeInMainWorld(
     },
     send: (event: string, data: any) => {
       ipcRenderer.send(event, data);
+    },
+    copy: (v: string) => {
+      clipboard.writeText(v);
     },
   },
 );

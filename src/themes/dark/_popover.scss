@@ -1,0 +1,23 @@
+@mixin rdx-popover-dark($position) {
+  &.bs-popover-#{ $position } {
+    .arrow {
+      &:before {
+        border-#{ $position }-color: rgba(255, 255, 255, 0.25);
+      }
+
+      &:after {
+        border-#{ $position }-color: var(--dark);
+      }
+    }
+  }
+}
+
+.popover {
+  background-color: var(--dark);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  @include rdx-popover-dark('top');
+  @include rdx-popover-dark('bottom');
+  @include rdx-popover-dark('left');
+  @include rdx-popover-dark('right');
+}

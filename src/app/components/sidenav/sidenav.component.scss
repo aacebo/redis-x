@@ -1,12 +1,25 @@
 :host {
   display: block;
   flex: 1;
+  min-width: 1px;
+  min-height: 1px;
 
-  > mat-drawer-container {
+  .list {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
     height: 100%;
 
-    > mat-drawer {
-      padding: 5px;
+    .list-item {
+      box-shadow: none !important;
+
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+
+      &.active {
+        color: var(--text-color) !important;
+      }
     }
   }
 }

@@ -1,4 +1,6 @@
-@import './themes/dark';
+@import './styles/utils';
+@import './styles/bootstrap/modal';
+@import './styles/bootstrap/popover';
 
 html, body {
   height: 100%;
@@ -6,6 +8,16 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-.spacer {
-  flex: 1 1 auto;
+body {
+  &.rdx-dark {
+    @import './themes/dark';
+
+    background-color: $body-bg;
+    color: $body-color;
+
+    --text-color: $light;
+    @each $name, $color in $theme-colors {
+      --#{ $name }: #{ $color };
+    }
+  }
 }

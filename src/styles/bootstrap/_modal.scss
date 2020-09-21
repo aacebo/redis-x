@@ -1,0 +1,21 @@
+.modal {
+  max-height: 100vh;
+
+  .modal-dialog {
+    .modal-content {
+      .modal-header {
+        -webkit-user-select: none;
+        -webkit-app-region: drag;
+
+        button {
+          -webkit-app-region: no-drag;
+        }
+      }
+
+      .modal-body {
+        max-height: calc(80vh - 140px);
+        overflow-y: auto;
+      }
+    }
+  }
+}

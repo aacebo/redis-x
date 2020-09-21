@@ -1,14 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { MatNativeDateModule } from '@angular/material/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrModule } from 'ngx-toastr';
 
 import { ToolbarModule } from './components/toolbar';
 import { ActionbarModule } from './components/actionbar';
 import { SidenavModule } from './components/sidenav';
-import { AlertModule } from './components/alert';
 
-import { FeatherModule } from './feather.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -18,15 +17,21 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MatNativeDateModule,
 
     AppRoutingModule,
-    FeatherModule,
+    NgbModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      maxOpened: 3,
+      progressBar: true,
+      autoDismiss: true,
+      tapToDismiss: true,
+      timeOut: 5000,
+    }),
 
     ToolbarModule,
     ActionbarModule,
     SidenavModule,
-    AlertModule,
   ],
 })
 export class AppModule { }

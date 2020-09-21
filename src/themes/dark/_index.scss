@@ -1,0 +1,12 @@
+$body-bg: var(--dark);
+$body-color: var(--light);
+$theme-colors: (
+  'primary': #9575cd
+);
+
+@import '~bootstrap/scss/bootstrap';
+
+@import './drawer';
+@import './modal';
+@import './popover';
+@import './toastr';

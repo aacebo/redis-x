@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 import * as dtos from '../../../electron/dtos/redis';
-import { AlertService } from '../../components/alert';
 import { ApiService } from '../../api';
 import { IStore } from '../store.interface';
 
@@ -22,23 +22,23 @@ export class RedisService implements IStore<IRedisState> {
   private readonly _state$ = new BehaviorSubject<IRedisState>({ clients: { } });
 
   constructor(
-    private readonly _apiService: ApiService,
-    private readonly _alertService: AlertService,
+    private readonly _api: ApiService,
+    private readonly _toastr: ToastrService,
   ) {
-    this._apiService.on<dtos.IRedisStatusResponse>('redis:status', (_, status) => {
+    this._api.on<dtos.IRedisStatusResponse>('redis:status', (_, status) => {
       this._setClientProp(status.id, 'status', status.status);
 
       if (status.status === 'open') {
-        this._alertService.info(`Connected to ${this._state$.value.clients[status.id].host}`);
+        this._toastr.info(`Connected to ${this._state$.value.clients[status.id].host}`);
       }
     });
 
-    this._apiService.on<dtos.IRedisKeysResponse>('redis:keys.return', (_, keys) => {
+    this._api.on<dtos.IRedisKeysResponse>('redis:keys.return', (_, keys) => {
       this._setClientProp(keys.id, 'map', keys.keys);
     });
 
-    this._apiService.on<dtos.IRedisErrorResponse>('redis:error', (_, error) => {
-      this._alertService.error(error.err?.message || 'an error has occurred');
+    this._api.on<dtos.IRedisErrorResponse>('redis:error', (_, error) => {
+      this._toastr.error(error.err?.message || 'an error has occurred');
     });
   }
 
@@ -47,12 +47,12 @@ export class RedisService implements IStore<IRedisState> {
   }
 
   create(v: dtos.IRedisCreateRequest) {
-    this._apiService.once<IRedisClient>('redis:create.return', (_, client) => {
+    this._api.once<IRedisClient>('redis:create.return', (_, client) => {
       this._setClient(client.id, client);
       this._setActive(client.id);
     });
 
-    this._apiService.send('redis:create', v);
+    this._api.send('redis:create', v);
   }
 
   activate(id: string) {
@@ -72,31 +72,40 @@ export class RedisService implements IStore<IRedisState> {
       clients,
     });
 
-    this._apiService.send('redis:remove', id);
+    this._api.send('redis:remove', id);
   }
 
   key(key: string) {
-    this._apiService.once('redis:key.return', (_, v) => {
+    this._api.once('redis:key.return', (_, v) => {
       this._setKeyValue(this._state$.value.active, key, v);
     });
 
-    this._apiService.send('redis:key', {
+    this._api.send('redis:key', {
       id: this._state$.value.active,
       key,
     });
   }
 
   keyValueSet(v: dtos.IRedisKeyValueSetRequest) {
-    this._apiService.once<dtos.IRedisKeyValueSetRequest>('redis:key-value-set.return', (_, res) => {
+    this._api.once<dtos.IRedisKeyValueSetRequest>('redis:key-value-set.return', (_, res) => {
       this._setKeyValue(res.id, res.key, res.value);
-      this._alertService.success('Updated Key/Value');
+      this._toastr.success('Updated Key/Value');
     });
 
-    this._apiService.send('redis:key-value-set', v);
+    this._api.send('redis:key-value-set', v);
+  }
+
+  keyValueRemove(v: dtos.IRedisKeyValueRemoveRequest) {
+    this._api.once<dtos.IRedisKeyValueRemoveRequest>('redis:key-value-remove.return', (_, res) => {
+      this._removeKeyValue(res.id, res.key);
+      this._toastr.success('Removed Key/Value');
+    });
+
+    this._api.send('redis:key-value-remove', v);
   }
 
   close(id: string) {
-    this._apiService.send('redis:close', id);
+    this._api.send('redis:close', id);
   }
 
   private _setClient(id: string, v: IRedisClient) {
@@ -145,6 +154,24 @@ export class RedisService implements IStore<IRedisState> {
           map: {
             ...client.map,
             [key]: v,
+          },
+        },
+      },
+    });
+  }
+
+  private _removeKeyValue(id: string, key: string) {
+    const client = this._state$.value.clients[id];
+    delete client.map[key];
+
+    this._state$.next({
+      ...this._state$.value,
+      clients: {
+        ...this._state$.value.clients,
+        [id]: {
+          ...client,
+          map: {
+            ...client.map,
           },
         },
       },

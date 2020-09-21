@@ -1,20 +1,22 @@
-<mat-drawer-container autosize>
-  <mat-drawer mode="side" opened>
+<rdx-drawer>
+  <rdx-drawer-aside>
     <div class="toolbar">
       <div class="title">CONNECTIONS</div>
 
-      <div class="spacer"></div>
+      <div class="rdx-spacer"></div>
 
-      <mat-icon
-        svgIcon="plus"
+      <rdx-icon
+        name="plus"
+        diameter="16"
         (click)="create.emit()"
-      ></mat-icon>
+      ></rdx-icon>
 
-      <mat-icon
+      <rdx-icon
         *ngIf="active"
-        svgIcon="trash"
+        name="trash"
+        diameter="16"
         (click)="remove.emit(active)"
-      ></mat-icon>
+      ></rdx-icon>
     </div>
 
     <div class="content">
@@ -25,9 +27,9 @@
         (click)="activate.emit(client.id)"
       ></rdx-clients-sidenav-item>
     </div>
-  </mat-drawer>
+  </rdx-drawer-aside>
 
-  <mat-drawer-content>
+  <rdx-drawer-content>
     <ng-content></ng-content>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </rdx-drawer-content>
+</rdx-drawer>

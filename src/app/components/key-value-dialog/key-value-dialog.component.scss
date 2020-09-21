@@ -1,18 +1,13 @@
 :host {
   display: block;
 
-  > rdx-breadcrumbs {
-    margin-bottom: 10px;
-  }
-
-  > mat-dialog-content {
+  > .modal-body {
     display: flex;
     flex-direction: column;
     min-height: 1px;
     overflow-y: auto;
 
-    > mat-button-toggle-group {
-      margin-bottom: 10px;
+    > .nav-pills {
       justify-content: center;
     }
 

@@ -1,52 +1,62 @@
-<h2 mat-dialog-title>New Connection</h2>
+<div class="modal-header">
+  <h5 class="modal-title">New Connection</h5>
 
-<mat-dialog-content [formGroup]="form" spellcheck="false">
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Name</mat-label>
+  <button
+    rdx-icon-button
+    (click)="dismiss()"
+  >
+    <rdx-icon name="x"></rdx-icon>
+  </button>
+</div>
+
+<div
+  class="modal-body"
+  spellcheck="false"
+  [formGroup]="form"
+>
+  <rdx-form-group>
+    <label rdx-label>Name</label>
     <input
-      matInput
+      rdx-form-control
+      ngbAutoFocus
       formControlName="name"
       placeholder="Name..."
       required
+      (rdxSubmit)="connect()"
     />
-  </mat-form-field>
+  </rdx-form-group>
 
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Host</mat-label>
+  <rdx-form-group>
+    <label rdx-label>Host</label>
     <input
-      matInput
+      rdx-form-control
       formControlName="host"
       placeholder="Host Name..."
       required
+      (rdxSubmit)="connect()"
     />
-  </mat-form-field>
+  </rdx-form-group>
 
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Port</mat-label>
+  <rdx-form-group>
+    <label rdx-label>Port</label>
     <input
-      matInput
+      rdx-form-control
       type="number"
       formControlName="port"
       placeholder="Host Port..."
       required
+      (rdxSubmit)="connect()"
     />
-  </mat-form-field>
-</mat-dialog-content>
+  </rdx-form-group>
+</div>
 
-<mat-dialog-actions>
+<div class="modal-footer">
   <button
-    mat-button
-    mat-dialog-close
-  >
-    Cancel
-  </button>
-
-  <button
-    mat-button
-    color="accent"
-    [mat-dialog-close]="form.value"
+    rdx-button
+    appearance="primary"
     [disabled]="form.invalid"
+    (click)="connect()"
   >
     Connect
   </button>
-</mat-dialog-actions>
+</div>

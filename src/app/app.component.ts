@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { SystemService } from './stores/system';
+import { RedisService } from './stores/redis';
+
 import { ISidenavItem } from './components/sidenav';
 
 @Component({
@@ -14,5 +16,8 @@ export class AppComponent {
     { icon: 'database', route: '/clients', text: 'Connections' },
   ];
 
-  constructor(readonly systemService: SystemService) { }
+  constructor(
+    readonly systemService: SystemService,
+    readonly redisService: RedisService,
+  ) { }
 }

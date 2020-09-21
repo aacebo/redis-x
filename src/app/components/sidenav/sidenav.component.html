@@ -1,20 +1,20 @@
-<mat-drawer-container autosize>
-  <mat-drawer mode="side" opened>
-    <mat-list dense>
+<rdx-drawer>
+  <rdx-drawer-aside>
+    <div class="list">
       <a
+        rdx-icon-button
         *ngFor="let item of items"
-        mat-icon-button
-        [matTooltip]="item.text"
-        matTooltipPosition="right"
+        [ngbTooltip]="item.text"
+        placement="right"
         [routerLink]="item.route"
-        routerLinkActive="mat-accent"
+        routerLinkActive="active"
       >
-        <mat-icon [svgIcon]="item.icon"></mat-icon>
+        <rdx-icon [name]="item.icon"></rdx-icon>
       </a>
-    </mat-list>
-  </mat-drawer>
+    </div>
+  </rdx-drawer-aside>
 
-  <mat-drawer-content>
+  <rdx-drawer-content>
     <ng-content></ng-content>
-  </mat-drawer-content>
-</mat-drawer-container>
+  </rdx-drawer-content>
+</rdx-drawer>

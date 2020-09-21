@@ -1,108 +1,114 @@
-<rdx-breadcrumbs>
-  <rdx-breadcrumb *ngFor="let key of data.path">
-    {{ key }}
-  </rdx-breadcrumb>
-</rdx-breadcrumbs>
+<div class="modal-header">
+  <h5 class="modal-title">Edit Key/Value</h5>
 
-<mat-dialog-content [formGroup]="form" spellcheck="false">
-  <mat-button-toggle-group
-    [value]="view"
-    (change)="onTypeChange($event.value)"
+  <button
+    rdx-icon-button
+    (click)="dismiss()"
   >
-    <mat-button-toggle
-        *ngFor="let v of views"
-        [value]="v"
-    >
-      {{ v | uppercase }}
-    </mat-button-toggle>
-  </mat-button-toggle-group>
+    <rdx-icon name="x"></rdx-icon>
+  </button>
+</div>
 
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Key</mat-label>
+<div
+  class="modal-body"
+  spellcheck="false"
+  [formGroup]="form"
+>
+  <ul
+    ngbNav
+    #nav="ngbNav"
+    class="nav-pills"
+    [activeId]="view"
+    (activeIdChange)="onTypeChange($event)"
+  >
+    <li ngbNavItem="string">
+      <a ngbNavLink>String</a>
+      <ng-template ngbNavContent>
+        <rdx-form-group>
+          <label rdx-label>Value</label>
+          <input
+            rdx-form-control
+            ngbAutoFocus
+            formControlName="value"
+            placeholder="Value..."
+            required
+            (rdxSubmit)="update()"
+          />
+        </rdx-form-group>
+      </ng-template>
+    </li>
+
+    <li ngbNavItem="number">
+      <a ngbNavLink>Number</a>
+      <ng-template ngbNavContent>
+        <rdx-form-group>
+          <label rdx-label>Value</label>
+          <input
+            rdx-form-control
+            ngbAutoFocus
+            formControlName="value"
+            placeholder="Value..."
+            rdxNumber
+            required
+            (rdxSubmit)="update()"
+          />
+        </rdx-form-group>
+      </ng-template>
+    </li>
+
+    <li ngbNavItem="boolean">
+      <a ngbNavLink>Boolean</a>
+      <ng-template ngbNavContent>
+        <!-- TO DO -->
+      </ng-template>
+    </li>
+
+    <li ngbNavItem="json">
+      <a ngbNavLink>JSON</a>
+      <ng-template ngbNavContent>
+        <rdx-json-editor
+          formControlName="value"
+          rdxJson
+        ></rdx-json-editor>
+
+        <rdx-error *ngIf="value.errors?.json" class="form-text text-danger">
+          {{ value.errors.json }}
+        </rdx-error>
+      </ng-template>
+    </li>
+  </ul>
+
+  <rdx-form-group>
+    <label rdx-label>Key</label>
     <input
-      matInput
+      rdx-form-control
       formControlName="key"
       placeholder="Key..."
       required
+      (rdxSubmit)="update()"
     />
-  </mat-form-field>
+  </rdx-form-group>
 
-  <mat-form-field
-    *ngIf="view === 'string'"
-    appearance="outline"
-    color="accent"
-  >
-    <mat-label>Value</mat-label>
-    <input
-      matInput
-      formControlName="value"
-      placeholder="Value..."
-      rdxNumber="false"
-      required
-    />
-  </mat-form-field>
+  <div [ngbNavOutlet]="nav"></div>
+</div>
 
-  <mat-form-field
-    *ngIf="view === 'number'"
-    appearance="outline"
-    color="accent"
-  >
-    <mat-label>Value</mat-label>
-    <input
-      matInput
-      formControlName="value"
-      placeholder="Value..."
-      rdxNumber
-      required
-    />
-    <mat-error *ngIf="value.errors?.number">
-      {{ value.errors.number }}
-    </mat-error>
-  </mat-form-field>
-
-  <mat-slide-toggle
-    *ngIf="view === 'boolean'"
-    color="accent"
-    formControlName="value"
-  >
-    {{ value.value }}
-  </mat-slide-toggle>
-
-  <ng-container *ngIf="view === 'json'">
-    <rdx-json-editor
-      formControlName="value"
-      rdxJson
-    ></rdx-json-editor>
-    <mat-error *ngIf="value.errors?.json">
-      {{ value.errors.json }}
-    </mat-error>
-  </ng-container>
-</mat-dialog-content>
-
-<mat-dialog-actions>
+<div class="modal-footer">
   <button
-    mat-button
-    mat-dialog-close
-  >
-    Cancel
-  </button>
-
-  <button
-    mat-button
-    color="accent"
-    (click)="update()"
-    [disabled]="form.invalid || form.pristine"
-  >
-    Update
-  </button>
-
-  <div class="spacer"></div>
-
-  <button
-    mat-button
     *ngIf="view === 'json'"
+    rdx-button
     (click)="format()"
   >
     {{ jsonEditor?.pretty ? 'Uglify' : 'Beautify' }}
   </button>
-</mat-dialog-actions>
+
+  <div class="rdx-spacer"></div>
+
+  <button
+    rdx-button
+    appearance="primary"
+    [disabled]="form.invalid || form.pristine"
+    (click)="update()"
+  >
+    Update
+  </button>
+</div>
