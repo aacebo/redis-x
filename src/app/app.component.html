@@ -8,4 +8,5 @@
   *ngIf="clientsService.active$ | async; let active"
   [active]="active"
   [info]="infoService.state$ | async"
+  (refresh)="onRefresh()"
 ></rdx-actionbar>

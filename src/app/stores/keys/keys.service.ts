@@ -42,6 +42,10 @@ export class KeysService implements IStore<IKeysState> {
     });
   }
 
+  getAll(clientId: string) {
+    this._api.send('redis:keys', clientId);
+  }
+
   set(v: dtos.IRedisKeyValueSetRequest) {
     this._api.once<dtos.IRedisKeyValueSetRequest>('redis:key-value-set.return', (_, res) => {
       this._setKeyValue(res.id, res.key, res.value);
