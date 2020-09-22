@@ -7,6 +7,7 @@ import { LabelComponent } from './label.component';
 import { ErrorComponent } from './error.component';
 
 import { SubmitDirective } from './submit.directive';
+import { AutofocusDirective } from './autofocus.directive';
 
 const declarations = [
   FormGroupComponent,
@@ -15,6 +16,7 @@ const declarations = [
   ErrorComponent,
 
   SubmitDirective,
+  AutofocusDirective,
 ];
 
 @NgModule({
