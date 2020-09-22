@@ -4,6 +4,7 @@ import { SystemService } from './stores/system';
 import { ClientsService } from './stores/clients';
 import { InfoService } from './stores/info';
 import { KeysService } from './stores/keys';
+import { SearchService } from './stores/search';
 
 import { ISidenavItem } from './components/sidenav';
 
@@ -21,11 +22,16 @@ export class AppComponent {
   constructor(
     readonly systemService: SystemService,
     readonly clientsService: ClientsService,
-    private readonly _keysService: KeysService,
     readonly infoService: InfoService,
+    private readonly _searchService: SearchService,
+    private readonly _keysService: KeysService,
   ) { }
 
   onRefresh() {
     this._keysService.getAll(this.clientsService.getStateProp('active'));
+  }
+
+  onSearch() {
+    this._searchService.toggleVisible();
   }
 }

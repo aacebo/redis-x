@@ -30,7 +30,7 @@ class Redis {
 
     this._clients[id].info((_err, i) => {
       const info = parseRedisInfo(i as any);
-      console.log(info);
+
       e.sender.send('redis:info.return', {
         id,
         info: {

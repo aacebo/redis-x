@@ -30,6 +30,7 @@ import { IJsonTreeNodeActionClickEvent } from './json-tree-node-action-click-eve
 })
 export class JsonTreeComponent implements OnInit {
   @Input() path: string[] = [];
+  @Input() filter?: string;
 
   @Input()
   get child() { return this._child; }

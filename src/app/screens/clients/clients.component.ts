@@ -5,6 +5,7 @@ import { jsonTryStringify } from '../../../electron/utils';
 import { ClientsService } from '../../stores/clients';
 import { KeysService } from '../../stores/keys';
 import { InfoService } from '../../stores/info';
+import { SearchService } from '../../stores/search';
 
 import { ApiService } from '../../api';
 import { IJsonTreeNode, IJsonTreeNodeActionClickEvent } from '../../common/json-tree';
@@ -22,6 +23,7 @@ export class ClientsComponent {
   constructor(
     readonly clientsService: ClientsService,
     readonly keysService: KeysService,
+    readonly searchService: SearchService,
     private readonly _infoService: InfoService,
     private readonly _api: ApiService,
     private readonly _createClientDialogService: CreateClientDialogService,
