@@ -30,7 +30,16 @@ import { IJsonTreeNodeActionClickEvent } from './json-tree-node-action-click-eve
 })
 export class JsonTreeComponent implements OnInit {
   @Input() path: string[] = [];
-  @Input() filter?: string;
+
+  @Input()
+  get filter() { return this._filter; }
+  set filter(v) {
+    this._filter = v;
+    this._nodes = this.json !== undefined ? parseJsonTreeNodes(this.path, this.json, v) : [];
+    this._generateState();
+    this._cdr.markForCheck();
+  }
+  private _filter?: string;
 
   @Input()
   get child() { return this._child; }
@@ -43,7 +52,7 @@ export class JsonTreeComponent implements OnInit {
   get json() { return this._json; }
   set json(v: any) {
     this._json = v;
-    this._nodes = v !== undefined ? parseJsonTreeNodes(this.path, v) : [];
+    this._nodes = v !== undefined ? parseJsonTreeNodes(this.path, v, this.filter) : [];
     this._generateState();
     this._cdr.markForCheck();
   }
@@ -87,7 +96,7 @@ export class JsonTreeComponent implements OnInit {
 
   ngOnInit() {
     if (this._json !== undefined && !this.nodes.length) {
-      this._nodes = parseJsonTreeNodes(this.path, this._json);
+      this._nodes = parseJsonTreeNodes(this.path, this._json, this.filter);
     }
 
     this._generateState();
