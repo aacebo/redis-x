@@ -99,6 +99,10 @@ export class JsonTreeComponent implements OnInit {
       this._nodes = parseJsonTreeNodes(this.path, this._json, this.filter);
     }
 
+    if (!this.child) {
+      this.actions.push({ type: 'refresh', icon: 'refresh-cw', text: 'Refresh' });
+    }
+
     this._generateState();
   }
 

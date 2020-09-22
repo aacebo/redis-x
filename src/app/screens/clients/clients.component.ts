@@ -60,6 +60,8 @@ export class ClientsComponent {
       this.openKeyValueDialog(e.node);
     } else if (e.type === 'copy') {
       this._api.copy(this._parse(e.node.value));
+    } else if (e.type === 'refresh') {
+      this.onKeyLoad(e.node);
     } else {
       this._deleteNode(e.node);
     }
