@@ -10,7 +10,7 @@ import { ISearchState } from './search-state.interface';
   providedIn: 'root',
 })
 export class SearchService implements IStore<ISearchState> {
-  get text$() { return this._state$.pipe(map(s => s.text)); }
+  get text$() { return this._state$.pipe(map(s => s.visible ? s.text : undefined)); }
   get visible$() { return this._state$.pipe(map(s => s.visible)); }
 
   get state$() { return this._state$.asObservable(); }
