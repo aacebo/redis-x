@@ -5,8 +5,8 @@
 </rdx-sidenav>
 
 <rdx-actionbar
-  *ngIf="clientsService.active$ | async; let active"
-  [active]="active"
+  *ngIf="id$ | async; let id"
+  [active]="id"
   [info]="infoService.state$ | async"
   (refresh)="onRefresh()"
   (search)="onSearch()"

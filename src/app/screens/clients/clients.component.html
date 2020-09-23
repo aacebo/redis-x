@@ -1,24 +1,7 @@
 <rdx-clients-sidenav
-  [active]="clientsService.active$ | async"
   [clients]="clientsService.clients$ | async"
   (create)="create()"
-  (activate)="activate($event)"
   (remove)="remove($event)"
 >
-  <ng-container *ngIf="clientsService.active$ | async; let active">
-    <rdx-search-input
-      *ngIf="searchService.visible$ | async"
-      [text]="searchService.text$ | async"
-      (search)="searchService.setText($event)"
-    ></rdx-search-input>
-
-    <rdx-json-tree
-      *ngIf="keysService.state$ | async; let keys"
-      [json]="keys[active]"
-      [filter]="searchService.text$ | async"
-      (propertyActionClick)="onActionClick($event)"
-      (propertyLoadClick)="onKeyLoad($event)"
-      (propertyValueClick)="openKeyValueDialog($event)"
-    ></rdx-json-tree>
-  </ng-container>
+  <router-outlet></router-outlet>
 </rdx-clients-sidenav>

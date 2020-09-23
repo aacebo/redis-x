@@ -7,6 +7,7 @@
   display: flex;
   padding: 5px;
   transition: background-color 0.2s ease-in-out;
+  outline: none;
   cursor: pointer;
 
   @include rdx-ellipsis;

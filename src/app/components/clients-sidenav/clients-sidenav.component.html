@@ -10,21 +10,14 @@
         diameter="16"
         (click)="create.emit()"
       ></rdx-icon>
-
-      <rdx-icon
-        *ngIf="active"
-        name="trash"
-        diameter="16"
-        (click)="remove.emit(active)"
-      ></rdx-icon>
     </div>
 
     <div class="content">
       <rdx-clients-sidenav-item
         *ngFor="let client of clients"
-        [active]="active"
+        [routerLink]="client.id"
+        routerLinkActive="active"
         [client]="client"
-        (click)="activate.emit(client.id)"
       ></rdx-clients-sidenav-item>
     </div>
   </rdx-drawer-aside>

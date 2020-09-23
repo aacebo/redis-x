@@ -13,6 +13,7 @@ import { ActionbarComponent } from './actionbar.component';
   imports: [
     CommonModule,
     NgbTooltipModule,
+
     IconModule,
   ],
 })

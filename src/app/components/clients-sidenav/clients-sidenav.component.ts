@@ -9,10 +9,8 @@ import { IClient } from '../../stores/clients';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientsSidenavComponent {
-  @Input() active: string;
   @Input() clients: IClient[] = [];
 
   @Output() create = new EventEmitter<void>();
-  @Output() activate = new EventEmitter<string>();
   @Output() remove = new EventEmitter<string>();
 }
