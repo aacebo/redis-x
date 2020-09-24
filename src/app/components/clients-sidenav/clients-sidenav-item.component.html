@@ -7,3 +7,9 @@
   <div *ngIf="client.name" class="name">{{ client.name }}</div>
   <div class="url">redis://{{ client.host }}:{{ client.port }}</div>
 </div>
+
+<rdx-icon
+  name="trash"
+  diameter="16"
+  (click)="remove.emit(client.id)"
+></rdx-icon>

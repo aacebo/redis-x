@@ -5,7 +5,7 @@
 </rdx-sidenav>
 
 <rdx-actionbar
-  *ngIf="id$ | async; let id"
+  *ngIf="router.clientId$ | async; let id"
   [active]="id"
   [info]="infoService.state$ | async"
   (refresh)="onRefresh()"

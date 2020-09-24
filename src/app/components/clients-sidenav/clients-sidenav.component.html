@@ -18,6 +18,7 @@
         [routerLink]="client.id"
         routerLinkActive="active"
         [client]="client"
+        (remove)="remove.emit($event)"
       ></rdx-clients-sidenav-item>
     </div>
   </rdx-drawer-aside>

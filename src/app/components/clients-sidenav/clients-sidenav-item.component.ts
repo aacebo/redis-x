@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 
 import { IClient } from '../../stores/clients';
 
@@ -10,4 +10,6 @@ import { IClient } from '../../stores/clients';
 })
 export class ClientsSidenavItemComponent {
   @Input() client: IClient;
+
+  @Output() remove = new EventEmitter<string>();
 }

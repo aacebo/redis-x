@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import * as dtos from '../../../electron/dtos/redis';
 import { ApiService } from '../../api';
+import { RouterService } from '../../router';
 import { IStore } from '../store.interface';
 
 import { IClientsState } from './clients-state.interface';
@@ -20,6 +21,7 @@ export class ClientsService implements IStore<IClientsState> {
   private readonly _state$ = new BehaviorSubject<IClientsState>({ });
 
   constructor(
+    private readonly _router: RouterService,
     private readonly _api: ApiService,
     private readonly _toastr: ToastrService,
   ) {
@@ -39,6 +41,7 @@ export class ClientsService implements IStore<IClientsState> {
   create(v: dtos.IRedisCreateRequest) {
     this._api.once<IClient>('redis:create.return', (_, client) => {
       this._setClient(client.id, client);
+      this._router.navigate(['clients', client.id]);
     });
 
     this._api.send('redis:create', v);
@@ -48,7 +51,11 @@ export class ClientsService implements IStore<IClientsState> {
     const clients = this._state$.value;
     delete clients[id];
 
-    this._state$.next(clients);
+    if (id === this._router.clientId) {
+      this._router.navigate(['clients']);
+    }
+
+    this._state$.next({ ...clients });
     this._api.send('redis:remove', id);
   }
 
