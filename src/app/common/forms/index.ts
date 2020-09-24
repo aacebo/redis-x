@@ -5,3 +5,4 @@ export * from './label.component';
 export * from './error.component';
 
 export * from './submit.directive';
+export * from './autofocus.directive';

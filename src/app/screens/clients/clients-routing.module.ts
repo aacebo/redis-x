@@ -7,6 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: ClientsComponent,
+    children: [
+      {
+        path: ':id',
+        loadChildren: () => import('./client/client.module').then(m => m.ClientModule),
+      },
+    ],
   },
 ];
 

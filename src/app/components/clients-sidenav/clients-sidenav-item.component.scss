@@ -7,6 +7,7 @@
   display: flex;
   padding: 5px;
   transition: background-color 0.2s ease-in-out;
+  outline: none;
   cursor: pointer;
 
   @include rdx-ellipsis;
@@ -14,6 +15,10 @@
   &:hover {
     .name {
       text-decoration: underline;
+    }
+
+    > rdx-icon {
+      opacity: 0.5;
     }
   }
 
@@ -54,6 +59,17 @@
       opacity: 0.7;
 
       @include rdx-ellipsis;
+    }
+  }
+
+  > rdx-icon {
+    margin: 5px 5px 20px 5px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
     }
   }
 }

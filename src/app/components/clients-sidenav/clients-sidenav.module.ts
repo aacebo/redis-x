@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 import { IconModule } from '../../common/icon';
 import { DrawerModule } from '../../common/drawer';
@@ -12,6 +13,7 @@ import { ClientsSidenavItemComponent } from './clients-sidenav-item.component';
   exports: [ClientsSidenavComponent],
   imports: [
     CommonModule,
+    RouterModule,
 
     DrawerModule,
     IconModule,

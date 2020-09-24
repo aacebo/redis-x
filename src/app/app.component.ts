@@ -1,8 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { SystemService } from './stores/system';
-import { RedisService } from './stores/redis';
+import { InfoService } from './stores/info';
+import { KeysService } from './stores/keys';
+import { SearchService } from './stores/search';
 
+import { RouterService } from './router';
 import { ISidenavItem } from './components/sidenav';
 
 @Component({
@@ -18,6 +21,17 @@ export class AppComponent {
 
   constructor(
     readonly systemService: SystemService,
-    readonly redisService: RedisService,
+    readonly infoService: InfoService,
+    readonly router: RouterService,
+    private readonly _searchService: SearchService,
+    private readonly _keysService: KeysService,
   ) { }
+
+  onRefresh() {
+    this._keysService.getAll(this.router.clientId);
+  }
+
+  onSearch() {
+    this._searchService.toggleVisible();
+  }
 }

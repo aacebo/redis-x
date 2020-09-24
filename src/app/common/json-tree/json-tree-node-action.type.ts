@@ -1,1 +1,1 @@
-export type JsonTreeNodeAction = 'add' | 'edit' | 'copy' | 'remove';
+export type JsonTreeNodeAction = 'add' | 'edit' | 'copy' | 'remove' | 'refresh';

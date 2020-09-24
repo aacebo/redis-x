@@ -3,9 +3,24 @@
 @import './actionbar';
 
 :host {
-  display: block;
+  display: flex;
+  font-size: 9pt;
+  padding: 0 5px;
   border-top: solid 1px $rdx-hairline;
   background-color: var(--blue);
   height: $rdx-actionbar-height;
   min-height: $rdx-actionbar-height;
+
+  .rdx-actionbar--item {
+    margin: auto 0;
+    cursor: default;
+
+    &:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    &.action {
+      cursor: pointer;
+    }
+  }
 }

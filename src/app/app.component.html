@@ -4,4 +4,10 @@
   <router-outlet></router-outlet>
 </rdx-sidenav>
 
-<rdx-actionbar></rdx-actionbar>
+<rdx-actionbar
+  *ngIf="router.clientId$ | async; let id"
+  [active]="id"
+  [info]="infoService.state$ | async"
+  (refresh)="onRefresh()"
+  (search)="onSearch()"
+></rdx-actionbar>

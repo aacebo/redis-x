@@ -2,7 +2,7 @@ import { snakeToCamelCase } from './snake-to-camel-case.util';
 
 export function parseRedisInfo(info: string) {
   const lns = info.split('\r\n');
-  const obj = { };
+  const obj: any = { };
   let key: string;
 
   for (const ln of lns) {

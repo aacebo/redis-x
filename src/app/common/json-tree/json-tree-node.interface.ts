@@ -7,4 +7,5 @@ export interface IJsonTreeNode<T = any> {
   type?: JsonTreeNodeType;
   description: string;
   expandable?: boolean;
+  visible?: boolean;
 }
