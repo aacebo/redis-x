@@ -19,7 +19,7 @@ export class SearchInputComponent implements OnInit {
     this.control.setValue(this.text || '');
     this.control.valueChanges.pipe(
       distinctUntilChanged(),
-      debounceTime(200),
+      debounceTime(100),
     ).subscribe(text => {
       this.search.emit(text);
     });

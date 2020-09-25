@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ViewChild, Input, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import { IKeyValueData } from './key-value-data.interface';
   styleUrls: ['./key-value-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class KeyValueDialogComponent implements OnInit {
+export class KeyValueDialogComponent implements OnInit, AfterViewInit {
   @Input() data: IKeyValueData;
 
   @ViewChild(JsonEditorComponent)
@@ -45,6 +45,7 @@ export class KeyValueDialogComponent implements OnInit {
   };
 
   constructor(
+    private readonly _cdr: ChangeDetectorRef,
     private readonly _fb: FormBuilder,
     private readonly _modalRef: NgbActiveModal,
   ) { }
@@ -59,6 +60,10 @@ export class KeyValueDialogComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this._cdr.detectChanges();
+  }
+
   update() {
     const path = [...this.data.path.slice(0, this.data.path.length - 1), this.form.value.key];
 
@@ -70,9 +75,11 @@ export class KeyValueDialogComponent implements OnInit {
   }
 
   format() {
-    if (this.jsonEditor) {
-      this.jsonEditor.format();
-    }
+    this.jsonEditor?.format();
+  }
+
+  dismiss() {
+    this._modalRef.dismiss();
   }
 
   onTypeChange(e: 'string' | 'number' | 'boolean' | 'json') {
@@ -87,10 +94,6 @@ export class KeyValueDialogComponent implements OnInit {
     }
 
     this.view = e;
-  }
-
-  dismiss() {
-    this._modalRef.dismiss();
   }
 
   private _parseValue(view: 'string' | 'number' | 'boolean' | 'json', value: any, save = false) {

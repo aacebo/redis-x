@@ -9,6 +9,7 @@ import {
   forwardRef,
   Input,
   ViewEncapsulation,
+  OnInit,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -40,7 +41,7 @@ let nextId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class JsonEditorComponent implements AfterViewInit, OnDestroy, ControlValueAccessor {
+export class JsonEditorComponent implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
   @Input()
   get id() { return this._id; }
   set id(v) {
@@ -88,6 +89,14 @@ export class JsonEditorComponent implements AfterViewInit, OnDestroy, ControlVal
   onTouch = () => {};
 
   constructor(readonly cdr: ChangeDetectorRef) { }
+
+  ngOnInit() {
+    this.invalid = this.value && !jsonValid(this.value);
+
+    if (this.value && !this.invalid) {
+      this.pretty = this._getPretty(this.value) === this.value;
+    }
+  }
 
   ngAfterViewInit() {
     this.editor = CodeMirror.fromTextArea(this.textarea.nativeElement, {
