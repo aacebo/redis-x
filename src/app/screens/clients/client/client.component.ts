@@ -20,7 +20,7 @@ import { IKeyValueResponse, KeyValueDialogService } from '../../../components/ke
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientComponent {
-  get id() { return this._route.snapshot.paramMap.get('id'); }
+  private get _id() { return this._route.snapshot.paramMap.get('id'); }
   readonly id$: Observable<string>;
 
   constructor(
@@ -54,7 +54,7 @@ export class ClientComponent {
   }
 
   onKeyLoad(e: IJsonTreeNode) {
-    this.keysService.get(this.id, e.key);
+    this.keysService.get(this._id, e.key);
   }
 
   openKeyValueDialog(node: IJsonTreeNode) {
@@ -68,7 +68,7 @@ export class ClientComponent {
 
   private _deleteNode(node: IJsonTreeNode) {
     const isRoot = node.key === node.path[0];
-    const keys = this.keysService.getClientKeys(this.id);
+    const keys = this.keysService.getClientKeys(this._id);
     let value = keys;
 
     for (let i = 0; i < node.path.length - 1; i++) {
@@ -79,12 +79,12 @@ export class ClientComponent {
 
     if (isRoot) {
       this.keysService.delete({
-        id: this.id,
+        id: this._id,
         key: node.key,
       });
     } else {
       this.keysService.set({
-        id: this.id,
+        id: this._id,
         key: node.path[0],
         value: keys[node.path[0]],
       });
@@ -101,7 +101,7 @@ export class ClientComponent {
 
   private _onKeyValueDialogClose(node: IJsonTreeNode, v: IKeyValueResponse) {
     if (v) {
-      const keys = this.keysService.getClientKeys(this.id);
+      const keys = this.keysService.getClientKeys(this._id);
       let value = keys;
 
       for (let i = 0; i < v.path.length - 1; i++) {
@@ -115,7 +115,7 @@ export class ClientComponent {
       }
 
       this.keysService.set({
-        id: this.id,
+        id: this._id,
         key: v.path[0],
         value: keys[v.path[0]],
       });

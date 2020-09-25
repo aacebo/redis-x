@@ -43,7 +43,10 @@
           ></div>
 
           <div class="rdx-json-tree--node-key">
-            {{ node.key }}
+            <rdx-highlight
+              [keyword]="filter"
+              [text]="node.key"
+            ></rdx-highlight>
           </div>
 
           <div class="rdx-json-tree--node-separator">
@@ -57,7 +60,15 @@
           [title]="node.description"
           (click)="onPropertyValueClick(node)"
         >
-          {{ node.value === undefined ? '{ ... }' : node.description }}
+          <ng-container *ngIf="node.value === undefined">
+            {{ '{ ... }' }}
+          </ng-container>
+
+          <rdx-highlight
+            *ngIf="node.value !== undefined"
+            [keyword]="filter"
+            [text]="node.description"
+          ></rdx-highlight>
         </div>
 
         <div

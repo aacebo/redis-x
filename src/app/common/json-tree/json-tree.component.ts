@@ -129,10 +129,7 @@ export class JsonTreeComponent implements OnInit {
   }
 
   onActionClick(type: JsonTreeNodeAction, node: IJsonTreeNode) {
-    this.propertyActionClick.emit({
-      type,
-      node,
-    });
+    this.propertyActionClick.emit({ type, node });
   }
 
   private _generateState() {
