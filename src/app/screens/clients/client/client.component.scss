@@ -2,8 +2,17 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  max-height: 100%;;
 
-  rdx-json-tree {
-    margin: 5px 0 0 5px;
+  .rdx-client--json-tree-container {
+    display: flex;
+    min-width: 1px;
+    min-height: 1px;
+    overflow: auto;
+    flex: 1;
+
+    rdx-json-tree {
+      margin: 5px 0 0 5px;
+    }
   }
 }

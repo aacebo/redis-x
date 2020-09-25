@@ -4,11 +4,13 @@
   (search)="searchService.setText($event)"
 ></rdx-search-input>
 
-<rdx-json-tree
-  *ngIf="keysService.state$ | async; let keys"
-  [json]="keys[(id$ | async)]"
-  [filter]="searchService.text$ | async"
-  (propertyActionClick)="onActionClick($event)"
-  (propertyLoadClick)="onKeyLoad($event)"
-  (propertyValueClick)="openKeyValueDialog($event)"
-></rdx-json-tree>
+<div class="rdx-client--json-tree-container">
+  <rdx-json-tree
+    *ngIf="keysService.state$ | async; let keys"
+    [json]="keys[(id$ | async)]"
+    [filter]="searchService.text$ | async"
+    (propertyActionClick)="onActionClick($event)"
+    (propertyLoadClick)="onKeyLoad($event)"
+    (propertyValueClick)="openKeyValueDialog($event)"
+  ></rdx-json-tree>
+</div>
