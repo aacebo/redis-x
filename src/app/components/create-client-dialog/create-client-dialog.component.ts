@@ -21,11 +21,15 @@ export class CreateClientDialogComponent implements OnInit {
       name: this._fb.control(undefined),
       host: this._fb.control('localhost'),
       port: this._fb.control(6379),
+      password: this._fb.control(undefined),
     });
   }
 
   connect() {
-    this._modalRef.close(this.form.value);
+    this._modalRef.close({
+      ...this.form.value,
+      password: this.form.value.password || undefined,
+    });
   }
 
   dismiss() {
