@@ -12,8 +12,8 @@ export class KeyValueDialogService {
   constructor(private readonly _modal: NgbModal) { }
 
   open<T = any>(data: IKeyValueData<T>) {
-    const modal = this._modal.open(KeyValueDialogComponent);
-    modal.componentInstance.data = data;
-    return modal;
+    const ref = this._modal.open(KeyValueDialogComponent);
+    ref.componentInstance.data = data;
+    return ref;
   }
 }

@@ -12,7 +12,6 @@ import { CreateClientDialogComponent } from './create-client-dialog.component';
 
 @NgModule({
   declarations: [CreateClientDialogComponent],
-  entryComponents: [CreateClientDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

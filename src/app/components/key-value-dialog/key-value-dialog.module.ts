@@ -16,7 +16,6 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
 
 @NgModule({
   declarations: [KeyValueDialogComponent],
-  entryComponents: [KeyValueDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

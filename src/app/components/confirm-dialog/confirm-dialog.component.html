@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h5 class="modal-title">Confirmation</h5>
+
+  <button
+    rdx-icon-button
+    (click)="dismiss()"
+  >
+    <rdx-icon name="x"></rdx-icon>
+  </button>
+</div>
+
+<div class="modal-body">
+  {{ message }}
+</div>
+
+<div class="modal-footer">
+  <button
+    rdx-outline-button
+    appearance="danger"
+    (click)="reject()"
+  >
+    Cancel
+  </button>
+
+  <button
+    rdx-button
+    appearance="primary"
+    (click)="confirm()"
+  >
+    Confirm
+  </button>
+</div>

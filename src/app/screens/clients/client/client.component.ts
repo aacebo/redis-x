@@ -12,6 +12,7 @@ import { SearchService } from '../../../stores/search';
 
 import { IJsonTreeNode, IJsonTreeNodeActionClickEvent } from '../../../common/json-tree';
 import { IKeyValueResponse, KeyValueDialogService } from '../../../components/key-value-dialog';
+import { ConfirmDialogService } from '../../../components/confirm-dialog';
 
 @Component({
   selector: 'rdx-client',
@@ -28,36 +29,18 @@ export class ClientComponent {
     readonly keysService: KeysService,
     readonly searchService: SearchService,
     private readonly _api: ApiService,
+    private readonly _confirmDialogService: ConfirmDialogService,
     private readonly _keyValueDialogService: KeyValueDialogService,
     private readonly _route: ActivatedRoute,
   ) {
     this.id$ = this._route.paramMap.pipe(map(v => v.get('id')));
   }
 
-  onActionClick(e: IJsonTreeNodeActionClickEvent) {
-    if (e.type === 'add') {
-      this.openKeyValueDialog({
-        key: '',
-        path: [...e.node.path.slice(0, e.node.path.length - 1), ''],
-        description: '',
-        value: '',
-      });
-    } else if (e.type === 'edit') {
-      this.openKeyValueDialog(e.node);
-    } else if (e.type === 'copy') {
-      this._api.copy(this._parse(e.node.value));
-    } else if (e.type === 'refresh') {
-      this.onKeyLoad(e.node);
-    } else {
-      this._deleteNode(e.node);
-    }
-  }
-
-  onKeyLoad(e: IJsonTreeNode) {
+  onLoadClick(e: IJsonTreeNode) {
     this.keysService.get(this._id, e.key);
   }
 
-  openKeyValueDialog(node: IJsonTreeNode) {
+  onValueClick(node: IJsonTreeNode) {
     this._keyValueDialogService.open({
       path: node.path,
       value: node.value,
@@ -66,28 +49,22 @@ export class ClientComponent {
              .catch(() => undefined);
   }
 
-  private _deleteNode(node: IJsonTreeNode) {
-    const isRoot = node.key === node.path[0];
-    const keys = this.keysService.getClientKeys(this._id);
-    let value = keys;
-
-    for (let i = 0; i < node.path.length - 1; i++) {
-      value = value[node.path[i]];
-    }
-
-    delete value[node.key];
-
-    if (isRoot) {
-      this.keysService.delete({
-        id: this._id,
-        key: node.key,
+  onActionClick(e: IJsonTreeNodeActionClickEvent) {
+    if (e.type === 'add') {
+      this.onValueClick({
+        key: '',
+        path: [...e.node.path.slice(0, e.node.path.length - 1), ''],
+        description: '',
+        value: '',
       });
+    } else if (e.type === 'edit') {
+      this.onValueClick(e.node);
+    } else if (e.type === 'copy') {
+      this._api.copy(this._parse(e.node.value));
+    } else if (e.type === 'refresh') {
+      this.onLoadClick(e.node);
     } else {
-      this.keysService.set({
-        id: this._id,
-        key: node.path[0],
-        value: keys[node.path[0]],
-      });
+      this._delete(e.node);
     }
   }
 
@@ -97,6 +74,12 @@ export class ClientComponent {
     }
 
     return jsonTryStringify(value, 2);
+  }
+
+  private _delete(node: IJsonTreeNode) {
+    this._confirmDialogService.open('are you sure you want to delete this node?')
+      .result.then(v => this._onDeleteConfirmDialogClose(node, v))
+             .catch(() => undefined);
   }
 
   private _onKeyValueDialogClose(node: IJsonTreeNode, v: IKeyValueResponse) {
@@ -119,6 +102,33 @@ export class ClientComponent {
         key: v.path[0],
         value: keys[v.path[0]],
       });
+    }
+  }
+
+  private _onDeleteConfirmDialogClose(node: IJsonTreeNode, confirmed?: boolean) {
+    if (confirmed) {
+      const isRoot = node.key === node.path[0];
+      const keys = this.keysService.getClientKeys(this._id);
+      let value = keys;
+
+      for (let i = 0; i < node.path.length - 1; i++) {
+        value = value[node.path[i]];
+      }
+
+      delete value[node.key];
+
+      if (isRoot) {
+        this.keysService.delete({
+          id: this._id,
+          key: node.key,
+        });
+      } else {
+        this.keysService.set({
+          id: this._id,
+          key: node.path[0],
+          value: keys[node.path[0]],
+        });
+      }
     }
   }
 }

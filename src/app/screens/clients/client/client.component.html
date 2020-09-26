@@ -10,7 +10,7 @@
     [json]="keys[(id$ | async)]"
     [filter]="searchService.text$ | async"
     (propertyActionClick)="onActionClick($event)"
-    (propertyLoadClick)="onKeyLoad($event)"
-    (propertyValueClick)="openKeyValueDialog($event)"
+    (propertyLoadClick)="onLoadClick($event)"
+    (propertyValueClick)="onValueClick($event)"
   ></rdx-json-tree>
 </div>
