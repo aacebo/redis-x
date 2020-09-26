@@ -1,5 +1,7 @@
 export interface ISidenavItem {
-  readonly icon: string;
-  readonly route: string;
-  readonly text: string;
+  readonly type: 'spacer' | 'button' | 'link';
+  icon?: string;
+  text?: string;
+  readonly route?: string;
+  readonly click?: () => void;
 }

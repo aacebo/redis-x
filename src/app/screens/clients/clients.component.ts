@@ -5,6 +5,7 @@ import { KeysService } from '../../stores/keys';
 import { InfoService } from '../../stores/info';
 
 import { CreateClientDialogService } from '../../components/create-client-dialog';
+import { AppService } from '../../app.service';
 
 @Component({
   selector: 'rdx-clients',
@@ -14,6 +15,7 @@ import { CreateClientDialogService } from '../../components/create-client-dialog
 })
 export class ClientsComponent {
   constructor(
+    readonly appService: AppService,
     readonly clientsService: ClientsService,
     private readonly _keysService: KeysService,
     private readonly _infoService: InfoService,

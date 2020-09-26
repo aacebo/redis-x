@@ -1,17 +1,37 @@
 <rdx-drawer>
   <rdx-drawer-aside>
     <div class="list">
-      <a
-        rdx-icon-button
-        class="list-item"
-        *ngFor="let item of items"
-        [ngbTooltip]="item.text"
-        placement="right"
-        [routerLink]="item.route"
-        routerLinkActive="active"
-      >
-        <rdx-icon [name]="item.icon"></rdx-icon>
-      </a>
+      <ng-container *ngFor="let item of items">
+        <a
+          *ngIf="item.type === 'link'"
+          rdx-icon-button
+          class="list-item"
+          [ngbTooltip]="item.text"
+          placement="right"
+          container="body"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+        >
+          <rdx-icon [name]="item.icon"></rdx-icon>
+        </a>
+
+        <button
+          *ngIf="item.type === 'button'"
+          rdx-icon-button
+          class="list-item"
+          [ngbTooltip]="item.text"
+          placement="right"
+          container="body"
+          (click)="item.click()"
+        >
+          <rdx-icon [name]="item.icon"></rdx-icon>
+        </button>
+
+        <div
+          *ngIf="item.type === 'spacer'"
+          class="rdx-spacer"
+        ></div>
+      </ng-container>
     </div>
   </rdx-drawer-aside>
 

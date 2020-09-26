@@ -12,7 +12,6 @@ export class ActionbarComponent {
   @Input() active: string;
   @Input() info: { [clientId: string]: IInfo; } = { };
 
-  @Output() search = new EventEmitter<void>();
   @Output() refresh = new EventEmitter<void>();
   @Output() errors = new EventEmitter<void>();
 }

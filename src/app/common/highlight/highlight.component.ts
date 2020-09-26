@@ -30,16 +30,6 @@ export class HighlightComponent implements OnInit, OnChanges {
       return text;
     }
 
-    const arr = text.split(new RegExp(`(${keyword})`, 'g'));
-
-    for (let i = 0; i < arr.length; i++) {
-      const item = arr[i];
-
-      if (item === keyword) {
-        arr.splice(i, 1, `<mark>${item}</mark>`);
-      }
-    }
-
-    return arr.join('');
+    return text.replace(new RegExp(`(${keyword})`, 'g'), `<mark>${keyword}</mark>`);
   }
 }

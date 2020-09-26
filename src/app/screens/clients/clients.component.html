@@ -1,4 +1,5 @@
 <rdx-clients-sidenav
+  [closed]="appService.subMenuClosed$ | async"
   [clients]="clientsService.clients$ | async"
   (create)="create()"
   (remove)="remove($event)"
