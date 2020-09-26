@@ -1,0 +1,14 @@
+<ng-content select="rdx-split-area"></ng-content>
+
+<div
+  class="rdx-split-handle"
+  *ngIf="areas?.length === 2"
+  [class.rdx-split-handle--vertical]="!vertical"
+  [class.rdx-split-handle--horizontal]="vertical"
+  [rdxDraggable]="vertical ? 'horizontal' : 'vertical'"
+  [rdxDraggableDisabled]="disabled"
+  (rdxDraggableDrag)="onDrag($event)"
+></div>
+
+<ng-content select="rdx-split-area"></ng-content>
+<ng-content select="rdx-split"></ng-content>

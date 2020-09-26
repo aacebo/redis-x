@@ -1,0 +1,36 @@
+@import '../../split';
+
+.rdx-split {
+  display: flex;
+  flex: 1 1 auto;
+
+  &.rdx-vertical-split {
+    flex-direction: row;
+  }
+
+  &.rdx-horizontal-split {
+    flex-direction: column;
+  }
+
+  .rdx-split-handle {
+    order: 1;
+    transition: background-color 0.5s ease;
+
+    &:hover,
+    &.rdx-split-handle--resizing {
+      background-color: var(--blue);
+    }
+
+    &.rdx-split-handle--horizontal {
+      width: $rdx-split-handle-size;
+      min-width: $rdx-split-handle-size;
+      cursor: col-resize;
+    }
+
+    &.rdx-split-handle--vertical {
+      height: $rdx-split-handle-size;
+      min-height: $rdx-split-handle-size;
+      cursor: row-resize;
+    }
+  }
+}

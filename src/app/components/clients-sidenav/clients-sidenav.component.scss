@@ -1,49 +1,56 @@
+@import '~bootstrap/scss/bootstrap';
+
 :host {
   display: block;
   flex: 1;
   min-width: 1px;
   min-height: 1px;
 
-  > rdx-drawer {
-    > rdx-drawer-aside {
-      display: flex;
-      flex-direction: column;
-      max-width: 200px;
+  > rdx-vertical-split {
+    height: 100%;
+    width: 100%;
 
-      &:hover {
-        .toolbar {
-          > rdx-icon {
-            opacity: 0.5;
-          }
-        }
-      }
-
-      .toolbar {
-        display: flex;
-
-        > .title {
-          font-size: 9pt;
-          margin: auto 5px;
-        }
-
-        > rdx-icon {
-          margin: 5px 5px 5px 0;
-          opacity: 0;
-          transition: opacity 0.2s ease-in-out;
-          cursor: pointer;
-
-          &:hover {
-            opacity: 1;
-          }
-        }
-      }
-
-      .content {
-        flex: 1;
+    > rdx-split-area {
+      &.aside {
         display: flex;
         flex-direction: column;
-        min-height: 0;
-        overflow-y: auto;
+        background-color: darken($dark, 5%);
+
+        &:hover {
+          .toolbar {
+            > rdx-icon {
+              opacity: 0.5;
+            }
+          }
+        }
+
+        .toolbar {
+          display: flex;
+
+          > .title {
+            font-size: 9pt;
+            margin: auto 5px;
+          }
+
+          > rdx-icon {
+            margin: 5px 5px 5px 0;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            cursor: pointer;
+
+            &:hover {
+              opacity: 1;
+            }
+          }
+        }
+
+        .content {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          min-height: 0;
+          overflow-y: auto;
+        }
       }
     }
   }

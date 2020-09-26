@@ -1,5 +1,8 @@
-<rdx-drawer>
-  <rdx-drawer-aside *ngIf="!closed">
+<rdx-vertical-split flex="0 0 15%">
+  <rdx-split-area
+    *ngIf="!closed"
+    class="aside"
+  >
     <div class="toolbar">
       <div class="title">CONNECTIONS</div>
 
@@ -21,9 +24,9 @@
         (remove)="remove.emit($event)"
       ></rdx-clients-sidenav-item>
     </div>
-  </rdx-drawer-aside>
+  </rdx-split-area>
 
-  <rdx-drawer-content>
+  <rdx-split-area>
     <ng-content></ng-content>
-  </rdx-drawer-content>
-</rdx-drawer>
+  </rdx-split-area>
+</rdx-vertical-split>
