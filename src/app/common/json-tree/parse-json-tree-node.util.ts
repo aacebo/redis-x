@@ -3,16 +3,11 @@ import { JsonTreeNodeType } from './json-tree-node-type.enum';
 
 export function parseJsonTreeNode(path: string[], key: string, value: any, filter?: string) {
   const type = typeof value;
-  const visible = (filter && (type !== 'object' && (key.includes(filter) || `${value}`.includes(filter)))) ||
-                  (filter && type === 'object') ||
-                  !filter;
-
   const node: IJsonTreeNode = {
     path: [...path, key],
     key,
     value,
     description: `${value}`,
-    visible,
   };
 
   if (type === 'number' || type === 'bigint') {
@@ -44,6 +39,8 @@ export function parseJsonTreeNode(path: string[], key: string, value: any, filte
 
   node.expandable = node.type === JsonTreeNodeType.Object ||
                     node.type === JsonTreeNodeType.Array;
+
+  node.visible = !filter || (filter && (key.includes(filter) || node.description.includes(filter)));
 
   return node;
 }

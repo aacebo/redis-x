@@ -12,7 +12,7 @@ export class KeyValueDialogService {
   constructor(private readonly _modal: NgbModal) { }
 
   open<T = any>(data: IKeyValueData<T>) {
-    const ref = this._modal.open(KeyValueDialogComponent);
+    const ref = this._modal.open(KeyValueDialogComponent, { size: 'xl' });
     ref.componentInstance.data = data;
     return ref;
   }
