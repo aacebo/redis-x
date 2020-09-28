@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, ViewEncapsulation } from '@a
 import { FormControlName } from '@angular/forms';
 
 @Component({
-  selector: 'input[rdx-form-control], select[rdx-form-control]',
+  selector: 'input[rdx-form-control], select[rdx-form-control], textarea[rdx-form-control]',
   template: '',
   styleUrls: ['./form-control.component.scss'],
   host: {

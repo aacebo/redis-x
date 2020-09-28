@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 const BUTTON_HOST_ATTRIBUTES = [
   'rdx-button',
@@ -16,12 +17,20 @@ const BUTTON_HOST_ATTRIBUTES = [
     class: 'rdx-button btn',
     '[class.btn-sm]': 'size === "sm"',
     '[class.btn-lg]': 'size === "lg"',
+    '[class.dropdown-toggle]': 'toggle',
   },
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   @Input() size?: 'sm' | 'lg';
+
+  @Input()
+  get toggle() { return this._toggle; }
+  set toggle(v) {
+    this._toggle = coerceBooleanProperty(v);
+  }
+  private _toggle?: boolean;
 
   @Input()
   get appearance() { return this._appearance; }

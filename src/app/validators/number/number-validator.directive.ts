@@ -3,7 +3,7 @@ import { Validator, NG_VALIDATORS, AbstractControl } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Directive({
-  selector: 'input[rdxNumber]',
+  selector: 'input[rdxNumber], textarea[rdxNumber]',
   providers: [{
     provide: NG_VALIDATORS,
     useExisting: NumberValidatorDirective,

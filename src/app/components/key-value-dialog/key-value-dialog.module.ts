@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { NgbModalModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { NumberValidatorModule } from '../../validators/number';
 import { JsonValidatorModule } from '../../validators/json';
@@ -21,7 +21,7 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
     ReactiveFormsModule,
 
     NgbModalModule,
-    NgbNavModule,
+    NgbDropdownModule,
 
     NumberValidatorModule,
     JsonValidatorModule,

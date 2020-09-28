@@ -14,7 +14,7 @@
   spellcheck="false"
   [formGroup]="form"
 >
-  <ul
+  <!-- <ul
     ngbNav
     #nav="ngbNav"
     class="nav-pills"
@@ -58,9 +58,6 @@
 
     <li ngbNavItem="boolean">
       <a ngbNavLink>Boolean</a>
-      <ng-template ngbNavContent>
-        <!-- TO DO -->
-      </ng-template>
     </li>
 
     <li ngbNavItem="json">
@@ -89,12 +86,71 @@
     />
   </rdx-form-group>
 
-  <div [ngbNavOutlet]="nav"></div>
+  <div [ngbNavOutlet]="nav"></div> -->
+
+  <rdx-form-group>
+    <label rdx-label>Key</label>
+
+    <rdx-input-group>
+      <input
+        rdx-form-control
+        formControlName="key"
+        placeholder="Key..."
+        required
+        (rdxSubmit)="update()"
+      />
+
+      <div
+        rdxInputGroupAppend
+        ngbDropdown
+        container="body"
+      >
+        <button ngbDropdownToggle rdx-outline-button appearance="secondary">
+          {{ type | uppercase }}
+        </button>
+
+        <div ngbDropdownMenu>
+          <button
+            *ngFor="let t of types"
+            ngbDropdownItem
+            (click)="onTypeChange(t)"
+          >
+            {{ t | uppercase }}
+          </button>
+        </div>
+      </div>
+    </rdx-input-group>
+  </rdx-form-group>
+
+  <rdx-form-group *ngIf="type !== 'json'">
+    <label rdx-label>Value</label>
+    <textarea
+      rdx-form-control
+      rdxAutofocus
+      formControlName="value"
+      placeholder="Value..."
+      rows="5"
+      [rdxNumber]="type === 'number'"
+      required
+      (rdxSubmit)="update()"
+    ></textarea>
+  </rdx-form-group>
+
+  <ng-container *ngIf="type === 'json'">
+    <rdx-json-editor
+      formControlName="value"
+      rdxJson
+    ></rdx-json-editor>
+
+    <rdx-error *ngIf="value.errors?.json" class="form-text text-danger">
+      {{ value.errors.json }}
+    </rdx-error>
+  </ng-container>
 </div>
 
 <div class="modal-footer">
   <button
-    *ngIf="view === 'json'"
+    *ngIf="type === 'json'"
     rdx-button
     (click)="format()"
   >

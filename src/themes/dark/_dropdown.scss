@@ -1,0 +1,18 @@
+@import '../../styles/colors';
+
+.dropdown-menu {
+  color: var(--light) !important;
+  background-color: var(--dark) !important;
+  border-color: $rdx-hairline !important;
+
+  .dropdown-item {
+    color: var(--light) !important;
+    outline: none !important;
+
+    &:hover {
+      color: var(--light) !important;
+      background-color: var(--dark) !important;
+      opacity: 0.5 !important;
+    }
+  }
+}

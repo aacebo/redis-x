@@ -12,7 +12,7 @@ import { map, takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormGroupComponent implements OnDestroy {
-  @ContentChildren(FormControlName, { descendants: false })
+  @ContentChildren(FormControlName, { descendants: true })
   get formControlNames() { return this._formControlNames; }
   set formControlNames(v) {
     this._formControlNames = v;

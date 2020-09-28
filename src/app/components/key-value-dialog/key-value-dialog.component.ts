@@ -9,6 +9,8 @@ import { JsonTreeNodeType } from '../../common/json-tree';
 
 import { IKeyValueData } from './key-value-data.interface';
 
+type JsonValueType = 'string' | 'number' | 'boolean' | 'json';
+
 @Component({
   selector: 'rdx-key-value-dialog',
   templateUrl: './key-value-dialog.component.html',
@@ -24,16 +26,16 @@ export class KeyValueDialogComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   key: FormControl;
   value: FormControl;
-  view: 'string' | 'number' | 'boolean' | 'json' = 'string';
+  type: JsonValueType = 'string';
 
-  readonly views = [
+  readonly types = [
     'string',
     'number',
     'boolean',
     'json',
   ];
 
-  private readonly _typeViews = {
+  private readonly _typeViews: { [type: string]: JsonValueType } = {
     [JsonTreeNodeType.String]: 'string',
     [JsonTreeNodeType.Number]: 'number',
     [JsonTreeNodeType.Undefined]: 'string',
@@ -51,9 +53,9 @@ export class KeyValueDialogComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.view = this._typeViews[this.data.type];
+    this.type = this._typeViews[this.data.type];
     this.key = this._fb.control(this.data.path[this.data.path.length - 1]);
-    this.value = this._fb.control(this._parseValue(this.view, this.data.value));
+    this.value = this._fb.control(this._parseValue(this.type, this.data.value));
     this.form = this._fb.group({
       key: this.key,
       value: this.value,
@@ -70,7 +72,7 @@ export class KeyValueDialogComponent implements OnInit, AfterViewInit {
     this._modalRef.close({
       path,
       key: this.form.value.key,
-      value: this._parseValue(this.view, this.form.value.value, true),
+      value: this._parseValue(this.type, this.form.value.value, true),
     });
   }
 
@@ -82,8 +84,8 @@ export class KeyValueDialogComponent implements OnInit, AfterViewInit {
     this._modalRef.dismiss();
   }
 
-  onTypeChange(e: 'string' | 'number' | 'boolean' | 'json') {
-    this.view = undefined;
+  onTypeChange(e: JsonValueType) {
+    this.type = undefined;
     this.value.reset(this._parseValue(e, this.data.value));
     this.value.clearValidators();
     this.value.updateValueAndValidity();
@@ -93,15 +95,15 @@ export class KeyValueDialogComponent implements OnInit, AfterViewInit {
       this.value.markAsTouched();
     }
 
-    this.view = e;
+    this.type = e;
   }
 
-  private _parseValue(view: 'string' | 'number' | 'boolean' | 'json', value: any, save = false) {
-    if (view === 'string') {
-      return `${value}`;
-    } else if (view === 'number') {
+  private _parseValue(type: JsonValueType, value: any, save = false) {
+    if (type === 'string') {
+      return typeof value === 'object' ? jsonTryStringify(value) : `${value}`;
+    } else if (type === 'number') {
       return coerceNumberProperty(value, 0);
-    } else if (view === 'boolean') {
+    } else if (type === 'boolean') {
       return coerceBooleanProperty(value);
     }
 

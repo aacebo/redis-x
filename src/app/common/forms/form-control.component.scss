@@ -3,10 +3,12 @@
   background-color: transparent !important;
   color: var(--text-color) !important;
   border-color: rgba(255, 255, 255, .2) !important;
+  resize: none !important;
 
   &.is-invalid {
     color: var(--danger) !important;
     caret-color: var(--danger);
+    border-color: var(--danger) !important;
 
     &:focus {
       border-color: var(--danger) !important;
