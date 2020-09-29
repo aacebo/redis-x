@@ -19,8 +19,8 @@ export class BooleanValidatorDirective implements Validator {
   private _enabled = true;
 
   validate(c: AbstractControl) {
-    if (this._enabled && c?.value) {
-      const v = (c.value as string).toLowerCase();
+    if (this._enabled) {
+      const v = `${c.value}`.toLowerCase();
 
       if (v !== 'true' && v !== 'false') {
         return { number: 'please enter a valid boolean' };

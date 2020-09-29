@@ -20,9 +20,9 @@ export class NumberValidatorDirective implements Validator {
 
   validate(c: AbstractControl) {
     if (this._enabled) {
-      const matches = `${c.value}`.match(/^[0-9]*$/gm);
+      const invalid = isNaN(+`${c.value}`);
 
-      if (!matches?.length) {
+      if (invalid) {
         return { number: 'please enter a valid number' };
       }
     }

@@ -3,6 +3,7 @@
     <rdx-breadcrumb
       *ngFor="let p of data.path; let i = index"
       [active]="i === data.path.length - 1"
+      [attr.title]="p"
     >
       <a *ngIf="i < data.path.length - 1" href="#">{{ p }}</a>
       <ng-container *ngIf="i === data.path.length - 1">
