@@ -6,6 +6,7 @@ import { NgbModalModule, NgbDropdownModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { NumberValidatorModule } from '../../validators/number';
 import { JsonValidatorModule } from '../../validators/json';
+import { BooleanValidatorModule } from '../../validators/boolean';
 
 import { JsonEditorModule } from '../../common/json-editor';
 import { FormsModule } from '../../common/forms';
@@ -26,6 +27,7 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
 
     NumberValidatorModule,
     JsonValidatorModule,
+    BooleanValidatorModule,
 
     JsonEditorModule,
     FormsModule,

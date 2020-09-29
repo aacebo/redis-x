@@ -1,6 +1,8 @@
 @import '../../../styles/utils';
 
 .rdx-breadcrumb {
+  max-width: 200px !important;
+
   @include rdx-ellipsis;
 
   > a {

@@ -1,7 +1,13 @@
 <div class="modal-header">
   <rdx-breadcrumbs>
-    <rdx-breadcrumb *ngFor="let p of data.path">
-      <a href="#">{{ p }}</a>
+    <rdx-breadcrumb
+      *ngFor="let p of data.path; let i = index"
+      [active]="i === data.path.length - 1"
+    >
+      <a *ngIf="i < data.path.length - 1" href="#">{{ p }}</a>
+      <ng-container *ngIf="i === data.path.length - 1">
+        {{ p }}
+      </ng-container>
     </rdx-breadcrumb>
   </rdx-breadcrumbs>
 
@@ -35,7 +41,11 @@
         ngbDropdown
         container="body"
       >
-        <button ngbDropdownToggle rdx-outline-button appearance="secondary">
+        <button
+          ngbDropdownToggle
+          rdx-outline-button
+          appearance="secondary"
+        >
           {{ type | uppercase }}
         </button>
 
@@ -61,6 +71,7 @@
       placeholder="Value..."
       rows="5"
       [rdxNumber]="type === 'number'"
+      [rdxBoolean]="type === 'boolean'"
       required
       (rdxSubmit)="update()"
     ></textarea>
