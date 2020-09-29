@@ -1,5 +1,9 @@
 <div class="modal-header">
-  <h5 class="modal-title">Edit Key/Value</h5>
+  <rdx-breadcrumbs>
+    <rdx-breadcrumb *ngFor="let p of data.path">
+      <a href="#">{{ p }}</a>
+    </rdx-breadcrumb>
+  </rdx-breadcrumbs>
 
   <button
     rdx-icon-button
@@ -14,80 +18,6 @@
   spellcheck="false"
   [formGroup]="form"
 >
-  <!-- <ul
-    ngbNav
-    #nav="ngbNav"
-    class="nav-pills"
-    [activeId]="view"
-    (activeIdChange)="onTypeChange($event)"
-  >
-    <li ngbNavItem="string">
-      <a ngbNavLink>String</a>
-      <ng-template ngbNavContent>
-        <rdx-form-group>
-          <label rdx-label>Value</label>
-          <input
-            rdx-form-control
-            rdxAutofocus
-            formControlName="value"
-            placeholder="Value..."
-            required
-            (rdxSubmit)="update()"
-          />
-        </rdx-form-group>
-      </ng-template>
-    </li>
-
-    <li ngbNavItem="number">
-      <a ngbNavLink>Number</a>
-      <ng-template ngbNavContent>
-        <rdx-form-group>
-          <label rdx-label>Value</label>
-          <input
-            rdx-form-control
-            rdxAutofocus
-            formControlName="value"
-            placeholder="Value..."
-            rdxNumber
-            required
-            (rdxSubmit)="update()"
-          />
-        </rdx-form-group>
-      </ng-template>
-    </li>
-
-    <li ngbNavItem="boolean">
-      <a ngbNavLink>Boolean</a>
-    </li>
-
-    <li ngbNavItem="json">
-      <a ngbNavLink>JSON</a>
-      <ng-template ngbNavContent>
-        <rdx-json-editor
-          formControlName="value"
-          rdxJson
-        ></rdx-json-editor>
-
-        <rdx-error *ngIf="value.errors?.json" class="form-text text-danger">
-          {{ value.errors.json }}
-        </rdx-error>
-      </ng-template>
-    </li>
-  </ul>
-
-  <rdx-form-group>
-    <label rdx-label>Key</label>
-    <input
-      rdx-form-control
-      formControlName="key"
-      placeholder="Key..."
-      required
-      (rdxSubmit)="update()"
-    />
-  </rdx-form-group>
-
-  <div [ngbNavOutlet]="nav"></div> -->
-
   <rdx-form-group>
     <label rdx-label>Key</label>
 
@@ -156,8 +86,6 @@
   >
     {{ jsonEditor?.pretty ? 'Uglify' : 'Beautify' }}
   </button>
-
-  <div class="rdx-spacer"></div>
 
   <button
     rdx-button

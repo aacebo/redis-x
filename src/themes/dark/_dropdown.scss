@@ -9,7 +9,7 @@
     color: var(--light) !important;
     outline: none !important;
 
-    &:hover {
+    &:hover, &:focus {
       color: var(--light) !important;
       background-color: var(--dark) !important;
       opacity: 0.5 !important;

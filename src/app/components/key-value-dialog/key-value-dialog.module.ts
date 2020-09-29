@@ -11,6 +11,7 @@ import { JsonEditorModule } from '../../common/json-editor';
 import { FormsModule } from '../../common/forms';
 import { ButtonModule } from '../../common/button';
 import { IconModule } from '../../common/icon';
+import { BreadcrumbsModule } from '../../common/breadcrumbs';
 
 import { KeyValueDialogComponent } from './key-value-dialog.component';
 
@@ -30,6 +31,7 @@ import { KeyValueDialogComponent } from './key-value-dialog.component';
     FormsModule,
     ButtonModule,
     IconModule,
+    BreadcrumbsModule,
   ],
 })
 export class KeyValueDialogModule { }

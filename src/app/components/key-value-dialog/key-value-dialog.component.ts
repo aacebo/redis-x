@@ -85,9 +85,13 @@ export class KeyValueDialogComponent implements OnInit, AfterViewInit {
   }
 
   onTypeChange(e: JsonValueType) {
+    if (this.type === 'json') {
+      this.value.clearValidators();
+    }
+
     this.type = undefined;
+
     this.value.reset(this._parseValue(e, this.data.value));
-    this.value.clearValidators();
     this.value.updateValueAndValidity();
 
     if (e !== this._typeViews[this.data.type]) {

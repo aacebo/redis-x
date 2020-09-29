@@ -1,0 +1,9 @@
+@import '../../../styles/utils';
+
+.rdx-breadcrumb {
+  @include rdx-ellipsis;
+
+  > a {
+    @include rdx-ellipsis;
+  }
+}
