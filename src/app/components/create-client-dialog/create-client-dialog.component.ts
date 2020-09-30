@@ -22,10 +22,10 @@ export class CreateClientDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this._fb.group({
-      name: this._fb.control(this.client.name || undefined),
-      host: this._fb.control(this.client.host || 'localhost'),
-      port: this._fb.control(this.client.port || 6379),
-      password: this._fb.control(this.client.password || undefined),
+      name: this._fb.control(this.client?.name || undefined),
+      host: this._fb.control(this.client?.host || 'localhost'),
+      port: this._fb.control(this.client?.port || 6379),
+      password: this._fb.control(this.client?.password || undefined),
     });
   }
 

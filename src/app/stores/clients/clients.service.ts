@@ -62,9 +62,8 @@ export class ClientsService implements IStore<IClientsState> {
   }
 
   update(v: dtos.IRedisUpdateRequest) {
-    this._setClient(v.id, {
-      ...this._state$.value[v.id],
-      ...v,
+    this._api.once<IClient>('redis:clients:update.return', (_, client) => {
+      this._setClient(client.id, client);
     });
 
     this._api.send('redis:clients:update', v);

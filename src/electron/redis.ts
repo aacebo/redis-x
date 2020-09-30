@@ -27,7 +27,11 @@ class Redis {
     const res = await Database.instance.clients.findAll();
 
     e.sender.send('redis:clients:findAll.return', {
-      clients: res.map(c => c.toJSON()),
+      clients: res.map(c => c.toJSON() as any).map(c => {
+        c.status = 'closed';
+        delete c.updatedAt;
+        return c;
+      }),
     });
   }
 
@@ -42,11 +46,20 @@ class Redis {
     });
   }
 
-  async update(_: IpcMainEvent, v: dtos.IRedisUpdateRequest) {
+  async update(e: IpcMainEvent, v: dtos.IRedisUpdateRequest) {
     await Database.instance.clients.update(v, { where: { id: v.id } });
+
+    e.sender.send('redis:clients:update.return', {
+      ...v,
+      status: this._clients[v.id]?.connected ? 'open' : 'closed',
+    });
   }
 
   connect(e: IpcMainEvent, v: dtos.IRedisConnectRequest) {
+    if (this._clients[v.id]) {
+      this._clients[v.id].quit();
+    }
+
     this._clients[v.id] = redis.createClient({
       host: v.host,
       port: v.port,

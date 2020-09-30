@@ -5,6 +5,8 @@ import { KeysService } from '../../stores/keys';
 import { InfoService } from '../../stores/info';
 
 import { CreateClientDialogService } from '../../components/create-client-dialog';
+import { ConfirmDialogService } from '../../components/confirm-dialog';
+
 import { AppService } from '../../app.service';
 
 @Component({
@@ -20,6 +22,7 @@ export class ClientsComponent {
     private readonly _keysService: KeysService,
     private readonly _infoService: InfoService,
     private readonly _createClientDialogService: CreateClientDialogService,
+    private readonly _confirmDialogService: ConfirmDialogService,
   ) { }
 
   create() {
@@ -33,15 +36,22 @@ export class ClientsComponent {
   edit(e: IClient) {
     this._createClientDialogService.open(e).result.then(v => {
       if (v) {
-        this.clientsService.update(v);
+        this.clientsService.update({
+          ...e,
+          ...v,
+        });
       }
     }).catch(() => undefined);
   }
 
   remove(id: string) {
-    this.clientsService.remove(id);
-    this._keysService.remove(id);
-    this._infoService.remove(id);
+    this._confirmDialogService.open('are you sure you want to delete this connection profile?').result.then(v => {
+      if (v) {
+        this.clientsService.remove(id);
+        this._keysService.remove(id);
+        this._infoService.remove(id);
+      }
+    }).catch(() => undefined);
   }
 
   connect(e: IClient) {

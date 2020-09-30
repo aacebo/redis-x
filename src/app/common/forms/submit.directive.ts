@@ -14,7 +14,10 @@ export class SubmitDirective {
   constructor(private readonly _formControlName: FormControlName) { }
 
   onEnter() {
-    if (this._formControlName.control.parent.valid) {
+    if (
+      this._formControlName.control.parent.valid &&
+      !this._formControlName.control.parent.pristine
+    ) {
       this.submit.emit();
     }
   }

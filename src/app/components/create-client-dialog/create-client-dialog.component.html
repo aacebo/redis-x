@@ -65,7 +65,7 @@
   <button
     rdx-button
     appearance="primary"
-    [disabled]="form.invalid"
+    [disabled]="form.invalid || form.pristine"
     (click)="connect()"
   >
     Save
