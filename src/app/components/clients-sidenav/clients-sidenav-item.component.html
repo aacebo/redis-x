@@ -8,8 +8,28 @@
   <div class="url">redis://{{ client.host }}:{{ client.port }}</div>
 </div>
 
-<rdx-icon
-  name="trash"
-  diameter="16"
-  (click)="remove.emit(client.id)"
-></rdx-icon>
+<div class="actions">
+  <rdx-icon
+    name="trash"
+    diameter="16"
+    ngbTooltip="Delete"
+    container="body"
+    (click)="remove.emit(client.id)"
+  ></rdx-icon>
+
+  <rdx-icon
+    [name]="client.status === 'open' ? 'wifi-off' : 'wifi'"
+    diameter="16"
+    [ngbTooltip]="client.status === 'open' ? 'Disconnect' : 'Connect'"
+    container="body"
+    (click)="onConnect()"
+  ></rdx-icon>
+
+  <rdx-icon
+    name="edit"
+    diameter="16"
+    ngbTooltip="Edit"
+    container="body"
+    (click)="edit.emit(client)"
+  ></rdx-icon>
+</div>

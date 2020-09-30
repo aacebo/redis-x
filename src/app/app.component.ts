@@ -1,9 +1,10 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 
 import { SystemService } from './stores/system';
 import { InfoService } from './stores/info';
 import { KeysService } from './stores/keys';
 import { SearchService } from './stores/search';
+import { ClientsService } from './stores/clients';
 
 import { RouterService } from './router';
 import { ISidenavItem } from './components/sidenav';
@@ -16,7 +17,7 @@ import { AppService } from './app.service';
   styleUrls: ['./app.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   readonly sidenavItems: ISidenavItem[] = [
     { type: 'link', icon: 'database', route: '/clients', text: 'Connections' },
     { type: 'button', icon: 'search', text: 'Search', click: this._onSearch.bind(this) },
@@ -28,10 +29,15 @@ export class AppComponent {
     readonly appService: AppService,
     readonly systemService: SystemService,
     readonly infoService: InfoService,
+    readonly clientsService: ClientsService,
     readonly router: RouterService,
     private readonly _searchService: SearchService,
     private readonly _keysService: KeysService,
   ) { }
+
+  ngOnInit() {
+    this.clientsService.findAll();
+  }
 
   onRefresh() {
     this._keysService.getAll(this.router.clientId);

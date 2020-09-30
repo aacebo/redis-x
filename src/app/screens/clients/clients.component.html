@@ -3,6 +3,9 @@
   [clients]="clientsService.clients$ | async"
   (create)="create()"
   (remove)="remove($event)"
+  (connect)="connect($event)"
+  (disconnect)="disconnect($event)"
+  (edit)="edit($event)"
 >
   <router-outlet></router-outlet>
 </rdx-clients-sidenav>

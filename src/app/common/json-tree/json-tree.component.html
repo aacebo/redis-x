@@ -15,7 +15,7 @@
           <ng-template #actionsTpl>
             <div
               *ngFor="let action of actions"
-              class="rdx-json-tree--action"
+              class="rdx-action"
               (click)="onActionClick(action.type, node)"
             >
               <rdx-icon [name]="action.icon" diameter="12"></rdx-icon>
@@ -27,7 +27,7 @@
             *ngIf="node.value !== undefined"
             [ngbPopover]="actionsTpl"
             #p="ngbPopover"
-            popoverClass="rdx-popover-tree-action"
+            popoverClass="rdx-popover-action"
             triggers="manual"
             placement="auto"
             container="body"

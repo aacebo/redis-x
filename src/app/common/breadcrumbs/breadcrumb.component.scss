@@ -3,6 +3,7 @@
 .rdx-breadcrumb {
   display: block !important;
   max-width: 200px !important;
+  font-size: 0.9em !important;
 
   @include rdx-ellipsis;
 }

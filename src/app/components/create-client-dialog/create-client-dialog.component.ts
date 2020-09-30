@@ -1,6 +1,8 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { IClient } from '../../stores/clients';
 
 @Component({
   selector: 'rdx-create-client-dialog',
@@ -9,6 +11,8 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateClientDialogComponent implements OnInit {
+  @Input() client?: IClient;
+
   form: FormGroup;
 
   constructor(
@@ -18,10 +22,10 @@ export class CreateClientDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this._fb.group({
-      name: this._fb.control(undefined),
-      host: this._fb.control('localhost'),
-      port: this._fb.control(6379),
-      password: this._fb.control(undefined),
+      name: this._fb.control(this.client.name || undefined),
+      host: this._fb.control(this.client.host || 'localhost'),
+      port: this._fb.control(this.client.port || 6379),
+      password: this._fb.control(this.client.password || undefined),
     });
   }
 

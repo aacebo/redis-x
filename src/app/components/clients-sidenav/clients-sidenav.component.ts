@@ -21,4 +21,7 @@ export class ClientsSidenavComponent {
 
   @Output() create = new EventEmitter<void>();
   @Output() remove = new EventEmitter<string>();
+  @Output() connect = new EventEmitter<IClient>();
+  @Output() disconnect = new EventEmitter<string>();
+  @Output() edit = new EventEmitter<IClient>();
 }

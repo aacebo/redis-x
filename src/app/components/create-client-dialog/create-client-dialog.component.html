@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h5 class="modal-title">New Connection</h5>
+  <h5 class="modal-title">{{ client ? 'Edit' : 'New' }} Connection</h5>
 
   <button
     rdx-icon-button
@@ -52,6 +52,7 @@
   <rdx-form-group>
     <label rdx-label>Password</label>
     <input
+      type="password"
       rdx-form-control
       formControlName="password"
       placeholder="Password..."
@@ -67,6 +68,6 @@
     [disabled]="form.invalid"
     (click)="connect()"
   >
-    Connect
+    Save
   </button>
 </div>

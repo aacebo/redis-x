@@ -22,6 +22,9 @@
         routerLinkActive="active"
         [client]="client"
         (remove)="remove.emit($event)"
+        (connect)="connect.emit($event)"
+        (disconnect)="disconnect.emit($event)"
+        (edit)="edit.emit($event)"
       ></rdx-clients-sidenav-item>
     </div>
   </rdx-split-area>

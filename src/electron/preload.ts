@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld(
     on: (event: string, cb: (e: IpcRendererEvent, data: any) => void) => {
       ipcRenderer.on(event, cb);
     },
-    send: (event: string, data: any) => {
+    send: (event: string, data?: any) => {
       ipcRenderer.send(event, data);
     },
     copy: (v: string) => {

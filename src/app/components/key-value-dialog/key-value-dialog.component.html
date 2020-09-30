@@ -5,10 +5,7 @@
       [active]="i === data.path.length - 1"
       [attr.title]="p"
     >
-      <a *ngIf="i < data.path.length - 1" href="#">{{ p }}</a>
-      <ng-container *ngIf="i === data.path.length - 1">
-        {{ p }}
-      </ng-container>
+      {{ p }}
     </rdx-breadcrumb>
   </rdx-breadcrumbs>
 

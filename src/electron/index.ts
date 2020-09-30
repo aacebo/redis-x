@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as url from 'url';
 
 import './redis';
+import Database from './database';
 
 let app: App;
 
@@ -23,6 +24,8 @@ class App {
   }
 
   constructor() {
+    Database.instance.start();
+
     const cursor = electron.screen.getCursorScreenPoint();
     const { bounds } = electron.screen.getDisplayNearestPoint(cursor);
 

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { IconModule } from '../../common/icon';
 import { SplitModule } from '../../common/split';
 
@@ -14,6 +16,8 @@ import { ClientsSidenavItemComponent } from './clients-sidenav-item.component';
   imports: [
     CommonModule,
     RouterModule,
+
+    NgbTooltipModule,
 
     SplitModule,
     IconModule,

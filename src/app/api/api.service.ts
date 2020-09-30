@@ -23,7 +23,7 @@ export class ApiService implements IApi {
     });
   }
 
-  send<T = any>(event: string, data: T) {
+  send<T = any>(event: string, data?: T) {
     this._api.send(event, data);
   }
 

@@ -1,5 +1,5 @@
 .popover {
-  &.rdx-popover-tree-action {
+  &.rdx-popover-action {
     left: -13px !important;
 
     .popover-body {
@@ -8,7 +8,7 @@
       padding: 0 !important;
       min-width: 50px;
 
-      .rdx-json-tree--action {
+      .rdx-action {
         display: flex;
         margin: auto 0;
         padding: 5px;

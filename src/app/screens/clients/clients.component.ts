@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { ClientsService } from '../../stores/clients';
+import { ClientsService, IClient } from '../../stores/clients';
 import { KeysService } from '../../stores/keys';
 import { InfoService } from '../../stores/info';
 
@@ -30,8 +30,26 @@ export class ClientsComponent {
     }).catch(() => undefined);
   }
 
+  edit(e: IClient) {
+    this._createClientDialogService.open(e).result.then(v => {
+      if (v) {
+        this.clientsService.update(v);
+      }
+    }).catch(() => undefined);
+  }
+
   remove(id: string) {
     this.clientsService.remove(id);
+    this._keysService.remove(id);
+    this._infoService.remove(id);
+  }
+
+  connect(e: IClient) {
+    this.clientsService.connect(e);
+  }
+
+  disconnect(id: string) {
+    this.clientsService.close(id);
     this._keysService.remove(id);
     this._infoService.remove(id);
   }

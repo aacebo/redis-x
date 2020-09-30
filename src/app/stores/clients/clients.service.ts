@@ -25,7 +25,7 @@ export class ClientsService implements IStore<IClientsState> {
     private readonly _api: ApiService,
     private readonly _toastr: ToastrService,
   ) {
-    this._api.on<dtos.IRedisStatusResponse>('redis:status', (_, status) => {
+    this._api.on<dtos.IRedisStatusResponse>('redis:clients:status', (_, status) => {
       this._setClientProp(status.id, 'status', status.status);
 
       if (status.status === 'open') {
@@ -33,18 +33,45 @@ export class ClientsService implements IStore<IClientsState> {
       }
     });
 
-    this._api.on<dtos.IRedisErrorResponse>('redis:error', (_, error) => {
+    this._api.on<dtos.IRedisErrorResponse>('redis:clients:error', (_, error) => {
       this._toastr.error(error.err?.message || 'an error has occurred');
     });
   }
 
+  findAll() {
+    this._api.once<dtos.IRedisFindAllResponse>('redis:clients:findAll.return', (_, res) => {
+      const clients = { };
+
+      for (const client of res.clients) {
+        clients[client.id] = client;
+      }
+
+      this._state$.next(clients);
+    });
+
+    this._api.send('redis:clients:findAll');
+  }
+
   create(v: dtos.IRedisCreateRequest) {
-    this._api.once<IClient>('redis:create.return', (_, client) => {
+    this._api.once<IClient>('redis:clients:create.return', (_, client) => {
       this._setClient(client.id, client);
       this._router.navigate(['clients', client.id]);
     });
 
-    this._api.send('redis:create', v);
+    this._api.send('redis:clients:create', v);
+  }
+
+  update(v: dtos.IRedisUpdateRequest) {
+    this._setClient(v.id, {
+      ...this._state$.value[v.id],
+      ...v,
+    });
+
+    this._api.send('redis:clients:update', v);
+  }
+
+  connect(v: dtos.IRedisConnectRequest) {
+    this._api.send('redis:clients:connect', v);
   }
 
   remove(id: string) {
@@ -56,11 +83,11 @@ export class ClientsService implements IStore<IClientsState> {
     }
 
     this._state$.next({ ...clients });
-    this._api.send('redis:remove', id);
+    this._api.send('redis:clients:remove', id);
   }
 
   close(id: string) {
-    this._api.send('redis:close', id);
+    this._api.send('redis:clients:close', id);
   }
 
   private _setClient(id: string, v: IClient) {
