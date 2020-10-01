@@ -2,16 +2,10 @@ import { DataTypes, Sequelize, Model } from 'sequelize';
 
 import Logger from '../logger';
 
-export interface IClient {
-  readonly id: string;
-  readonly name: string;
-  readonly host: string;
-  readonly port: number;
-  readonly password?: string;
-}
+import { IClient } from '../models/client.model';
 
-export function defineClientModel(sequelize: Sequelize) {
-  Logger.info('ClientModel', 'initializing...');
+export function defineClientsEntity(sequelize: Sequelize) {
+  Logger.info('ClientsEntity', 'initializing...');
 
   return sequelize.define<Model<IClient>>('Clients', {
     id: {

@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import * as dtos from '../../../electron/dtos/redis';
+
 import { ApiService } from '../../api';
 import { RouterService } from '../../router';
 import { IStore } from '../store.interface';
@@ -25,7 +26,7 @@ export class ClientsService implements IStore<IClientsState> {
     private readonly _api: ApiService,
     private readonly _toastr: ToastrService,
   ) {
-    this._api.on<dtos.IRedisStatusResponse>('redis:clients:status', (_, status) => {
+    this._api.on<dtos.IClientStatusResponse>('redis:client:status', (_, status) => {
       this._setClientProp(status.id, 'status', status.status);
 
       if (status.status === 'open') {
@@ -33,13 +34,13 @@ export class ClientsService implements IStore<IClientsState> {
       }
     });
 
-    this._api.on<dtos.IRedisErrorResponse>('redis:clients:error', (_, error) => {
+    this._api.on<dtos.IClientErrorResponse>('redis:client:error', (_, error) => {
       this._toastr.error(error.err?.message || 'an error has occurred');
     });
   }
 
   findAll() {
-    this._api.once<dtos.IRedisFindAllResponse>('redis:clients:findAll.return', (_, res) => {
+    this._api.once<dtos.IClientFindAllResponse>('redis:client:findAll.return', (_, res) => {
       const clients = { };
 
       for (const client of res.clients) {
@@ -49,44 +50,44 @@ export class ClientsService implements IStore<IClientsState> {
       this._state$.next(clients);
     });
 
-    this._api.send('redis:clients:findAll');
+    this._api.send('redis:client:findAll');
   }
 
-  create(v: dtos.IRedisCreateRequest) {
-    this._api.once<IClient>('redis:clients:create.return', (_, client) => {
-      this._setClient(client.id, client);
-      this._router.navigate(['clients', client.id]);
+  create(v: dtos.IClientCreateRequest) {
+    this._api.once<dtos.IClientCreateResponse>('redis:client:create.return', (_, res) => {
+      this._setClient(res.id, res);
+      this._router.navigate(['clients', res.id]);
     });
 
-    this._api.send('redis:clients:create', v);
+    this._api.send('redis:client:create', v);
   }
 
-  update(v: dtos.IRedisUpdateRequest) {
-    this._api.once<IClient>('redis:clients:update.return', (_, client) => {
-      this._setClient(client.id, client);
+  update(v: dtos.IClientUpdateRequest) {
+    this._api.once<dtos.IClientUpdateResponse>('redis:client:update.return', (_, res) => {
+      this._setClient(res.id, res);
     });
 
-    this._api.send('redis:clients:update', v);
+    this._api.send('redis:client:update', v);
   }
 
-  connect(v: dtos.IRedisConnectRequest) {
-    this._api.send('redis:clients:connect', v);
+  connect(v: dtos.IClientConnectRequest) {
+    this._api.send('redis:client:connect', v);
   }
 
-  remove(id: string) {
+  remove(v: dtos.IClientRemoveRequest) {
     const clients = this._state$.value;
-    delete clients[id];
+    delete clients[v.id];
 
-    if (id === this._router.clientId) {
+    if (v.id === this._router.clientId) {
       this._router.navigate(['clients']);
     }
 
     this._state$.next({ ...clients });
-    this._api.send('redis:clients:remove', id);
+    this._api.send('redis:client:remove', v);
   }
 
-  close(id: string) {
-    this._api.send('redis:clients:close', id);
+  close(v: dtos.IClientCloseRequest) {
+    this._api.send('redis:client:close', v);
   }
 
   private _setClient(id: string, v: IClient) {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import * as dtos from '../../../electron/dtos/redis';
+
 import { ApiService } from '../../api';
 import { IStore } from '../store.interface';
 
@@ -15,7 +16,7 @@ export class InfoService implements IStore<IInfoState> {
   private readonly _state$ = new BehaviorSubject<IInfoState>({ });
 
   constructor(private readonly _api: ApiService) {
-    this._api.on<dtos.IRedisInfoResponse>('redis:clients:info.return', (_, res) => {
+    this._api.on<dtos.IClientInfoResponse>('redis:client:info.return', (_, res) => {
       this._state$.next({
         ...this._state$.value,
         [res.id]: res.info,

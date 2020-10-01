@@ -2,7 +2,8 @@ import { ModelCtor, Sequelize, Model } from 'sequelize';
 
 import Logger from './logger';
 
-import { IClient, defineClientModel } from './models/clients.model';
+import * as entities from './entities';
+import * as models from './models';
 
 export default class Database {
   static get instance() {
@@ -17,7 +18,7 @@ export default class Database {
   private _sequalize: Sequelize;
 
   get clients() { return this._clients; }
-  private _clients: ModelCtor<Model<IClient>>;
+  private _clients: ModelCtor<Model<models.IClient>>;
 
   private constructor() { }
 
@@ -31,7 +32,7 @@ export default class Database {
 
       this._sequalize.authenticate();
 
-      this._clients = defineClientModel(this._sequalize);
+      this._clients = entities.defineClientsEntity(this._sequalize);
 
       this._sequalize.sync();
 

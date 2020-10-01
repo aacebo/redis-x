@@ -1,4 +1,4 @@
-export interface IRedisUpdateRequest {
+export interface IClientConnectRequest {
   readonly id: string;
   readonly name: string;
   readonly host: string;

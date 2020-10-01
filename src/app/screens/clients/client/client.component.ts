@@ -37,7 +37,7 @@ export class ClientComponent {
   }
 
   onLoadClick(e: IJsonTreeNode) {
-    this.keysService.get(this._id, e.key);
+    this.keysService.get({ id: this._id, key: e.key });
   }
 
   onValueClick(node: IJsonTreeNode) {

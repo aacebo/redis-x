@@ -1,4 +1,4 @@
-export interface IRedisKeyValueRequest {
+export interface IKeyValueDeleteResponse {
   readonly id: string;
   readonly key: string;
 }

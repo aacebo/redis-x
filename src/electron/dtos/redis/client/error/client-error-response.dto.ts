@@ -1,4 +1,4 @@
-export interface IRedisErrorResponse {
+export interface IClientErrorResponse {
   readonly id: string;
   readonly err: Error;
 }

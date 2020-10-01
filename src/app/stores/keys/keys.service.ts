@@ -19,7 +19,7 @@ export class KeysService implements IStore<IKeysState> {
     private readonly _api: ApiService,
     private readonly _toastr: ToastrService,
   ) {
-    this._api.on<dtos.IRedisKeysResponse>('redis:key-value:keys.return', (_, keys) => {
+    this._api.on<dtos.IKeyValueKeysResponse>('redis:key-value:keys.return', (_, keys) => {
       this._state$.next({
         ...this._state$.value,
         [keys.id]: keys.keys,
@@ -31,23 +31,20 @@ export class KeysService implements IStore<IKeysState> {
     return this._state$.value[clientId];
   }
 
-  get(clientId: string, key: string) {
-    this._api.once('redis:key-value:key.return', (_, v) => {
-      this._setKeyValue(clientId, key, v);
-    });
-
-    this._api.send('redis:key-value:key', {
-      id: clientId,
-      key,
-    });
+  keys(v: dtos.IKeyValueKeysRequest) {
+    this._api.send('redis:key-value:keys', v);
   }
 
-  getAll(clientId: string) {
-    this._api.send('redis:key-value:keys', clientId);
+  get(v: dtos.IKeyValueGetRequest) {
+    this._api.once<dtos.IKeyValueGetResponse>('redis:key-value:get.return', (_, res) => {
+      this._setKeyValue(res.id, res.key, res.value);
+    });
+
+    this._api.send('redis:key-value:get', v);
   }
 
-  set(v: dtos.IRedisKeyValueSetRequest) {
-    this._api.once<dtos.IRedisKeyValueSetRequest>('redis:key-value:set.return', (_, res) => {
+  set(v: dtos.IKeyValueSetRequest) {
+    this._api.once<dtos.IKeyValueSetRequest>('redis:key-value:set.return', (_, res) => {
       this._setKeyValue(res.id, res.key, res.value);
       this._toastr.success('Updated Key/Value');
     });
@@ -55,8 +52,8 @@ export class KeysService implements IStore<IKeysState> {
     this._api.send('redis:key-value:set', v);
   }
 
-  delete(v: dtos.IRedisKeyValueDeleteRequest) {
-    this._api.once<dtos.IRedisKeyValueDeleteRequest>('redis:key-value:delete.return', (_, res) => {
+  delete(v: dtos.IKeyValueDeleteRequest) {
+    this._api.once<dtos.IKeyValueDeleteRequest>('redis:key-value:delete.return', (_, res) => {
       this._removeKeyValue(res.id, res.key);
       this._toastr.success('Deleted Key/Value');
     });

@@ -1,4 +1,5 @@
-export interface IRedisCreateRequest {
+export interface IClientUpdateRequest {
+  readonly id: string;
   readonly name: string;
   readonly host: string;
   readonly port: number;

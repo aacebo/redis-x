@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
   }
 
   onRefresh() {
-    this._keysService.getAll(this.router.clientId);
+    this._keysService.keys({ id: this.router.clientId });
   }
 
   private _onSearch() {

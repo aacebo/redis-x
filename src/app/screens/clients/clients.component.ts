@@ -47,7 +47,7 @@ export class ClientsComponent {
   remove(id: string) {
     this._confirmDialogService.open('are you sure you want to delete this connection profile?').result.then(v => {
       if (v) {
-        this.clientsService.remove(id);
+        this.clientsService.remove({ id });
         this._keysService.remove(id);
         this._infoService.remove(id);
       }
@@ -59,7 +59,7 @@ export class ClientsComponent {
   }
 
   disconnect(id: string) {
-    this.clientsService.close(id);
+    this.clientsService.close({ id });
     this._keysService.remove(id);
     this._infoService.remove(id);
   }

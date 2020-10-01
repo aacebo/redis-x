@@ -10,52 +10,56 @@ class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
 
   constructor() {
-    ipcMain.on('redis:clients:create', this.create.bind(this));
-    ipcMain.on('redis:clients:update', this.update.bind(this));
-    ipcMain.on('redis:clients:connect', this.connect.bind(this));
-    ipcMain.on('redis:clients:close', this.close.bind(this));
-    ipcMain.on('redis:clients:remove', this.remove.bind(this));
-    ipcMain.on('redis:clients:findAll', this.findAll.bind(this));
+    ipcMain.on('redis:client:create', this.clientCreate.bind(this));
+    ipcMain.on('redis:client:update', this.clientUpdate.bind(this));
+    ipcMain.on('redis:client:connect', this.clientConnect.bind(this));
+    ipcMain.on('redis:client:close', this.clientClose.bind(this));
+    ipcMain.on('redis:client:remove', this.clientRemove.bind(this));
+    ipcMain.on('redis:client:findAll', this.clientFindAll.bind(this));
 
-    ipcMain.on('redis:key-value:key', this.key.bind(this));
-    ipcMain.on('redis:key-value:keys', this.keys.bind(this));
+    ipcMain.on('redis:key-value:get', this.keyValueGet.bind(this));
     ipcMain.on('redis:key-value:set', this.keyValueSet.bind(this));
-    ipcMain.on('redis:key-value:delete', this.keyValueRemove.bind(this));
+    ipcMain.on('redis:key-value:keys', this.keyValueKeys.bind(this));
+    ipcMain.on('redis:key-value:delete', this.keyValueDelete.bind(this));
   }
 
-  async findAll(e: IpcMainEvent) {
+  ///
+  /// Client
+  ///
+
+  async clientFindAll(e: IpcMainEvent) {
     const res = await Database.instance.clients.findAll();
 
-    e.sender.send('redis:clients:findAll.return', {
+    e.sender.send('redis:client:findAll.return', {
       clients: res.map(c => c.toJSON() as any).map(c => {
         c.status = 'closed';
         delete c.updatedAt;
         return c;
       }),
-    });
+    } as dtos.IClientFindAllResponse);
   }
 
-  async create(e: IpcMainEvent, v: dtos.IRedisCreateRequest) {
+  async clientCreate(e: IpcMainEvent, v: dtos.IClientCreateRequest) {
     const id = uuid.v1();
     await Database.instance.clients.create({ id, ...v });
 
-    e.sender.send('redis:clients:create.return', {
+    e.sender.send('redis:client:create.return', {
       id,
       status: 'closed',
       ...v,
-    });
+    } as dtos.IClientCreateResponse);
   }
 
-  async update(e: IpcMainEvent, v: dtos.IRedisUpdateRequest) {
+  async clientUpdate(e: IpcMainEvent, v: dtos.IClientUpdateRequest) {
     await Database.instance.clients.update(v, { where: { id: v.id } });
 
-    e.sender.send('redis:clients:update.return', {
+    e.sender.send('redis:client:update.return', {
       ...v,
       status: this._clients[v.id]?.connected ? 'open' : 'closed',
-    });
+    } as dtos.IClientUpdateResponse);
   }
 
-  connect(e: IpcMainEvent, v: dtos.IRedisConnectRequest) {
+  clientConnect(e: IpcMainEvent, v: dtos.IClientConnectRequest) {
     if (this._clients[v.id]) {
       this._clients[v.id].quit();
     }
@@ -66,7 +70,7 @@ class Redis {
       password: v.password || undefined,
     });
 
-    this._clients[v.id].on('ready', () => this.keys(e, v.id));
+    this._clients[v.id].on('ready', () => this.keyValueKeys(e, { id: v.id }));
     this._clients[v.id].on('connect', () => this._onConnect(e, v.id));
     this._clients[v.id].on('reconnecting', () => this._onReconnect(e, v.id));
     this._clients[v.id].on('end', () => this._onEnd(e, v.id));
@@ -75,93 +79,102 @@ class Redis {
     this._clients[v.id].info((_err, i) => {
       const info = parseRedisInfo(i as any);
 
-      e.sender.send('redis:clients:info.return', {
+      e.sender.send('redis:client:info.return', {
         id: v.id,
         info: {
           cpu: info.cpu,
           memory: info.memory,
           server: info.server,
         },
-      });
+      } as dtos.IClientInfoResponse);
     });
   }
 
-  close(_: IpcMainEvent, id: string) {
-    this._clients[id].quit();
+  clientClose(_: IpcMainEvent, v: dtos.IClientCloseRequest) {
+    this._clients[v.id].quit();
   }
 
-  async remove(_: IpcMainEvent, id: string) {
-    this._clients[id]?.quit();
-    delete this._clients[id];
+  async clientRemove(_: IpcMainEvent, v: dtos.IClientRemoveRequest) {
+    this._clients[v.id]?.quit();
+    delete this._clients[v.id];
 
-    await Database.instance.clients.destroy({ where: { id } });
+    await Database.instance.clients.destroy({ where: { id: v.id } });
   }
 
-  key(e: IpcMainEvent, v: dtos.IRedisKeyValueRequest) {
-    this._clients[v.id].get(v.key, (err, res) => {
-      if (err) throw err;
+  ///
+  /// Key Value
+  ///
 
-      const o = jsonTryParse(res);
-      e.sender.send('redis:key-value:key.return', o || res);
-    });
-  }
-
-  keys(e: IpcMainEvent, id: string) {
-    this._clients[id].keys('*', (err, v) => {
+  keyValueKeys(e: IpcMainEvent, v: dtos.IKeyValueKeysRequest) {
+    this._clients[v.id].keys('*', (err, k) => {
       if (err) throw err;
 
       const keys = { };
 
-      for (const key of v) {
+      for (const key of k) {
         keys[key] = undefined;
       }
 
       e.sender.send('redis:key-value:keys.return', {
-        id,
+        id: v.id,
         keys,
-      });
+      } as dtos.IKeyValueKeysResponse);
     });
   }
 
-  keyValueSet(e: IpcMainEvent, v: dtos.IRedisKeyValueSetRequest) {
+  keyValueGet(e: IpcMainEvent, v: dtos.IKeyValueGetRequest) {
+    this._clients[v.id].get(v.key, (err, res) => {
+      if (err) throw err;
+
+      const o = jsonTryParse(res);
+
+      e.sender.send('redis:key-value:get.return', {
+        id: v.id,
+        key: v.key,
+        value: o || res,
+      } as dtos.IKeyValueGetResponse);
+    });
+  }
+
+  keyValueSet(e: IpcMainEvent, v: dtos.IKeyValueSetRequest) {
     this._clients[v.id].set(v.key, jsonTryStringify(v.value) || v.value, (err) => {
       if (err) throw err;
 
-      e.sender.send('redis:key-value:set.return', v);
+      e.sender.send('redis:key-value:set.return', v as dtos.IKeyValueSetResponse);
     });
   }
 
-  keyValueRemove(e: IpcMainEvent, v: dtos.IRedisKeyValueDeleteRequest) {
+  keyValueDelete(e: IpcMainEvent, v: dtos.IKeyValueDeleteRequest) {
     this._clients[v.id].del(v.key, (err) => {
       if (err) throw err;
 
-      e.sender.send('redis:key-value:delete.return', v);
+      e.sender.send('redis:key-value:delete.return', v as dtos.IKeyValueDeleteResponse);
     });
   }
 
   private _onConnect(e: IpcMainEvent, id: string) {
-    e.sender.send('redis:clients:status', {
+    e.sender.send('redis:client:status', {
       id,
       status: 'open',
     });
   }
 
   private _onReconnect(e: IpcMainEvent, id: string) {
-    e.sender.send('redis:clients:status', {
+    e.sender.send('redis:client:status', {
       id,
       status: 'reconnecting',
     });
   }
 
   private _onEnd(e: IpcMainEvent, id: string) {
-    e.sender.send('redis:clients:status', {
+    e.sender.send('redis:client:status', {
       id,
       status: 'closed',
     });
   }
 
   private _onError(e: IpcMainEvent, id: string, err: any) {
-    e.sender.send('redis:clients:error', {
+    e.sender.send('redis:client:error', {
       id,
       err,
     });
