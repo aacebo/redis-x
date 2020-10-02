@@ -90,6 +90,14 @@ export class ClientsService implements IStore<IClientsState> {
     this._api.send('redis:client:close', v);
   }
 
+  test(v: dtos.IClientTestRequest, cb: (success: boolean) => void) {
+    this._api.once<dtos.IClientTestResponse>('redis:client:test.return', (_, res) => {
+      cb(res.success);
+    });
+
+    this._api.send('redis:client:test', v);
+  }
+
   private _setClient(id: string, v: IClient) {
     this._state$.next({
       ...this._state$.value,

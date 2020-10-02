@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     { type: 'link', icon: 'database', route: '/clients', text: 'Connections' },
     { type: 'button', icon: 'search', text: 'Search', click: this._onSearch.bind(this) },
     { type: 'spacer' },
-    { type: 'button', icon: 'arrow-left', text: 'Collapse', click: this._onSubMenuToggle.bind(this) },
+    { type: 'button', icon: 'chevron-left', text: 'Collapse', click: this._onSubMenuToggle.bind(this) },
   ];
 
   constructor(
@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
     this.appService.subMenuClosed = !this.appService.subMenuClosed;
     this.sidenavItems.splice(3, 1, {
       ...this.sidenavItems[3],
-      icon: this.appService.subMenuClosed ? 'arrow-right' : 'arrow-left',
+      icon: this.appService.subMenuClosed ? 'chevron-right' : 'chevron-left',
       text: this.appService.subMenuClosed ? 'Expand' : 'Collapse',
     });
   }

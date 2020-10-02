@@ -5,9 +5,11 @@ import * as uuid from 'uuid';
 import * as dtos from './dtos/redis';
 import { jsonTryParse, jsonTryStringify, parseRedisInfo } from './utils';
 import Database from './database';
+import Logger from './logger';
 
 class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
+  private _infoTimeout: NodeJS.Timeout;
 
   constructor() {
     ipcMain.on('redis:client:create', this.clientCreate.bind(this));
@@ -16,6 +18,8 @@ class Redis {
     ipcMain.on('redis:client:close', this.clientClose.bind(this));
     ipcMain.on('redis:client:remove', this.clientRemove.bind(this));
     ipcMain.on('redis:client:findAll', this.clientFindAll.bind(this));
+    ipcMain.on('redis:client:ping', this.clientPing.bind(this));
+    ipcMain.on('redis:client:test', this.clientTest.bind(this));
 
     ipcMain.on('redis:key-value:get', this.keyValueGet.bind(this));
     ipcMain.on('redis:key-value:set', this.keyValueSet.bind(this));
@@ -76,7 +80,35 @@ class Redis {
     this._clients[v.id].on('end', () => this._onEnd(e, v.id));
     this._clients[v.id].on('error', (err) => this._onError(e, v.id, err));
 
-    this._clients[v.id].info((_err, i) => {
+    this.clientInfo(e, { id: v.id });
+    this.clientPing(e, { id: v.id });
+
+    this._infoTimeout = setInterval(() => {
+      this.clientInfo(e, { id: v.id });
+      this.clientPing(e, { id: v.id });
+    }, 300000);
+  }
+
+  clientClose(_: IpcMainEvent, v: dtos.IClientCloseRequest) {
+    this._clients[v.id].quit();
+    clearInterval(this._infoTimeout);
+    this._infoTimeout = undefined;
+  }
+
+  async clientRemove(_: IpcMainEvent, v: dtos.IClientRemoveRequest) {
+    this._clients[v.id]?.quit();
+    delete this._clients[v.id];
+
+    clearInterval(this._infoTimeout);
+    this._infoTimeout = undefined;
+
+    await Database.instance.clients.destroy({ where: { id: v.id } });
+  }
+
+  clientInfo(e: IpcMainEvent, v: dtos.IClientInfoRequest) {
+    this._clients[v.id].info((err, i) => {
+      if (err) Logger.error('Redis', err.message);
+
       const info = parseRedisInfo(i as any);
 
       e.sender.send('redis:client:info.return', {
@@ -90,15 +122,27 @@ class Redis {
     });
   }
 
-  clientClose(_: IpcMainEvent, v: dtos.IClientCloseRequest) {
-    this._clients[v.id].quit();
+  clientPing(e: IpcMainEvent, v: dtos.IClientPingRequest) {
+    const now = new Date();
+
+    this._clients[v.id].ping((err) => {
+      if (err) Logger.error('Redis', err.message);
+
+      e.sender.send('redis:client:ping.return', {
+        id: v.id,
+        elapse: (new Date()).getTime() - now.getTime(),
+      } as dtos.IClientPingResponse);
+    });
   }
 
-  async clientRemove(_: IpcMainEvent, v: dtos.IClientRemoveRequest) {
-    this._clients[v.id]?.quit();
-    delete this._clients[v.id];
+  clientTest(e: IpcMainEvent, v: dtos.IClientTestRequest) {
+    const client = redis.createClient({
+      ...v,
+      password: v.password || undefined,
+    });
 
-    await Database.instance.clients.destroy({ where: { id: v.id } });
+    client.once('connect', () => this._onTestComplete(e, client, true));
+    client.once('error', () => this._onTestComplete(e, client, false));
   }
 
   ///
@@ -107,7 +151,7 @@ class Redis {
 
   keyValueKeys(e: IpcMainEvent, v: dtos.IKeyValueKeysRequest) {
     this._clients[v.id].keys('*', (err, k) => {
-      if (err) throw err;
+      if (err) Logger.error('Redis', err.message);
 
       const keys = { };
 
@@ -124,7 +168,7 @@ class Redis {
 
   keyValueGet(e: IpcMainEvent, v: dtos.IKeyValueGetRequest) {
     this._clients[v.id].get(v.key, (err, res) => {
-      if (err) throw err;
+      if (err) Logger.error('Redis', err.message);
 
       const o = jsonTryParse(res);
 
@@ -138,7 +182,7 @@ class Redis {
 
   keyValueSet(e: IpcMainEvent, v: dtos.IKeyValueSetRequest) {
     this._clients[v.id].set(v.key, jsonTryStringify(v.value) || v.value, (err) => {
-      if (err) throw err;
+      if (err) Logger.error('Redis', err.message);
 
       e.sender.send('redis:key-value:set.return', v as dtos.IKeyValueSetResponse);
     });
@@ -146,7 +190,7 @@ class Redis {
 
   keyValueDelete(e: IpcMainEvent, v: dtos.IKeyValueDeleteRequest) {
     this._clients[v.id].del(v.key, (err) => {
-      if (err) throw err;
+      if (err) Logger.error('Redis', err.message);
 
       e.sender.send('redis:key-value:delete.return', v as dtos.IKeyValueDeleteResponse);
     });
@@ -178,6 +222,14 @@ class Redis {
       id,
       err,
     } as dtos.IClientErrorResponse);
+  }
+
+  private _onTestComplete(e: IpcMainEvent, client: redis.RedisClient, success: boolean) {
+    e.sender.send('redis:client:test.return', {
+      success,
+    } as dtos.IClientTestResponse);
+
+    client.quit();
   }
 }
 

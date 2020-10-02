@@ -21,8 +21,6 @@ class SplitBase { }
 const _SplitMixinBase = subscribableMixin(SplitBase);
 
 @Component({
-  moduleId: module.id,
-  exportAs: 'rdxSplit',
   selector: 'rdx-vertical-split, rdx-horizontal-split',
   templateUrl: './split.component.html',
   styleUrls: ['./split.component.scss'],

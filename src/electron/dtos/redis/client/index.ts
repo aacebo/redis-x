@@ -7,3 +7,5 @@ export * from './find-all';
 export * from './error';
 export * from './info';
 export * from './status';
+export * from './ping';
+export * from './test';

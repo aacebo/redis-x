@@ -17,9 +17,24 @@ export class InfoService implements IStore<IInfoState> {
 
   constructor(private readonly _api: ApiService) {
     this._api.on<dtos.IClientInfoResponse>('redis:client:info.return', (_, res) => {
+      const info = this._state$.value[res.id];
       this._state$.next({
         ...this._state$.value,
-        [res.id]: res.info,
+        [res.id]: {
+          ...info,
+          ...res.info,
+        },
+      });
+    });
+
+    this._api.on<dtos.IClientPingResponse>('redis:client:ping.return', (_, res) => {
+      const info = this._state$.value[res.id];
+      this._state$.next({
+        ...this._state$.value,
+        [res.id]: {
+          ...info,
+          elapse: res.elapse,
+        },
       });
     });
   }

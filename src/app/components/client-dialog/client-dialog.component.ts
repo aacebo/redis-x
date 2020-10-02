@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, OnInit, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IClient } from '../../stores/clients';
+import { ClientsService, IClient } from '../../stores/clients';
 
 @Component({
   selector: 'rdx-client-dialog',
@@ -15,10 +15,13 @@ export class ClientDialogComponent implements OnInit {
 
   form: FormGroup;
   passwordVisible = false;
+  connectionTest?: boolean;
 
   constructor(
     private readonly _fb: FormBuilder,
     private readonly _modalRef: NgbActiveModal,
+    private readonly _cdr: ChangeDetectorRef,
+    private readonly _clientsService: ClientsService,
   ) { }
 
   ngOnInit() {
@@ -39,5 +42,15 @@ export class ClientDialogComponent implements OnInit {
 
   dismiss() {
     this._modalRef.dismiss();
+  }
+
+  test() {
+    this._clientsService.test({
+      ...this.form.value,
+      password: this.form.value.password || undefined,
+    }, success => {
+      this.connectionTest = success;
+      this._cdr.markForCheck();
+    });
   }
 }

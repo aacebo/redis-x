@@ -2,6 +2,7 @@
 @import '~bootstrap/scss/variables';
 
 @import '../../../styles/utils';
+@import '../../../styles/colors';
 
 :host {
   display: flex;
@@ -73,6 +74,7 @@
     z-index: 10;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    border: 1px solid $rdx-hairline;
 
     rdx-icon {
       opacity: 0.5;

@@ -6,4 +6,5 @@ export interface IInfo {
   readonly cpu: ICpuInfo;
   readonly memory: IMemoryInfo;
   readonly server: IServerInfo;
+  readonly elapse: number;
 }

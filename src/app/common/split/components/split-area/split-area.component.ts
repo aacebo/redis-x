@@ -8,8 +8,6 @@ import {
 import { coerceNumberProperty } from '@angular/cdk/coercion';
 
 @Component({
-  moduleId: module.id,
-  exportAs: 'rdxSplitArea',
   selector: 'rdx-split-area',
   template: `<ng-content></ng-content>`,
   styleUrls: ['./split-area.component.scss'],

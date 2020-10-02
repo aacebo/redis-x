@@ -42,7 +42,7 @@
       <label rdx-label>Port</label>
       <input
         rdx-form-control
-        type="number"
+        rdxNumber
         formControlName="port"
         placeholder="Host Port..."
         required
@@ -77,6 +77,18 @@
 </div>
 
 <div class="modal-footer">
+  <button
+    rdx-outline-button
+    [appearance]="connectionTest === undefined ? 'secondary' : connectionTest === true ? 'success' : 'danger'"
+    ngbTooltip="Test"
+    placement="top"
+    container="body"
+    [disabled]="form.invalid"
+    (click)="test()"
+  >
+    <rdx-icon [name]="connectionTest === undefined ? 'wifi' : connectionTest === true ? 'check' : 'alert-triangle'"></rdx-icon>
+  </button>
+
   <button
     rdx-button
     appearance="primary"

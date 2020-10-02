@@ -5,6 +5,7 @@ import * as url from 'url';
 
 import './redis';
 import Database from './database';
+import Logger from './logger';
 
 let app: App;
 
@@ -67,6 +68,8 @@ class App {
   private _onDomReady() {
     this._window.show();
     this._window.webContents.send('system', this._system);
+
+    Logger.info('App', 'DOM ready');
 
     if (dev) {
       this._window.webContents.openDevTools();
