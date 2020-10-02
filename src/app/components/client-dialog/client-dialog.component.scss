@@ -1,7 +1,7 @@
 :host {
   display: block;
 
-  > .modal-body {
+  .modal-body {
     display: flex;
     flex-direction: column;
   }

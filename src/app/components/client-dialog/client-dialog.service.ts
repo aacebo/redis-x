@@ -3,17 +3,17 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IClient } from '../../stores/clients';
 
-import { CreateClientDialogModule } from './create-client-dialog.module';
-import { CreateClientDialogComponent } from './create-client-dialog.component';
+import { ClientDialogModule } from './client-dialog.module';
+import { ClientDialogComponent } from './client-dialog.component';
 
 @Injectable({
-  providedIn: CreateClientDialogModule,
+  providedIn: ClientDialogModule,
 })
-export class CreateClientDialogService {
+export class ClientDialogService {
   constructor(private readonly _modal: NgbModal) { }
 
   open(client?: IClient) {
-    const ref = this._modal.open(CreateClientDialogComponent);
+    const ref = this._modal.open(ClientDialogComponent);
     ref.componentInstance.client = client;
     return ref;
   }

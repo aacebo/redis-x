@@ -5,12 +5,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { IClient } from '../../stores/clients';
 
 @Component({
-  selector: 'rdx-create-client-dialog',
-  templateUrl: './create-client-dialog.component.html',
-  styleUrls: ['./create-client-dialog.component.scss'],
+  selector: 'rdx-client-dialog',
+  templateUrl: './client-dialog.component.html',
+  styleUrls: ['./client-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateClientDialogComponent implements OnInit {
+export class ClientDialogComponent implements OnInit {
   @Input() client?: IClient;
 
   form: FormGroup;

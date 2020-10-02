@@ -4,7 +4,7 @@ import { ClientsService, IClient } from '../../stores/clients';
 import { KeysService } from '../../stores/keys';
 import { InfoService } from '../../stores/info';
 
-import { CreateClientDialogService } from '../../components/create-client-dialog';
+import { ClientDialogService } from '../../components/client-dialog';
 import { ConfirmDialogService } from '../../components/confirm-dialog';
 
 import { AppService } from '../../app.service';
@@ -21,12 +21,12 @@ export class ClientsComponent {
     readonly clientsService: ClientsService,
     private readonly _keysService: KeysService,
     private readonly _infoService: InfoService,
-    private readonly _createClientDialogService: CreateClientDialogService,
+    private readonly _clientDialogService: ClientDialogService,
     private readonly _confirmDialogService: ConfirmDialogService,
   ) { }
 
   create() {
-    this._createClientDialogService.open().result.then(v => {
+    this._clientDialogService.open().result.then(v => {
       if (v) {
         this.clientsService.create(v);
       }
@@ -34,7 +34,7 @@ export class ClientsComponent {
   }
 
   edit(e: IClient) {
-    this._createClientDialogService.open(e).result.then(v => {
+    this._clientDialogService.open(e).result.then(v => {
       if (v) {
         this.clientsService.update({
           ...e,

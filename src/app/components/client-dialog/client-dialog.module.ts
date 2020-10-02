@@ -8,10 +8,10 @@ import { FormsModule } from '../../common/forms';
 import { IconModule } from '../../common/icon';
 import { ButtonModule } from '../../common/button';
 
-import { CreateClientDialogComponent } from './create-client-dialog.component';
+import { ClientDialogComponent } from './client-dialog.component';
 
 @NgModule({
-  declarations: [CreateClientDialogComponent],
+  declarations: [ClientDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -23,4 +23,4 @@ import { CreateClientDialogComponent } from './create-client-dialog.component';
     ButtonModule,
   ],
 })
-export class CreateClientDialogModule { }
+export class ClientDialogModule { }

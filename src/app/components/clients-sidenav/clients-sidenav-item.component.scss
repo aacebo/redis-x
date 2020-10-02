@@ -11,17 +11,13 @@
   position: relative;
   cursor: pointer;
 
-  @include rdx-ellipsis;
-
   &:hover {
     .name {
       text-decoration: underline;
     }
 
     .actions {
-      rdx-icon {
-        opacity: 0.5;
-      }
+      opacity: 1;
     }
   }
 
@@ -68,11 +64,18 @@
   .actions {
     display: flex;
     position: absolute;
-    right: 8px;
-    top: 8px;
+    right: 5px;
+    top: 0;
+    transform: translateY(-50%);
+    background-color: var(--dark);
+    padding: 5px;
+    border-radius: 3px;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
 
     rdx-icon {
-      opacity: 0;
+      opacity: 0.5;
       transition: opacity 0.2s ease-in-out;
       cursor: pointer;
 
