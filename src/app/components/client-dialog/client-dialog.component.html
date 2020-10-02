@@ -79,14 +79,25 @@
 <div class="modal-footer">
   <button
     rdx-outline-button
-    [appearance]="connectionTest === undefined ? 'secondary' : connectionTest === true ? 'success' : 'danger'"
+    [appearance]="connectable === undefined ? 'secondary' : connectable === true ? 'success' : 'danger'"
     ngbTooltip="Test"
     placement="top"
     container="body"
     [disabled]="form.invalid"
     (click)="test()"
   >
-    <rdx-icon [name]="connectionTest === undefined ? 'wifi' : connectionTest === true ? 'check' : 'alert-triangle'"></rdx-icon>
+    <div
+      *ngIf="testing"
+      class="spinner-border text-light"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+
+    <rdx-icon
+      *ngIf="!testing"
+      [name]="connectable === undefined ? 'wifi' : connectable === true ? 'check' : 'alert-triangle'"
+    ></rdx-icon>
   </button>
 
   <button

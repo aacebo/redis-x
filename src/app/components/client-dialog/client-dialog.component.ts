@@ -15,7 +15,9 @@ export class ClientDialogComponent implements OnInit {
 
   form: FormGroup;
   passwordVisible = false;
-  connectionTest?: boolean;
+
+  connectable?: boolean;
+  testing = false;
 
   constructor(
     private readonly _fb: FormBuilder,
@@ -45,11 +47,16 @@ export class ClientDialogComponent implements OnInit {
   }
 
   test() {
+    this.testing = true;
+    this.connectable = undefined;
+    this._cdr.markForCheck();
+
     this._clientsService.test({
       ...this.form.value,
       password: this.form.value.password || undefined,
     }, success => {
-      this.connectionTest = success;
+      this.connectable = success;
+      this.testing = false;
       this._cdr.markForCheck();
     });
   }

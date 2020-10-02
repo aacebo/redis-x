@@ -15,15 +15,15 @@
     diameter="16"
     ngbTooltip="Delete"
     container="body"
-    (click)="remove.emit(client.id)"
+    (click)="onRemove($event)"
   ></rdx-icon>
 
   <rdx-icon
-    [name]="client.status === 'open' ? 'wifi-off' : 'wifi'"
+    [name]="client.status !== 'closed' ? 'wifi-off' : 'wifi'"
     diameter="16"
-    [ngbTooltip]="client.status === 'open' ? 'Disconnect' : 'Connect'"
+    [ngbTooltip]="client.status !== 'closed' ? 'Disconnect' : 'Connect'"
     container="body"
-    (click)="onConnect()"
+    (click)="onConnect($event)"
   ></rdx-icon>
 
   <rdx-icon
@@ -31,6 +31,6 @@
     diameter="16"
     ngbTooltip="Edit"
     container="body"
-    (click)="edit.emit(client)"
+    (click)="onEdit($event)"
   ></rdx-icon>
 </div>

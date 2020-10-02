@@ -5,4 +5,12 @@
     display: flex;
     flex-direction: column;
   }
+
+  .modal-footer {
+    .spinner-border {
+      font-size: 8pt !important;
+      height: 2em !important;
+      width: 2em !important;
+    }
+  }
 }
