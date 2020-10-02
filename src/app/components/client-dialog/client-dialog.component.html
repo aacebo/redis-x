@@ -26,38 +26,53 @@
     />
   </rdx-form-group>
 
-  <rdx-form-group>
-    <label rdx-label>Host</label>
-    <input
-      rdx-form-control
-      formControlName="host"
-      placeholder="Host Name..."
-      required
-      (rdxSubmit)="connect()"
-    />
-  </rdx-form-group>
+  <div class="form-row">
+    <rdx-form-group class="col-md-9">
+      <label rdx-label>Host</label>
+      <input
+        rdx-form-control
+        formControlName="host"
+        placeholder="Host Name..."
+        required
+        (rdxSubmit)="connect()"
+      />
+    </rdx-form-group>
 
-  <rdx-form-group>
-    <label rdx-label>Port</label>
-    <input
-      rdx-form-control
-      type="number"
-      formControlName="port"
-      placeholder="Host Port..."
-      required
-      (rdxSubmit)="connect()"
-    />
-  </rdx-form-group>
+    <rdx-form-group class="col-md-3">
+      <label rdx-label>Port</label>
+      <input
+        rdx-form-control
+        type="number"
+        formControlName="port"
+        placeholder="Host Port..."
+        required
+        (rdxSubmit)="connect()"
+      />
+    </rdx-form-group>
+  </div>
 
   <rdx-form-group>
     <label rdx-label>Password</label>
-    <input
-      type="password"
-      rdx-form-control
-      formControlName="password"
-      placeholder="Password..."
-      (rdxSubmit)="connect()"
-    />
+
+    <rdx-input-group>
+      <input
+        [type]="passwordVisible ? 'text' : 'password'"
+        rdx-form-control
+        formControlName="password"
+        placeholder="Password..."
+        (rdxSubmit)="connect()"
+      />
+
+      <div rdxInputGroupAppend>
+        <button
+          rdx-outline-button
+          appearance="secondary"
+          (click)="passwordVisible = !passwordVisible"
+        >
+          <rdx-icon [name]="passwordVisible ? 'eye-off' : 'eye'"></rdx-icon>
+        </button>
+      </div>
+    </rdx-input-group>
   </rdx-form-group>
 </div>
 

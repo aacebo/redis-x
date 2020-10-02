@@ -1,5 +1,5 @@
 import { coerceNumberProperty } from '@angular/cdk/coercion';
-import { Component, ChangeDetectionStrategy, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit, ViewEncapsulation, OnChanges } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import feather from 'feather-icons/dist/feather.min.js';
@@ -15,7 +15,7 @@ import feather from 'feather-icons/dist/feather.min.js';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IconComponent implements OnInit {
+export class IconComponent implements OnInit, OnChanges {
   @Input() name: string;
 
   @Input()
@@ -38,7 +38,15 @@ export class IconComponent implements OnInit {
   constructor(private readonly _sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this._icon = this._sanitizer.bypassSecurityTrustHtml(feather.icons[this.name].toSvg({
+    this._icon = this._createIcon();
+  }
+
+  ngOnChanges() {
+    this._icon = this._createIcon();
+  }
+
+  private _createIcon() {
+    return this._sanitizer.bypassSecurityTrustHtml(feather.icons[this.name].toSvg({
       height: this._diameter,
       width: this._diameter,
       'stroke-width': this._strokeWidth,

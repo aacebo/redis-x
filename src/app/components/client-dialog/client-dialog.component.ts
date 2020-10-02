@@ -14,6 +14,7 @@ export class ClientDialogComponent implements OnInit {
   @Input() client?: IClient;
 
   form: FormGroup;
+  passwordVisible = false;
 
   constructor(
     private readonly _fb: FormBuilder,
