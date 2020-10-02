@@ -156,28 +156,28 @@ class Redis {
     e.sender.send('redis:client:status', {
       id,
       status: 'open',
-    });
+    } as dtos.IClientStatusResponse);
   }
 
   private _onReconnect(e: IpcMainEvent, id: string) {
     e.sender.send('redis:client:status', {
       id,
       status: 'reconnecting',
-    });
+    } as dtos.IClientStatusResponse);
   }
 
   private _onEnd(e: IpcMainEvent, id: string) {
     e.sender.send('redis:client:status', {
       id,
       status: 'closed',
-    });
+    } as dtos.IClientStatusResponse);
   }
 
   private _onError(e: IpcMainEvent, id: string, err: any) {
     e.sender.send('redis:client:error', {
       id,
       err,
-    });
+    } as dtos.IClientErrorResponse);
   }
 }
 

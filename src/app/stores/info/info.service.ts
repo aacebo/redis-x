@@ -27,6 +27,6 @@ export class InfoService implements IStore<IInfoState> {
   remove(clientId: string) {
     const state = this._state$.value;
     delete state[clientId];
-    this._state$.next(state);
+    this._state$.next({ ...state });
   }
 }

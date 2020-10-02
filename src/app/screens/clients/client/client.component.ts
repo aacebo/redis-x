@@ -115,7 +115,11 @@ export class ClientComponent {
         value = value[node.path[i]];
       }
 
-      delete value[node.key];
+      if (Array.isArray(value)) {
+        value.splice(+node.key, 1);
+      } else {
+        delete value[node.key];
+      }
 
       if (isRoot) {
         this.keysService.delete({
