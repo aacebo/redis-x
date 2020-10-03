@@ -78,7 +78,7 @@
       ]
     }
   },
-  "private": true,
+  "private": false,
   "dependencies": {
     "@angular/animations": "~10.0.9",
     "@angular/cdk": "^10.1.3",
