@@ -6,15 +6,26 @@
       .modal-header {
         -webkit-user-select: none;
         -webkit-app-region: drag;
+        padding: 8px;
+        border-bottom-color: transparent;
 
         button {
           -webkit-app-region: no-drag;
+        }
+
+        .modal-title {
+          margin-left: 10px;
         }
       }
 
       .modal-body {
         max-height: calc(80vh - 140px);
         overflow-y: auto;
+      }
+
+      .modal-footer {
+        padding: 8px;
+        border-top-color: transparent;
       }
     }
   }

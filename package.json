@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "main": "dist/index.js",
   "license": "MIT",
+  "description": "a simple alternative to redis-cli",
   "author": {
     "name": "Alexander Acebo",
     "email": "aacebowork@gmail.com"
@@ -11,16 +12,71 @@
     "type": "git",
     "url": "https://github.com/aacebo/redis-x.git"
   },
+  "keywords": [
+    "redis",
+    "gui",
+    "electron"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "npm run build && electron .",
     "build": "ng build --base-href ./ && npm run build:electron",
+    "build:prod": "npm run clean && ng build --prod --base-href ./ && npm run build:electron",
     "build:clean": "npm run clean && ng build --base-href ./ && npm run build:electron",
     "build:electron": "tsc -p src/electron",
     "clean": "rimraf dist",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "publish": "rimraf pkg && npm run build:prod && electron-builder -ml --publish always",
+    "pkg": "rimraf pkg && npm run build:prod && electron-builder",
+    "pkg:all": "rimraf pkg && npm run build:prod && electron-builder -ml",
+    "pkg:win": "rimraf pkg && npm run build:prod && electron-builder --win",
+    "pkg:mac": "rimraf pkg && npm run build:prod && electron-builder --mac",
+    "pkg:linux": "rimraf pkg && npm run build:prod && electron-builder --linux"
+  },
+  "build": {
+    "appId": "Redis-X",
+    "productName": "Redis-X",
+    "files": [
+      "dist"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "aacebo"
+      }
+    ],
+    "directories": {
+      "output": "pkg",
+      "buildResources": "dist/assets"
+    },
+    "mac": {
+      "icon": "logo/png/512x512.png",
+      "category": "public.sockets"
+    },
+    "linux": {
+      "icon": "logo/png/512x512.png",
+      "category": "development.debugger",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
   },
   "private": true,
   "dependencies": {
@@ -39,6 +95,7 @@
     "chalk": "^4.1.0",
     "codemirror": "^5.57.0",
     "date-fns": "^2.16.1",
+    "electron-is-dev": "^1.2.0",
     "feather-icons": "^4.28.0",
     "ngx-toastr": "^13.0.0",
     "redis": "^3.0.2",
@@ -62,7 +119,7 @@
     "@types/uuid": "^8.3.0",
     "codelyzer": "^6.0.0",
     "electron": "^10.1.0",
-    "electron-is-dev": "^1.2.0",
+    "electron-builder": "^22.8.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~5.0.0",

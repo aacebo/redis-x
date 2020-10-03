@@ -7,6 +7,7 @@ import { InfoService } from '../../stores/info';
 import { ClientDialogService } from '../../components/client-dialog';
 import { ConfirmDialogService } from '../../components/confirm-dialog';
 
+import { RouterService } from '../../router';
 import { AppService } from '../../app.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class ClientsComponent {
   constructor(
     readonly appService: AppService,
     readonly clientsService: ClientsService,
+    readonly router: RouterService,
     private readonly _keysService: KeysService,
     private readonly _infoService: InfoService,
     private readonly _clientDialogService: ClientDialogService,

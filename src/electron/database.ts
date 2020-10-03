@@ -1,4 +1,5 @@
 import { ModelCtor, Sequelize, Model } from 'sequelize';
+import { homedir } from 'os';
 
 import Logger from './logger';
 
@@ -26,7 +27,7 @@ export default class Database {
     try {
       this._sequalize = new Sequelize({
         dialect: 'sqlite',
-        storage: './redis-x.sqlite',
+        storage: `${homedir()}/Redis-X/redis-x.sqlite`,
         logging: false,
       });
 
