@@ -5,6 +5,7 @@ import { InfoService } from './stores/info';
 import { KeysService } from './stores/keys';
 import { SearchService } from './stores/search';
 import { ClientsService } from './stores/clients';
+import { UpdateService } from './stores/update';
 
 import { RouterService } from './router';
 import { ISidenavItem } from './components/sidenav';
@@ -31,12 +32,14 @@ export class AppComponent implements OnInit {
     readonly infoService: InfoService,
     readonly clientsService: ClientsService,
     readonly router: RouterService,
+    private readonly _updateService: UpdateService,
     private readonly _searchService: SearchService,
     private readonly _keysService: KeysService,
   ) { }
 
   ngOnInit() {
     this.clientsService.findAll();
+    this._updateService.check();
   }
 
   onRefresh() {

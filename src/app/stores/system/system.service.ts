@@ -16,8 +16,8 @@ export class SystemService implements IStore<ISystem> {
   get state$() { return this._state$.asObservable(); }
   private readonly _state$ = new BehaviorSubject<ISystem>(undefined);
 
-  constructor(private readonly _apiService: ApiService) {
-    this._apiService.on('system', (_, v) => {
+  constructor(private readonly _api: ApiService) {
+    this._api.on('system', (_, v) => {
       this._state$.next(v);
     });
   }

@@ -2,9 +2,14 @@ import * as electron from 'electron';
 import * as dev from 'electron-is-dev';
 import * as path from 'path';
 import * as url from 'url';
+import * as dotenv from 'dotenv';
+
+dotenv.config({
+  path: `${__dirname}/../.env`,
+});
 
 import './redis';
-import Updater from './updater';
+import './updater';
 import Database from './database';
 import Logger from './logger';
 
@@ -12,7 +17,6 @@ let app: App;
 
 class App {
   window: electron.BrowserWindow;
-  readonly updater: Updater;
 
   private readonly _height = 600;
   private readonly _width = 900;
@@ -56,8 +60,6 @@ class App {
         preload: `${__dirname}/preload.js`,
       },
     });
-
-    this.updater = new Updater(this.window);
 
     this.window.loadURL(url.format({
       pathname: path.join(__dirname, 'index.html'),
