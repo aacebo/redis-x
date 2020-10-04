@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { JsonTreeModule } from '../../../common/json-tree';
+import { IconModule } from '../../../common/icon';
 
 import { KeyValueDialogModule } from '../../../components/key-value-dialog';
 import { ConfirmDialogModule } from '../../../components/confirm-dialog';
@@ -16,6 +17,7 @@ import { ClientRoutingModule } from './client-routing.module';
     CommonModule,
 
     JsonTreeModule,
+    IconModule,
 
     KeyValueDialogModule,
     ConfirmDialogModule,
