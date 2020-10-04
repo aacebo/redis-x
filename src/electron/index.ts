@@ -4,13 +4,16 @@ import * as path from 'path';
 import * as url from 'url';
 
 import './redis';
+import Updater from './updater';
 import Database from './database';
 import Logger from './logger';
 
 let app: App;
 
 class App {
-  private _window: electron.BrowserWindow;
+  window: electron.BrowserWindow;
+  readonly updater: Updater;
+
   private readonly _height = 600;
   private readonly _width = 900;
 
@@ -20,7 +23,7 @@ class App {
       platform: process.platform,
       version: electron.app.getVersion(),
       build: dev ? 'development' : 'production',
-      fullscreen: this._window.isFullScreen(),
+      fullscreen: this.window.isFullScreen(),
     };
   }
 
@@ -30,7 +33,7 @@ class App {
     const cursor = electron.screen.getCursorScreenPoint();
     const { bounds } = electron.screen.getDisplayNearestPoint(cursor);
 
-    this._window = new electron.BrowserWindow({
+    this.window = new electron.BrowserWindow({
       title: 'RedisX',
       width: this._width,
       height: this._height,
@@ -53,26 +56,28 @@ class App {
       },
     });
 
-    this._window.loadURL(url.format({
+    this.updater = new Updater(this.window);
+
+    this.window.loadURL(url.format({
       pathname: path.join(__dirname, 'index.html'),
       protocol: 'file:',
       slashes: true,
     }));
 
-    this._window.webContents.on('dom-ready', this._onDomReady.bind(this));
-    this._window.on('enter-full-screen', () => this._window.webContents.send('system', this._system));
-    this._window.on('leave-full-screen', () => this._window.webContents.send('system', this._system));
-    this._window.on('closed', () => this._window = null);
+    this.window.webContents.on('dom-ready', this._onDomReady.bind(this));
+    this.window.on('enter-full-screen', () => this.window.webContents.send('system', this._system));
+    this.window.on('leave-full-screen', () => this.window.webContents.send('system', this._system));
+    this.window.on('closed', () => this.window = null);
   }
 
   private _onDomReady() {
-    this._window.show();
-    this._window.webContents.send('system', this._system);
+    this.window.show();
+    this.window.webContents.send('system', this._system);
 
     Logger.info('App', 'DOM ready');
 
     if (dev) {
-      this._window.webContents.openDevTools();
+      this.window.webContents.openDevTools();
     }
   }
 }
