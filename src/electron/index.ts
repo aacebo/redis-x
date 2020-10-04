@@ -4,12 +4,12 @@ import * as path from 'path';
 import * as url from 'url';
 import * as dotenv from 'dotenv';
 
-dotenv.config({
-  path: `${__dirname}/../.env`,
-});
+dotenv.config({ path: `${__dirname}/.env` });
 
 import './redis';
 import './updater';
+
+import MenuBar from './menu-bar';
 import Database from './database';
 import Logger from './logger';
 
@@ -17,6 +17,7 @@ let app: App;
 
 class App {
   window: electron.BrowserWindow;
+  menuBar: MenuBar;
 
   private readonly _height = 600;
   private readonly _width = 900;
@@ -61,6 +62,7 @@ class App {
       },
     });
 
+    this.menuBar = new MenuBar(this.window);
     this.window.loadURL(url.format({
       pathname: path.join(__dirname, 'index.html'),
       protocol: 'file:',
@@ -68,14 +70,14 @@ class App {
     }));
 
     this.window.webContents.on('dom-ready', this._onDomReady.bind(this));
-    this.window.on('enter-full-screen', () => this.window.webContents.send('system', this._system));
-    this.window.on('leave-full-screen', () => this.window.webContents.send('system', this._system));
+    this.window.on('enter-full-screen', () => this.window.webContents.send('system.return', this._system));
+    this.window.on('leave-full-screen', () => this.window.webContents.send('system.return', this._system));
     this.window.on('closed', () => this.window = null);
   }
 
   private _onDomReady() {
     this.window.show();
-    this.window.webContents.send('system', this._system);
+    this.window.webContents.send('system.return', this._system);
 
     this._logger.info('DOM ready');
 

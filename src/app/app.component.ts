@@ -5,10 +5,12 @@ import { InfoService } from './stores/info';
 import { KeysService } from './stores/keys';
 import { SearchService } from './stores/search';
 import { ClientsService } from './stores/clients';
-import { UpdateService } from './stores/update';
 
-import { RouterService } from './router';
 import { ISidenavItem } from './components/sidenav';
+import { AboutDialogService } from './components/about-dialog';
+
+import { ApiService } from './api';
+import { RouterService } from './router';
 
 import { AppService } from './app.service';
 
@@ -32,14 +34,19 @@ export class AppComponent implements OnInit {
     readonly infoService: InfoService,
     readonly clientsService: ClientsService,
     readonly router: RouterService,
-    private readonly _updateService: UpdateService,
+    private readonly _api: ApiService,
     private readonly _searchService: SearchService,
     private readonly _keysService: KeysService,
+    private readonly _aboutDialogService: AboutDialogService,
   ) { }
 
   ngOnInit() {
     this.clientsService.findAll();
-    this._updateService.check();
+    this.systemService.checkForUpdate();
+
+    this._api.on('menu:about.return', () => {
+      this._aboutDialogService.open();
+    });
   }
 
   onRefresh() {

@@ -1,2 +1,2 @@
 export * from './system.service';
-export * from './system.interface';
+export * from './system-state.interface';

@@ -1,0 +1,33 @@
+<div class="modal-body">
+  <img
+    class="item"
+    src="assets/logo/png/64x64.png"
+  />
+
+  <h6 class="mr-auto ml-auto">Redis-X</h6>
+
+  <div
+    class="item text-warning"
+    [class.text-warning]="(systemService.system$ | async).build === 'development'"
+  >
+    Build: {{ (systemService.system$ | async).build }}
+  </div>
+
+  <div class="item">
+    Version {{ (systemService.system$ | async).version }}
+  </div>
+
+  <div class="item">
+    {{ (systemService.updateAvailable$ | async) ? 'An update is available' : 'You have the latest version' }}
+  </div>
+
+  <button
+    class="mr-auto ml-auto"
+    rdx-outline-button
+    appearance="primary"
+    size="sm"
+    (click)="systemService.checkForUpdate()"
+  >
+    Check for Update
+  </button>
+</div>

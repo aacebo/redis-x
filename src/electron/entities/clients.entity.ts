@@ -5,7 +5,7 @@ import Logger from '../logger';
 import { IClient } from '../models/client.model';
 
 export function defineClientsEntity(sequelize: Sequelize, logger: Logger) {
-  logger.info('initializing...', 'ClientsEntity');
+  logger.info('initializing...', 'Clients');
 
   return sequelize.define<Model<IClient>>('Clients', {
     id: {

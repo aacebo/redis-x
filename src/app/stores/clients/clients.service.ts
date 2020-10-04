@@ -26,16 +26,17 @@ export class ClientsService implements IStore<IClientsState> {
     private readonly _api: ApiService,
     private readonly _toastr: ToastrService,
   ) {
-    this._api.on<dtos.IClientStatusResponse>('redis:client:status', (_, status) => {
-      this._setClientProp(status.id, 'status', status.status);
+    this._api.on<dtos.IClientStatusResponse>('redis:client:status', (_, res) => {
+      this._setClientProp(res.id, 'status', res.status);
 
-      if (status.status === 'open') {
-        this._toastr.info(`Connected to ${this._state$.value[status.id].host}`);
+      if (res.status === 'open') {
+        const client = this._state$.value[res.id];
+        this._toastr.info(`Connected to ${client.host}:${client.port}`);
       }
     });
 
-    this._api.on<dtos.IClientErrorResponse>('redis:client:error', (_, error) => {
-      this._toastr.error(error.err?.message || 'an error has occurred');
+    this._api.on<dtos.IClientErrorResponse>('redis:client:error', (_, res) => {
+      this._toastr.error(res.err?.message || 'an error has occurred');
     });
   }
 

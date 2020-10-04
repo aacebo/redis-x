@@ -52,7 +52,8 @@
             "aot": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/.env"
             ],
             "styles": [
               "src/styles.scss",

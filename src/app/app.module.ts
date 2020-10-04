@@ -7,6 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ToolbarModule } from './components/toolbar';
 import { ActionbarModule } from './components/actionbar';
 import { SidenavModule } from './components/sidenav';
+import { AboutDialogModule } from './components/about-dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -32,6 +33,7 @@ import { AppComponent } from './app.component';
     ToolbarModule,
     ActionbarModule,
     SidenavModule,
+    AboutDialogModule,
   ],
 })
 export class AppModule { }
