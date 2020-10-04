@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://redis-x.io/">
-    <img src="src/assets/logo/png/1024x1024.png" alt="Redis-X" height="200" />
+    <img src="src/assets/logo/png/1024x1024.png" alt="Redis-X" height="200" draggable="false" />
   </a>
 </p>
 
