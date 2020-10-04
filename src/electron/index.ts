@@ -16,6 +16,7 @@ class App {
 
   private readonly _height = 600;
   private readonly _width = 900;
+  private readonly _logger = new Logger('App');
 
   private get _system() {
     return {
@@ -74,7 +75,7 @@ class App {
     this.window.show();
     this.window.webContents.send('system', this._system);
 
-    Logger.info('App', 'DOM ready');
+    this._logger.info('DOM ready');
 
     if (dev) {
       this.window.webContents.openDevTools();

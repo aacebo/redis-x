@@ -1,16 +1,15 @@
 import { dialog, app, BrowserWindow } from 'electron';
 import { autoUpdater } from 'electron-updater';
-import * as dev from 'electron-is-dev';
-import log from 'electron-log';
 
-log.transports.file.level = dev ? 'debug' : 'info';
-autoUpdater.logger = log;
+import Logger from './logger';
+
+autoUpdater.logger = new Logger('Updater');
 
 export default class Updater {
   constructor(private readonly _window: BrowserWindow) {
     autoUpdater.setFeedURL({
       provider: 'github',
-      repo: 'kido',
+      repo: 'redis-x',
       owner: 'aacebo',
       private: true,
       token: process.env.GH_TOKEN,
@@ -32,7 +31,7 @@ export default class Updater {
       } else if (update.updateInfo.version !== version) {
         const choice = await dialog.showMessageBox(window, {
           message: 'Update Available',
-          detail: 'A newer version of Kido is available, would you list to update?',
+          detail: 'A newer version of Redis-X is available, would you list to update?',
           buttons: ['Update', 'Cancel'],
         });
 

@@ -17,6 +17,7 @@ export default class Database {
   private static _instance: Database;
 
   private _sequalize: Sequelize;
+  private readonly _logger = new Logger('Database');
 
   get clients() { return this._clients; }
   private _clients: ModelCtor<Model<models.IClient>>;
@@ -33,13 +34,13 @@ export default class Database {
 
       this._sequalize.authenticate();
 
-      this._clients = entities.defineClientsEntity(this._sequalize);
+      this._clients = entities.defineClientsEntity(this._sequalize, this._logger);
 
       this._sequalize.sync();
 
-      Logger.info('Database', 'connected');
+      this._logger.info('connected');
     } catch (e) {
-      Logger.error('Database', 'failed to connect');
+      this._logger.error('failed to connect');
     }
   }
 }

@@ -10,6 +10,7 @@ import { jsonTryParse, jsonTryStringify, parseRedisInfo } from './utils';
 class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
   private readonly _statuses: { [id: string]: 'open' | 'reconnecting' | 'closed' } = { };
+  private readonly _logger = new Logger('Redis');
   private _infoTimeout: NodeJS.Timeout;
 
   constructor() {
@@ -92,7 +93,7 @@ class Redis {
       this._clients[v.id].on('end', () => this._onEnd(e, v.id));
       this._clients[v.id].on('error', (err) => this._onError(e, v.id, err));
     } catch (err) {
-      Logger.error('Redis:Client:Connect', err);
+      this._logger.error(err, 'Client', 'Connect');
     }
   }
 
@@ -101,13 +102,13 @@ class Redis {
     this._infoTimeout = undefined;
 
     this._clients[v.id].quit(err => {
-      if (err) Logger.error('Redis:Client:Close', err.message);
+      if (err) this._logger.error(err.message, 'Client', 'Close');
     });
   }
 
   clientInfo(e: IpcMainEvent, v: dtos.IClientInfoRequest) {
     this._clients[v.id].info((err, i) => {
-      if (err) Logger.error('Redis:Client:Info', err.message);
+      if (err) this._logger.error(err.message, 'Client', 'Info');
       if (!i) return;
 
       const info = parseRedisInfo(i as any);
@@ -127,7 +128,7 @@ class Redis {
     const now = new Date();
 
     this._clients[v.id].ping((err) => {
-      if (err) Logger.error('Redis:Client:Ping', err.message);
+      if (err) this._logger.error(err.message, 'Client', 'Ping');
 
       e.sender.send('redis:client:ping.return', {
         id: v.id,
@@ -148,7 +149,7 @@ class Redis {
       client.on('ready', () => this._onTestComplete(e, client, true));
       client.on('error', () => this._onTestComplete(e, client, false));
     } catch (err) {
-      Logger.error('Redis:Client:Test', err);
+      this._logger.error(err, 'Client', 'Test');
     }
   }
 
@@ -158,7 +159,7 @@ class Redis {
 
   keyValueKeys(e: IpcMainEvent, v: dtos.IKeyValueKeysRequest) {
     this._clients[v.id].keys('*', (err, k) => {
-      if (err) Logger.error('Redis:KeyValue:Keys', err.message);
+      if (err) this._logger.error(err.message, 'KeyValue', 'Keys');
 
       const keys = { };
 
@@ -175,7 +176,7 @@ class Redis {
 
   keyValueGet(e: IpcMainEvent, v: dtos.IKeyValueGetRequest) {
     this._clients[v.id].get(v.key, (err, res) => {
-      if (err) Logger.error('Redis:KeyValue:Get', err.message);
+      if (err) this._logger.error(err.message, 'KeyValue', 'Get');
 
       const o = jsonTryParse(res);
 
@@ -189,7 +190,7 @@ class Redis {
 
   keyValueSet(e: IpcMainEvent, v: dtos.IKeyValueSetRequest) {
     this._clients[v.id].set(v.key, jsonTryStringify(v.value) || v.value, (err) => {
-      if (err) Logger.error('Redis:KeyValue:Set', err.message);
+      if (err) this._logger.error(err.message, 'KeyValue', 'Set');
 
       e.sender.send('redis:key-value:set.return', v as dtos.IKeyValueSetResponse);
     });
@@ -197,7 +198,7 @@ class Redis {
 
   keyValueDelete(e: IpcMainEvent, v: dtos.IKeyValueDeleteRequest) {
     this._clients[v.id].del(v.key, (err) => {
-      if (err) Logger.error('Redis:KeyValue:Delete', err.message);
+      if (err) this._logger.error(err.message, 'KeyValue', 'Delete');
 
       e.sender.send('redis:key-value:delete.return', v as dtos.IKeyValueDeleteResponse);
     });
@@ -240,7 +241,7 @@ class Redis {
   }
 
   private _onError(e: IpcMainEvent, id: string, err: Error) {
-    Logger.error('Redis:Client:Error', err.message);
+    this._logger.error(err.message, 'Client', 'Error');
 
     e.sender.send('redis:client:error', {
       id,

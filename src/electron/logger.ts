@@ -2,20 +2,32 @@ import * as chalk from 'chalk';
 import { format } from 'date-fns';
 
 export default class Logger {
-  private static get _timestamp() {
+  private get _timestamp() {
     const now = new Date();
     return `[${format(now, 'MM/dd/yyyy HH:mm:ss')}]`;
   }
 
-  static info(ctx: string, msg: string) {
-    console.info(chalk.cyan(`${this._timestamp}[${ctx}] -> ${msg}`));
+  constructor(private readonly _ctx: string) { }
+
+  info(msg: string, ...ctxArgs: string[]) {
+    console.info(chalk.cyan(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] -> ${msg}`));
   }
 
-  static warn(ctx: string, msg: string) {
-    console.warn(chalk.yellow(`${this._timestamp}[${ctx}] -> ${msg}`));
+  warn(msg: string, ...ctxArgs: string[]) {
+    console.warn(chalk.yellow(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] -> ${msg}`));
   }
 
-  static error(ctx: string, msg: string) {
-    console.error(chalk.red(`${this._timestamp}[${ctx}] -> ${msg}`));
+  error(msg: string, ...ctxArgs: string[]) {
+    console.error(chalk.red(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] -> ${msg}`));
+  }
+
+  private _getSubContext(ctxArgs?: string[]) {
+    let str = '';
+
+    for (const ctx of ctxArgs) {
+      str += `:${ctx}`;
+    }
+
+    return str;
   }
 }
