@@ -1,27 +1,30 @@
-# RedisX
+<p align="center">
+  <a href="https://redis-x.io/">
+    <img src="src/assets/logo/png/1024x1024.png" alt="Redis-X" height="200" />
+  </a>
+</p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.6.
+<h1 align="center">
+  Redis-X
+</h1>
 
-## Development server
+<p align="center">
+  A simple GUI alternative to redis-cli
+</p>
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# Development
 
-## Code scaffolding
+Run `npm start` to run the app locally.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+# Production
 
-## Build
+Run `npm run pkg:${env}` to package the app using production builds locally
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+# Publish
 
-## Running unit tests
+Run `npm run publish` to publish a release
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+# Built Using
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- [Electron](https://electronjs.org) - Desktop Framework
+- [Angular](https://angular.io/) - Web Framework
