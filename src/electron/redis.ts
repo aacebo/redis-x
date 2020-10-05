@@ -10,8 +10,8 @@ import { jsonTryParse, jsonTryStringify, parseRedisInfo } from './utils';
 class Redis {
   private readonly _clients: { [id: string]: redis.RedisClient } = { };
   private readonly _statuses: { [id: string]: 'open' | 'reconnecting' | 'closed' } = { };
+  private readonly _infoTimeouts: { [id: string]: NodeJS.Timeout } = { };
   private readonly _logger = new Logger('Redis');
-  private _infoTimeout: NodeJS.Timeout;
 
   constructor() {
     ipcMain.on('redis:client:create', this.clientCreate.bind(this));
@@ -66,8 +66,8 @@ class Redis {
   }
 
   async clientRemove(_: IpcMainEvent, v: dtos.IClientRemoveRequest) {
-    clearInterval(this._infoTimeout);
-    this._infoTimeout = undefined;
+    clearInterval(this._infoTimeouts[v.id]);
+    delete this._infoTimeouts[v.id];
 
     this._clients[v.id]?.quit();
     delete this._clients[v.id];
@@ -98,8 +98,8 @@ class Redis {
   }
 
   clientClose(_: IpcMainEvent, v: dtos.IClientCloseRequest) {
-    clearInterval(this._infoTimeout);
-    this._infoTimeout = undefined;
+    clearInterval(this._infoTimeouts[v.id]);
+    delete this._infoTimeouts[v.id];
 
     this._clients[v.id].quit(err => {
       if (err) this._logger.error(err.message, 'Client', 'Close');
@@ -216,7 +216,7 @@ class Redis {
     this.clientInfo(e, { id });
     this.clientPing(e, { id });
 
-    this._infoTimeout = setInterval(() => {
+    this._infoTimeouts[id] = setInterval(() => {
       this.clientInfo(e, { id });
       this.clientPing(e, { id });
     }, 300000);

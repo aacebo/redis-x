@@ -1,6 +1,6 @@
 <ng-container *ngIf="info[active]">
   <div class="rdx-actionbar--item">
-    v{{ info[active].server.redisVersion }}
+    v{{ info[active].server?.redisVersion }}
   </div>
 
   <div
@@ -11,14 +11,6 @@
     <rdx-icon name="refresh-cw" diameter="13" strokeWidth="1.5"></rdx-icon>
   </div>
 
-  <div
-    class="rdx-actionbar--item action"
-    ngbTooltip="Errors"
-    (click)="errors.emit()"
-  >
-    <rdx-icon name="alert-triangle" diameter="13" strokeWidth="1.5"></rdx-icon>
-  </div>
-
   <div class="rdx-spacer"></div>
 
   <div class="rdx-actionbar--item">
@@ -26,6 +18,6 @@
   </div>
 
   <div class="rdx-actionbar--item">
-    Mem: {{ info[active].memory.usedMemoryDatasetPerc }}
+    Mem: {{ info[active].memory?.usedMemoryDatasetPerc }}
   </div>
 </ng-container>

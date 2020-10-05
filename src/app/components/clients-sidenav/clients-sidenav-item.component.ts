@@ -17,10 +17,10 @@ export class ClientsSidenavItemComponent {
   @Output() edit = new EventEmitter<IClient>();
 
   onConnect(e: Event) {
-    e.stopImmediatePropagation();
-    e.preventDefault();
-
     if (this.client.status !== 'closed') {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+
       this.disconnect.emit(this.client.id);
     } else {
       this.connect.emit(this.client);
