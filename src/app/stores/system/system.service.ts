@@ -32,6 +32,8 @@ export class SystemService implements IStore<ISystemState> {
 
   checkForUpdate() {
     this._api.once<dtos.IUpdaterCheckResponse>('updater:check.return', (_, res) => {
+      console.info(res.available ? 'update available' : 'your up to date!');
+
       this._state$.next({
         ...this._state$.value,
         updateAvailable: res.available,

@@ -12,6 +12,6 @@ export class AboutDialogService {
 
   open() {
     const ref = this._modal.open(AboutDialogComponent, { size: 'sm' });
-    return ref;
+    return ref.result;
   }
 }

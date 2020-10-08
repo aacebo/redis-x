@@ -1,0 +1,4 @@
+owner: aacebo
+repo: redis-x
+provider: github
+updaterCacheDirName: redis-x-updater
