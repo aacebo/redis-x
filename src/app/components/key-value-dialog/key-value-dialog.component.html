@@ -5,7 +5,7 @@
       [active]="i === data.path.length - 1"
       [attr.title]="p"
     >
-      {{ p }}
+      {{ p || '(new key)' }}
     </rdx-breadcrumb>
   </rdx-breadcrumbs>
 
