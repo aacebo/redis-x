@@ -23,13 +23,14 @@
   [formGroup]="form"
 >
   <rdx-form-group>
-    <label rdx-label>Key</label>
+    <label rdx-label>Key {{ data.hostType === 'array' ? '(array index)' : '' }}</label>
 
     <rdx-input-group>
       <input
         rdx-form-control
         formControlName="key"
         placeholder="Key..."
+        [rdxNumber]="data.hostType === 'array'"
         required
         (rdxSubmit)="update()"
       />
