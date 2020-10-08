@@ -81,26 +81,11 @@ export class JsonTreeComponent implements OnInit {
   get nodes() { return this._nodes; }
   private _nodes: IJsonTreeNode[] = [];
 
-  readonly actions: Array<{
-    readonly type: JsonTreeNodeAction,
-    readonly icon: string;
-    readonly text: string;
-  }> = [
-    { type: 'add', icon: 'plus', text: 'Add Sibling' },
-    { type: 'edit', icon: 'edit', text: 'Edit' },
-    { type: 'copy', icon: 'copy', text: 'Copy' },
-    { type: 'remove', icon: 'trash', text: 'Remove' },
-  ];
-
   constructor(private readonly _cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
     if (this._json !== undefined && !this.nodes.length) {
       this._nodes = parseJsonTreeNodes(this.path, this._json, this.filter);
-    }
-
-    if (!this.child) {
-      this.actions.push({ type: 'refresh', icon: 'refresh-cw', text: 'Refresh' });
     }
 
     this._generateState();

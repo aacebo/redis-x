@@ -13,14 +13,27 @@
           (click)="toggle($event, node)"
         >
           <ng-template #actionsTpl>
-            <div
-              *ngFor="let action of actions"
-              class="rdx-action"
-              (click)="onActionClick(action.type, node)"
-            >
-              <rdx-icon [name]="action.icon" diameter="12"></rdx-icon>
-              {{ action.text }}
-            </div>
+            <rdx-json-tree-actions>
+              <rdx-json-tree-action *ngIf="node.expandable" icon="plus" (click)="onActionClick('add', node)">
+                Add
+              </rdx-json-tree-action>
+
+              <rdx-json-tree-action icon="edit" (click)="onActionClick('edit', node)">
+                Edit
+              </rdx-json-tree-action>
+
+              <rdx-json-tree-action icon="copy" (click)="onActionClick('copy', node)">
+                Copy
+              </rdx-json-tree-action>
+
+              <rdx-json-tree-action icon="trash" (click)="onActionClick('remove', node)">
+                Delete
+              </rdx-json-tree-action>
+
+              <rdx-json-tree-action *ngIf="!child" icon="refresh-cw" (click)="onActionClick('refresh', node)">
+                Refresh
+              </rdx-json-tree-action>
+            </rdx-json-tree-actions>
           </ng-template>
 
           <rdx-icon

@@ -53,7 +53,7 @@ export class ClientComponent {
     if (e.type === 'add') {
       this.onValueClick({
         key: '',
-        path: [...e.node.path.slice(0, e.node.path.length - 1), ''],
+        path: [...e.node.path, ''],
         description: '',
         value: '',
       });
