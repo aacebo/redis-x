@@ -12,5 +12,6 @@ export class ActionbarComponent {
   @Input() active: string;
   @Input() info: { [clientId: string]: IInfo; } = { };
 
-  @Output() refresh = new EventEmitter<void>();
+  @Output() refresh = new EventEmitter<string>();
+  @Output() flushAll = new EventEmitter<string>();
 }

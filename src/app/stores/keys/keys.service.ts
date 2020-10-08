@@ -31,6 +31,12 @@ export class KeysService implements IStore<IKeysState> {
     return this._state$.value[clientId];
   }
 
+  remove(clientId: string) {
+    const state = this._state$.value;
+    delete state[clientId];
+    this._state$.next(state);
+  }
+
   keys(v: dtos.IKeyValueKeysRequest) {
     this._api.send('redis:key-value:keys', v);
   }
@@ -61,10 +67,12 @@ export class KeysService implements IStore<IKeysState> {
     this._api.send('redis:key-value:delete', v);
   }
 
-  remove(clientId: string) {
-    const state = this._state$.value;
-    delete state[clientId];
-    this._state$.next(state);
+  flushAll(v: dtos.IKeyValueFlushAllRequest) {
+    this._api.once<dtos.IKeyValueFlushAllResponse>('redis:key-value:flush-all.return', (_, res) => {
+      this.remove(res.id);
+    });
+
+    this._api.send('redis:key-value:flush-all', v);
   }
 
   private _setKeyValue<V = any>(clientId: string, key: string, v: V) {

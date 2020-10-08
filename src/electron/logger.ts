@@ -10,15 +10,15 @@ export default class Logger {
   constructor(private readonly _ctx: string) { }
 
   info(msg: string, ...ctxArgs: string[]) {
-    console.info(chalk.cyan(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] -> ${msg}`));
+    console.info(chalk.cyan(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] > ${msg}`));
   }
 
   warn(msg: string, ...ctxArgs: string[]) {
-    console.warn(chalk.yellow(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] -> ${msg}`));
+    console.warn(chalk.yellow(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] > ${msg}`));
   }
 
   error(msg: string, ...ctxArgs: string[]) {
-    console.error(chalk.red(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] -> ${msg}`));
+    console.error(chalk.red(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] > ${msg}`));
   }
 
   private _getSubContext(ctxArgs?: string[]) {

@@ -6,9 +6,17 @@
   <div
     class="rdx-actionbar--item action"
     ngbTooltip="Refresh Keys"
-    (click)="refresh.emit()"
+    (click)="refresh.emit(active)"
   >
     <rdx-icon name="refresh-cw" diameter="13" strokeWidth="1.5"></rdx-icon>
+  </div>
+
+  <div
+    class="rdx-actionbar--item action"
+    ngbTooltip="Remove All Keys"
+    (click)="flushAll.emit(active)"
+  >
+    <rdx-icon name="trash" diameter="13" strokeWidth="1.5"></rdx-icon>
   </div>
 
   <div class="rdx-spacer"></div>

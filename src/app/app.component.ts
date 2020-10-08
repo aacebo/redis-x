@@ -8,6 +8,7 @@ import { ClientsService } from './stores/clients';
 
 import { ISidenavItem } from './components/sidenav';
 import { AboutDialogService } from './components/about-dialog';
+import { ConfirmDialogService } from './components/confirm-dialog';
 
 import { ApiService } from './api';
 import { RouterService } from './router';
@@ -38,6 +39,7 @@ export class AppComponent implements OnInit {
     private readonly _searchService: SearchService,
     private readonly _keysService: KeysService,
     private readonly _aboutDialogService: AboutDialogService,
+    private readonly _confirmDialogService: ConfirmDialogService,
   ) { }
 
   ngOnInit() {
@@ -49,8 +51,16 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onRefresh() {
-    this._keysService.keys({ id: this.router.clientId });
+  onRefresh(id: string) {
+    this._keysService.keys({ id });
+  }
+
+  onFlushAll(id: string) {
+    this._confirmDialogService.open('are you sure you want to remove all key/value data?').result.then(confirmed => {
+      if (confirmed) {
+        this._keysService.flushAll({ id });
+      }
+    }).catch(() => undefined);
   }
 
   private _onSearch() {

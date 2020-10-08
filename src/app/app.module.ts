@@ -8,6 +8,7 @@ import { ToolbarModule } from './components/toolbar';
 import { ActionbarModule } from './components/actionbar';
 import { SidenavModule } from './components/sidenav';
 import { AboutDialogModule } from './components/about-dialog';
+import { ConfirmDialogModule } from './components/confirm-dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +35,7 @@ import { AppComponent } from './app.component';
     ActionbarModule,
     SidenavModule,
     AboutDialogModule,
+    ConfirmDialogModule,
   ],
 })
 export class AppModule { }

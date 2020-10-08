@@ -27,6 +27,7 @@ class Redis {
     ipcMain.on('redis:key-value:set', this.keyValueSet.bind(this));
     ipcMain.on('redis:key-value:keys', this.keyValueKeys.bind(this));
     ipcMain.on('redis:key-value:delete', this.keyValueDelete.bind(this));
+    ipcMain.on('redis:key-value:flush-all', this.keyValueFlushAll.bind(this));
   }
 
   ///
@@ -201,6 +202,14 @@ class Redis {
       if (err) this._logger.error(err.message, 'KeyValue', 'Delete');
 
       e.sender.send('redis:key-value:delete.return', v as dtos.IKeyValueDeleteResponse);
+    });
+  }
+
+  keyValueFlushAll(e: IpcMainEvent, v: dtos.IKeyValueDeleteRequest) {
+    this._clients[v.id].flushall((err) => {
+      if (err) this._logger.error(err.message, 'KeyValue', 'FlushAll');
+
+      e.sender.send('redis:key-value:flush-all.return', v as dtos.IKeyValueFlushAllResponse);
     });
   }
 

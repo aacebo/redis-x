@@ -8,5 +8,6 @@
   *ngIf="router.clientId$ | async; let id"
   [active]="id"
   [info]="infoService.state$ | async"
-  (refresh)="onRefresh()"
+  (refresh)="onRefresh($event)"
+  (flushAll)="onFlushAll($event)"
 ></rdx-actionbar>
