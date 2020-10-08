@@ -46,8 +46,7 @@ export class ClientComponent {
       value: node.value,
       type: node.type,
       hostType: node.hostType,
-    }).result.then(v => this._onKeyValueDialogClose(node, v))
-             .catch(() => undefined);
+    }).then(v => this._onKeyValueDialogClose(node, v));
   }
 
   onActionClick(e: IJsonTreeNodeActionClickEvent) {
@@ -81,8 +80,7 @@ export class ClientComponent {
 
   private _delete(node: IJsonTreeNode) {
     this._confirmDialogService.open('are you sure you want to delete this node?')
-      .result.then(v => this._onDeleteConfirmDialogClose(node, v))
-             .catch(() => undefined);
+      .then(v => this._onDeleteConfirmDialogClose(node, v));
   }
 
   private _onKeyValueDialogClose(node: IJsonTreeNode, v: IKeyValueResponse) {

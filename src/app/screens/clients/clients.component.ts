@@ -28,32 +28,32 @@ export class ClientsComponent {
   ) { }
 
   create() {
-    this._clientDialogService.open().result.then(v => {
+    this._clientDialogService.open().then(v => {
       if (v) {
         this.clientsService.create(v);
       }
-    }).catch(() => undefined);
+    });
   }
 
   edit(e: IClient) {
-    this._clientDialogService.open(e).result.then(v => {
+    this._clientDialogService.open(e).then(v => {
       if (v) {
         this.clientsService.update({
           ...e,
           ...v,
         });
       }
-    }).catch(() => undefined);
+    });
   }
 
   remove(id: string) {
-    this._confirmDialogService.open('are you sure you want to delete this connection profile?').result.then(v => {
+    this._confirmDialogService.open('are you sure you want to delete this connection profile?').then(v => {
       if (v) {
         this.clientsService.remove({ id });
         this._keysService.remove(id);
         this._infoService.remove(id);
       }
-    }).catch(() => undefined);
+    });
   }
 
   connect(e: IClient) {

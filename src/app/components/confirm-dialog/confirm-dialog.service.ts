@@ -13,6 +13,6 @@ export class ConfirmDialogService {
   open(message: string) {
     const ref = this._modal.open(ConfirmDialogComponent);
     ref.componentInstance.message = message;
-    return ref;
+    return ref.result.catch(() => undefined);
   }
 }

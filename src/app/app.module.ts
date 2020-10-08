@@ -9,6 +9,7 @@ import { ActionbarModule } from './components/actionbar';
 import { SidenavModule } from './components/sidenav';
 import { AboutDialogModule } from './components/about-dialog';
 import { ConfirmDialogModule } from './components/confirm-dialog';
+import { KeyValueDialogModule } from './components/key-value-dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -36,6 +37,7 @@ import { AppComponent } from './app.component';
     SidenavModule,
     AboutDialogModule,
     ConfirmDialogModule,
+    KeyValueDialogModule,
   ],
 })
 export class AppModule { }

@@ -14,6 +14,6 @@ export class KeyValueDialogService {
   open<T = any>(data: IKeyValueData<T>) {
     const ref = this._modal.open(KeyValueDialogComponent, { size: 'xl' });
     ref.componentInstance.data = data;
-    return ref;
+    return ref.result.catch(() => undefined);
   }
 }

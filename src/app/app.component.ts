@@ -6,9 +6,12 @@ import { KeysService } from './stores/keys';
 import { SearchService } from './stores/search';
 import { ClientsService } from './stores/clients';
 
+import { JsonTreeNodeType } from './common/json-tree';
+
 import { ISidenavItem } from './components/sidenav';
 import { AboutDialogService } from './components/about-dialog';
 import { ConfirmDialogService } from './components/confirm-dialog';
+import { KeyValueDialogService, IKeyValueResponse } from './components/key-value-dialog';
 
 import { ApiService } from './api';
 import { RouterService } from './router';
@@ -40,6 +43,7 @@ export class AppComponent implements OnInit {
     private readonly _keysService: KeysService,
     private readonly _aboutDialogService: AboutDialogService,
     private readonly _confirmDialogService: ConfirmDialogService,
+    private readonly _keyValueDialogService: KeyValueDialogService,
   ) { }
 
   ngOnInit() {
@@ -51,16 +55,33 @@ export class AppComponent implements OnInit {
     });
   }
 
+  onAdd(id: string) {
+    this._keyValueDialogService.open({
+      path: [''],
+      hostType: JsonTreeNodeType.Object,
+      type: JsonTreeNodeType.String,
+      value: '',
+    }).then((res: IKeyValueResponse) => {
+      if (res) {
+        this._keysService.set({
+          id,
+          key: res.key,
+          value: res.value,
+        });
+      }
+    });
+  }
+
   onRefresh(id: string) {
     this._keysService.keys({ id });
   }
 
   onFlushAll(id: string) {
-    this._confirmDialogService.open('are you sure you want to remove all key/value data?').result.then(confirmed => {
+    this._confirmDialogService.open('are you sure you want to remove all key/value data?').then(confirmed => {
       if (confirmed) {
         this._keysService.flushAll({ id });
       }
-    }).catch(() => undefined);
+    });
   }
 
   private _onSearch() {
@@ -69,6 +90,7 @@ export class AppComponent implements OnInit {
 
   private _onSubMenuToggle() {
     this.appService.subMenuClosed = !this.appService.subMenuClosed;
+
     this.sidenavItems.splice(3, 1, {
       ...this.sidenavItems[3],
       icon: this.appService.subMenuClosed ? 'chevron-right' : 'chevron-left',

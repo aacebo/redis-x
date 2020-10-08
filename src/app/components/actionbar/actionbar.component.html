@@ -5,6 +5,14 @@
 
   <div
     class="rdx-actionbar--item action"
+    ngbTooltip="Add Key"
+    (click)="add.emit(active)"
+  >
+    <rdx-icon name="plus" diameter="13" strokeWidth="1.5"></rdx-icon>
+  </div>
+
+  <div
+    class="rdx-actionbar--item action"
     ngbTooltip="Refresh Keys"
     (click)="refresh.emit(active)"
   >

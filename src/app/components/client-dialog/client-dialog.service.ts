@@ -15,6 +15,6 @@ export class ClientDialogService {
   open(client?: IClient) {
     const ref = this._modal.open(ClientDialogComponent);
     ref.componentInstance.client = client;
-    return ref;
+    return ref.result.catch(() => undefined);
   }
 }
