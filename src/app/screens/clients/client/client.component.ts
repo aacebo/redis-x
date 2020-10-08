@@ -10,7 +10,7 @@ import { ClientsService } from '../../../stores/clients';
 import { KeysService } from '../../../stores/keys';
 import { SearchService } from '../../../stores/search';
 
-import { IJsonTreeNode, IJsonTreeNodeActionClickEvent } from '../../../common/json-tree';
+import { IJsonTreeNode, IJsonTreeNodeActionClickEvent, JsonTreeNodeType } from '../../../common/json-tree';
 import { IKeyValueResponse, KeyValueDialogService } from '../../../components/key-value-dialog';
 import { ConfirmDialogService } from '../../../components/confirm-dialog';
 
@@ -45,6 +45,7 @@ export class ClientComponent {
       path: node.path,
       value: node.value,
       type: node.type,
+      hostType: node.hostType,
     }).result.then(v => this._onKeyValueDialogClose(node, v))
              .catch(() => undefined);
   }
@@ -56,6 +57,8 @@ export class ClientComponent {
         path: [...e.node.path, ''],
         description: '',
         value: '',
+        type: JsonTreeNodeType.String,
+        hostType: e.node.type as any,
       });
     } else if (e.type === 'edit') {
       this.onValueClick(e.node);

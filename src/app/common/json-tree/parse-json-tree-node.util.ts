@@ -1,12 +1,20 @@
 import { IJsonTreeNode } from './json-tree-node.interface';
 import { JsonTreeNodeType } from './json-tree-node-type.enum';
 
-export function parseJsonTreeNode(path: string[], key: string, value: any, filter?: string) {
+export function parseJsonTreeNode(
+  hostType: JsonTreeNodeType.Object | JsonTreeNodeType.Array,
+  path: string[],
+  key: string,
+  value: any,
+  filter?: string,
+) {
   const type = typeof value;
   const node: IJsonTreeNode = {
     path: [...path, key],
     key,
     value,
+    type: JsonTreeNodeType.Undefined,
+    hostType,
     description: `${value}`,
   };
 

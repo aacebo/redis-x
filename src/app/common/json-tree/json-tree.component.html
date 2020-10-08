@@ -73,12 +73,12 @@
           [title]="node.description"
           (click)="onPropertyValueClick(node)"
         >
-          <ng-container *ngIf="node.value === undefined">
+          <ng-container *ngIf="node.value === undefined && !child">
             {{ '{ ... }' }}
           </ng-container>
 
           <rdx-highlight
-            *ngIf="node.value !== undefined"
+            *ngIf="node.value !== undefined || child"
             [keyword]="filter"
             [text]="node.description"
           ></rdx-highlight>
