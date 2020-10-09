@@ -1,5 +1,8 @@
 .rdx-json-editor {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  min-height: 1px;
+  min-width: 1px;
   overflow: auto;
   border: 1px solid transparent;
   border-radius: 4px;
