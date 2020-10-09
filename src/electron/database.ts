@@ -22,6 +22,9 @@ export default class Database {
   get clients() { return this._clients; }
   private _clients: ModelCtor<Model<models.IClient>>;
 
+  get logs() { return this._logs; }
+  private _logs: ModelCtor<Model<models.ILog>>;
+
   private constructor() { }
 
   async start() {
@@ -35,6 +38,7 @@ export default class Database {
       this._sequalize.authenticate();
 
       this._clients = entities.defineClientsEntity(this._sequalize, this._logger);
+      this._logs = entities.defineLogsEntity(this._sequalize, this._logger);
 
       this._sequalize.sync();
 

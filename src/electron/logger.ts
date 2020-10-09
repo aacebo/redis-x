@@ -1,5 +1,9 @@
 import * as chalk from 'chalk';
+import * as uuid from 'uuid';
 import { format } from 'date-fns';
+
+import Database from './database';
+import { LogLevel } from './enums';
 
 export default class Logger {
   private get _timestamp() {
@@ -19,6 +23,7 @@ export default class Logger {
 
   error(msg: string, ...ctxArgs: string[]) {
     console.error(chalk.red(`${this._timestamp}[${this._ctx}${this._getSubContext(ctxArgs)}] > ${msg}`));
+    Database.instance.logs.create({ id: uuid.v4(), level: LogLevel.Error, message: msg });
   }
 
   private _getSubContext(ctxArgs?: string[]) {

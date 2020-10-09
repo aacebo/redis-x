@@ -47,7 +47,7 @@ class Redis {
   }
 
   async clientCreate(e: IpcMainEvent, v: dtos.IClientCreateRequest) {
-    const id = uuid.v1();
+    const id = uuid.v4();
     await Database.instance.clients.create({ id, ...v });
 
     e.sender.send('redis:client:create.return', {
