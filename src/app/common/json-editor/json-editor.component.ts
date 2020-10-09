@@ -104,12 +104,11 @@ export class JsonEditorComponent implements OnInit, AfterViewInit, OnDestroy, Co
       theme: 'dracula',
       mode: 'application/json',
       readOnly: this._disabled,
-      lint: true,
+      lint: false,
       tabSize: 2,
       autofocus: true,
       foldGutter: true,
       gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter'],
-      viewportMargin: Infinity,
       autoCloseBrackets: true,
       matchBrackets: true,
     });
