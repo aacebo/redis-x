@@ -48,8 +48,10 @@ export function parseJsonTreeNode(
   node.expandable = node.type === JsonTreeNodeType.Object ||
                     node.type === JsonTreeNodeType.Array;
 
-  node.visible = !filter ||
-                 (filter && (key.includes(filter) || node.description.includes(filter)));
+  node.visible = !filter || (filter && (
+    key.includes(filter) ||
+    node.description.includes(filter)
+  ));
 
   return node;
 }
