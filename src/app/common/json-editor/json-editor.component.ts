@@ -15,11 +15,17 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 import CodeMirror from 'codemirror';
+import 'codemirror/mode/javascript/javascript.js';
+
+// addons
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/matchbrackets.js';
 import 'codemirror/addon/fold/brace-fold.js';
 import 'codemirror/addon/lint/lint.js';
-import 'codemirror/mode/javascript/javascript.js';
+import 'codemirror/addon/search/search.js';
+import 'codemirror/addon/search/searchcursor.js';
+import 'codemirror/addon/search/jump-to-line.js';
+import 'codemirror/addon/dialog/dialog.js';
 
 import { jsonValid } from '../../../electron/utils';
 
