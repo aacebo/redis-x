@@ -1,0 +1,92 @@
+<div
+  class="rdx-json-tree-node--key"
+  (click)="toggle($event, node)"
+>
+  <ng-template #actionsTpl>
+    <rdx-json-tree-actions>
+      <rdx-json-tree-action *ngIf="node.expandable" icon="plus" (click)="onActionClick('add', node)">
+        Add
+      </rdx-json-tree-action>
+
+      <rdx-json-tree-action icon="edit" (click)="onActionClick('edit', node)">
+        Edit
+      </rdx-json-tree-action>
+
+      <rdx-json-tree-action icon="copy" (click)="onActionClick('copy', node)">
+        Copy
+      </rdx-json-tree-action>
+
+      <rdx-json-tree-action icon="trash" (click)="onActionClick('remove', node)">
+        Delete
+      </rdx-json-tree-action>
+
+      <rdx-json-tree-action *ngIf="!child" icon="refresh-cw" (click)="onActionClick('refresh', node)">
+        Refresh
+      </rdx-json-tree-action>
+    </rdx-json-tree-actions>
+  </ng-template>
+
+  <rdx-icon
+    *ngIf="node.value !== undefined"
+    [ngbPopover]="actionsTpl"
+    #p="ngbPopover"
+    popoverClass="rdx-popover-action"
+    triggers="manual"
+    placement="auto"
+    container="body"
+    class="rdx-json-tree-node--key-actions-toggle"
+    name="more-vertical"
+    diameter="12"
+    (click)="onActionToggleClick($event, p)"
+  ></rdx-icon>
+
+  <div
+    *ngIf="node.expandable"
+    class="rdx-json-tree-node--key-toggler"
+  ></div>
+
+  <div class="rdx-json-tree-node--key-key">
+    <rdx-highlight
+      [keyword]="filter"
+      [text]="node.key"
+    ></rdx-highlight>
+  </div>
+
+  <div class="rdx-json-tree-node--key-separator">
+    :
+  </div>
+</div>
+
+<div
+  *ngIf="!state[node.key]?.expanded || !node.expandable"
+  class="rdx-json-tree-node--value rdx-ellipsis"
+  [title]="node.type"
+  (click)="onPropertyValueClick(node)"
+>
+  <ng-container *ngIf="node.value === undefined && !child">
+    {{ '{ ... }' }}
+  </ng-container>
+
+  <rdx-highlight
+    *ngIf="node.value !== undefined || child"
+    [keyword]="filter"
+    [text]="node.description"
+  ></rdx-highlight>
+</div>
+
+<div
+  *ngIf="state[node.key]?.expanded && node.expandable"
+  class="rdx-json-tree-node--children"
+>
+  <rdx-json-tree
+    child
+    [filter]="filter"
+    [path]="path.concat(node.key)"
+    [json]="node.value"
+    [state]="state[node.key].state"
+    [expanded]="expanded"
+    (propertyLoadClick)="propertyLoadClick.emit($event)"
+    (propertyValueClick)="propertyValueClick.emit($event)"
+    (propertyActionClick)="propertyActionClick.emit($event)"
+  ></rdx-json-tree>
+</div>

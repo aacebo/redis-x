@@ -1,0 +1,102 @@
+@import '../json-tree';
+
+.rdx-json-tree-node {
+  display: flex;
+  position: relative;
+
+  &:hover {
+    > .rdx-json-tree-node--key {
+      > .rdx-json-tree-node--key-actions-toggle {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  &.expandable {
+    > .rdx-json-tree-node--key {
+      cursor: pointer;
+
+      > .rdx-json-tree-node--key-actions-toggle {
+        left: -28px;
+      }
+    }
+  }
+
+  &.expanded {
+    &.expandable {
+      flex-direction: column;
+    }
+
+    > .rdx-json-tree-node--key {
+      > .rdx-json-tree-node--key-toggler {
+        &:after {
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+
+  @each $type, $color in $type-colors {
+    &.rdx-json-tree-node--#{$type} {
+      .rdx-json-tree-node--value {
+        color: $color;
+      }
+    }
+  }
+
+  .rdx-json-tree-node--key {
+    display: flex;
+
+    .rdx-json-tree-node--key-key {
+      color: #66d9ef;
+      user-select: none;
+    }
+
+    .rdx-json-tree-node--key-separator {
+      margin-right: 5px;
+      color: #fff;
+      user-select: none;
+    }
+
+    .rdx-json-tree-node--key-actions-toggle {
+      position: absolute;
+      left: -14px;
+      top: 3px;
+      color: var(--text-light);
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    .rdx-json-tree-node--key-toggler {
+      position: absolute;
+      margin-left: -14px;
+      margin-top: 3px;
+      font-size: .8em;
+      line-height: 1.2em;
+      vertical-align: middle;
+      color: #787878;
+      user-select: none;
+
+      &:after {
+        display: inline-block;
+        content: "►";
+        transition: transform 0.1s ease-in;
+      }
+    }
+  }
+
+  .rdx-json-tree-node--value {
+    overflow-x: hidden;
+    cursor: default;
+    color: #999;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

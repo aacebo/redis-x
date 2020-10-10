@@ -7,11 +7,17 @@ import { IconModule } from '../icon';
 import { HighlightModule } from '../highlight';
 
 import { JsonTreeComponent } from './json-tree.component';
+import { JsonTreeNodeComponent } from './json-tree-node/json-tree-node.component';
 import { JsonTreeActionComponent } from './json-tree-actions/json-tree-action.component';
 import { JsonTreeActionsComponent } from './json-tree-actions/json-tree-actions.component';
 
 @NgModule({
-  declarations: [JsonTreeComponent, JsonTreeActionComponent, JsonTreeActionsComponent],
+  declarations: [
+    JsonTreeComponent,
+    JsonTreeNodeComponent,
+    JsonTreeActionComponent,
+    JsonTreeActionsComponent,
+  ],
   exports: [JsonTreeComponent],
   imports: [
     CommonModule,
