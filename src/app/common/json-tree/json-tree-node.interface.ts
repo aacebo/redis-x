@@ -9,5 +9,4 @@ export interface IJsonTreeNode<T = any> {
   hostType: JsonTreeNodeType.Object | JsonTreeNodeType.Array;
   description: string;
   expandable?: boolean;
-  visible?: boolean;
 }

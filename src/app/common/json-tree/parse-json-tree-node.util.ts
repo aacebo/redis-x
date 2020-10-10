@@ -6,7 +6,6 @@ export function parseJsonTreeNode(
   path: string[],
   key: string,
   value: any,
-  filter?: string,
 ) {
   const type = typeof value;
   const node: IJsonTreeNode = {
@@ -36,22 +35,18 @@ export function parseJsonTreeNode(
       node.description = 'null';
     } else if (Array.isArray(value)) {
       node.type = JsonTreeNodeType.Array;
-      node.description = JSON.stringify(value, undefined, 2);
+      node.description = `(${value.length}) [ ${value.length > 0 ? '...' : ''} ]`;
     } else if (value instanceof Date) {
       node.type = JsonTreeNodeType.Date;
     } else {
+      const length = Object.keys(value).length;
       node.type = JsonTreeNodeType.Object;
-      node.description = JSON.stringify(value, undefined, 2);
+      node.description = `(${length}) { ${length > 0 ? '...' : ''} }`;
     }
   }
 
   node.expandable = node.type === JsonTreeNodeType.Object ||
                     node.type === JsonTreeNodeType.Array;
-
-  node.visible = !filter || (filter && (
-    key.includes(filter) ||
-    node.description.includes(filter)
-  ));
 
   return node;
 }
