@@ -6,15 +6,12 @@ import {
   OnInit,
   Output,
   ViewEncapsulation,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 
 import { IJsonTreeNode } from './json-tree-node.interface';
 import { parseJsonTreeNodes } from './parse-json-tree-nodes.util';
 import { IJsonTreeNodeExpanded } from './json-tree-node-expanded.interface';
-import { JsonTreeNodeAction } from './json-tree-node-action.type';
 import { IJsonTreeNodeActionClickEvent } from './json-tree-node-action-click-event.interface';
 
 @Component({
@@ -31,6 +28,7 @@ import { IJsonTreeNodeActionClickEvent } from './json-tree-node-action-click-eve
 export class JsonTreeComponent implements OnInit {
   @Input() path: string[] = [];
   @Input() filter?: string;
+  @Input() state: { [key: string]: IJsonTreeNodeExpanded; } = { };
 
   @Input()
   get child() { return this._child; }
@@ -45,7 +43,6 @@ export class JsonTreeComponent implements OnInit {
     this._json = v;
     this._nodes = v !== undefined ? parseJsonTreeNodes(this.path, v) : [];
     this._generateState();
-    this._cdr.markForCheck();
   }
   private _json?: any;
 
@@ -53,17 +50,8 @@ export class JsonTreeComponent implements OnInit {
   get expanded() { return this._expanded; }
   set expanded(v: boolean) {
     this._expanded = coerceBooleanProperty(v);
-    this._cdr.markForCheck();
   }
   private _expanded?: boolean;
-
-  @Input()
-  get state() { return this._state; }
-  set state(v) {
-    this._state = v;
-    this._cdr.markForCheck();
-  }
-  private _state: { [key: string]: IJsonTreeNodeExpanded } = { };
 
   @Output() propertyValueClick = new EventEmitter<IJsonTreeNode>();
   @Output() propertyLoadClick = new EventEmitter<IJsonTreeNode>();
@@ -72,40 +60,12 @@ export class JsonTreeComponent implements OnInit {
   get nodes() { return this._nodes; }
   private _nodes: IJsonTreeNode[] = [];
 
-  constructor(private readonly _cdr: ChangeDetectorRef) { }
-
   ngOnInit() {
     if (this._json !== undefined && !this.nodes.length) {
       this._nodes = parseJsonTreeNodes(this.path, this._json);
     }
 
     this._generateState();
-  }
-
-  toggle(e: Event, node: IJsonTreeNode) {
-    if (node.expandable) {
-      e.stopImmediatePropagation();
-      e.preventDefault();
-      this.state[node.key].expanded = !this.state[node.key].expanded;
-    }
-  }
-
-  onPropertyValueClick(node: IJsonTreeNode) {
-    if (node.value === undefined) {
-      this.propertyLoadClick.emit(node);
-    } else {
-      this.propertyValueClick.emit(node);
-    }
-  }
-
-  onActionToggleClick(e: Event, popover: NgbPopover) {
-    e.stopImmediatePropagation();
-    e.preventDefault();
-    popover.open();
-  }
-
-  onActionClick(type: JsonTreeNodeAction, node: IJsonTreeNode) {
-    this.propertyActionClick.emit({ type, node });
   }
 
   private _generateState() {

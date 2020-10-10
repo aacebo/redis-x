@@ -81,7 +81,7 @@
   <rdx-json-tree
     child
     [filter]="filter"
-    [path]="path.concat(node.key)"
+    [path]="node.path"
     [json]="node.value"
     [state]="state[node.key].state"
     [expanded]="expanded"
