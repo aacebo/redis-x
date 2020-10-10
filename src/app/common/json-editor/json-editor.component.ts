@@ -21,6 +21,7 @@ import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/addon/edit/closebrackets';
 import 'codemirror/addon/edit/matchbrackets.js';
 import 'codemirror/addon/fold/brace-fold.js';
+import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/lint/lint.js';
 import 'codemirror/addon/search/search.js';
 import 'codemirror/addon/search/searchcursor.js';
