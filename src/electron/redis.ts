@@ -1,6 +1,7 @@
 import { ipcMain, IpcMainEvent } from 'electron';
 import * as redis from 'redis';
 import * as uuid from 'uuid';
+import * as util from 'util';
 
 import * as dtos from './dtos/redis';
 import Database from './database';
@@ -159,13 +160,18 @@ class Redis {
   ///
 
   keyValueKeys(e: IpcMainEvent, v: dtos.IKeyValueKeysRequest) {
-    this._clients[v.id].keys('*', (err, k) => {
+    this._clients[v.id].keys('*', async (err, k) => {
       if (err) this._logger.error(err.message, 'KeyValue', 'Keys');
 
+      const type = util.promisify(this._clients[v.id].type.bind(this._clients[v.id]));
       const keys = { };
 
       for (const key of k) {
-        keys[key] = undefined;
+        const keyType = await type(key);
+
+        if (keyType === 'string') {
+          keys[key] = undefined;
+        }
       }
 
       e.sender.send('redis:key-value:keys.return', {
