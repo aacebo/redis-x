@@ -7,7 +7,10 @@ import * as dtos from '../../../electron/dtos/redis';
 
 import { ApiService } from '../../api';
 import { RouterService } from '../../router';
+
 import { IStore } from '../store.interface';
+import { KeysService } from '../keys';
+import { InfoService } from '../info';
 
 import { IClientsState } from './clients-state.interface';
 import { IClient } from './client.interface';
@@ -25,6 +28,8 @@ export class ClientsService implements IStore<IClientsState> {
     private readonly _router: RouterService,
     private readonly _api: ApiService,
     private readonly _toastr: ToastrService,
+    private readonly _keysService: KeysService,
+    private readonly _infoService: InfoService,
   ) {
     this._api.on<dtos.IClientStatusResponse>('redis:client:status', (_, res) => {
       this._setClientProp(res.id, 'status', res.status);
@@ -32,6 +37,9 @@ export class ClientsService implements IStore<IClientsState> {
       if (res.status === 'open') {
         const client = this._state$.value[res.id];
         this._toastr.info(`Connected to ${client.host}:${client.port}`);
+      } else {
+        this._keysService.remove(res.id);
+        this._infoService.remove(res.id);
       }
     });
 

@@ -39,7 +39,7 @@ export class JsonTreeComponent implements OnInit {
 
   @Input()
   get json() { return this._json; }
-  set json(v: any) {
+  set json(v) {
     this._json = v;
     this._nodes = v !== undefined ? parseJsonTreeNodes(this.path, v) : [];
     this._generateState();
@@ -48,7 +48,7 @@ export class JsonTreeComponent implements OnInit {
 
   @Input()
   get expanded() { return this._expanded; }
-  set expanded(v: boolean) {
+  set expanded(v) {
     this._expanded = coerceBooleanProperty(v);
   }
   private _expanded?: boolean;

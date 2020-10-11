@@ -1,8 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { ClientsService, IClient } from '../../stores/clients';
-import { KeysService } from '../../stores/keys';
-import { InfoService } from '../../stores/info';
 
 import { ClientDialogService } from '../../components/client-dialog';
 import { ConfirmDialogService } from '../../components/confirm-dialog';
@@ -21,8 +19,6 @@ export class ClientsComponent {
     readonly appService: AppService,
     readonly clientsService: ClientsService,
     readonly router: RouterService,
-    private readonly _keysService: KeysService,
-    private readonly _infoService: InfoService,
     private readonly _clientDialogService: ClientDialogService,
     private readonly _confirmDialogService: ConfirmDialogService,
   ) { }
@@ -50,8 +46,6 @@ export class ClientsComponent {
     this._confirmDialogService.open('are you sure you want to delete this connection profile?').then(v => {
       if (v) {
         this.clientsService.remove({ id });
-        this._keysService.remove(id);
-        this._infoService.remove(id);
       }
     });
   }
@@ -62,7 +56,5 @@ export class ClientsComponent {
 
   disconnect(id: string) {
     this.clientsService.close({ id });
-    this._keysService.remove(id);
-    this._infoService.remove(id);
   }
 }
