@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 import { jsonTryStringify } from '../../../../electron/utils';
 import { ApiService } from '../../../api';
 
-import { ClientsService } from '../../../stores/clients';
+import { ClientsService, IClient } from '../../../stores/clients';
 import { KeysService } from '../../../stores/keys';
 import { SearchService } from '../../../stores/search';
 
@@ -24,20 +24,40 @@ export class ClientComponent {
   private get _id() { return this._route.snapshot.paramMap.get('id'); }
   readonly id$: Observable<string>;
 
+  readonly client$: Observable<IClient>;
+  readonly keys$: Observable<{ [key: string]: any }>;
+  readonly keysCount$: Observable<number>;
+
   constructor(
-    readonly clientsService: ClientsService,
-    readonly keysService: KeysService,
     readonly searchService: SearchService,
+    private readonly _clientsService: ClientsService,
+    private readonly _keysService: KeysService,
     private readonly _api: ApiService,
     private readonly _confirmDialogService: ConfirmDialogService,
     private readonly _keyValueDialogService: KeyValueDialogService,
     private readonly _route: ActivatedRoute,
   ) {
-    this.id$ = this._route.paramMap.pipe(map(v => v.get('id')));
+    this.id$ = this._route.paramMap.pipe(
+      map(v => v.get('id')),
+    );
+
+    this.client$ = this._clientsService.state$.pipe(
+      switchMap(clients => this.id$.pipe(map(id => ({ clients, id })))),
+      map(({ clients, id }) => clients[id]),
+    );
+
+    this.keys$ = this._keysService.state$.pipe(
+      switchMap(keys => this.id$.pipe(map(id => ({ keys, id })))),
+      map(({ keys, id }) => keys[id] || { }),
+    );
+
+    this.keysCount$ = this.keys$.pipe(
+      map(keys => Object.keys(keys).length),
+    );
   }
 
   onLoadClick(e: IJsonTreeNode) {
-    this.keysService.get({ id: this._id, key: e.key });
+    this._keysService.get({ id: this._id, key: e.key });
   }
 
   onValueClick(node: IJsonTreeNode) {
@@ -85,7 +105,7 @@ export class ClientComponent {
 
   private _onKeyValueDialogClose(node: IJsonTreeNode, v: IKeyValueResponse) {
     if (v) {
-      const keys = this.keysService.getClientKeys(this._id);
+      const keys = this._keysService.getClientKeys(this._id);
       let value = keys;
 
       for (let i = 0; i < v.path.length - 1; i++) {
@@ -98,7 +118,7 @@ export class ClientComponent {
         delete value[node.key];
       }
 
-      this.keysService.set({
+      this._keysService.set({
         id: this._id,
         key: v.path[0],
         value: keys[v.path[0]],
@@ -109,7 +129,7 @@ export class ClientComponent {
   private _onDeleteConfirmDialogClose(node: IJsonTreeNode, confirmed?: boolean) {
     if (confirmed) {
       const isRoot = node.key === node.path[0];
-      const keys = this.keysService.getClientKeys(this._id);
+      const keys = this._keysService.getClientKeys(this._id);
       let value = keys;
 
       for (let i = 0; i < node.path.length - 1; i++) {
@@ -123,12 +143,12 @@ export class ClientComponent {
       }
 
       if (isRoot) {
-        this.keysService.delete({
+        this._keysService.delete({
           id: this._id,
           key: node.key,
         });
       } else {
-        this.keysService.set({
+        this._keysService.set({
           id: this._id,
           key: node.path[0],
           value: keys[node.path[0]],

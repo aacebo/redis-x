@@ -4,19 +4,25 @@
   (search)="searchService.setText($event)"
 ></rdx-search-input>
 
-<ng-container *ngIf="(clientsService.state$ | async)[(id$ | async)]; let client">
+<ng-container *ngIf="client$ | async; let client">
   <div
     *ngIf="client.status === 'open'"
     class="rdx-client--json-tree-container"
   >
     <rdx-json-tree
-      *ngIf="keysService.state$ | async; let keys"
-      [json]="keys[(id$ | async)]"
+      *ngIf="keysCount$ | async"
+      [json]="keys$ | async"
       [filter]="searchService.text$ | async"
       (propertyActionClick)="onActionClick($event)"
       (propertyLoadClick)="onLoadClick($event)"
       (propertyValueClick)="onValueClick($event)"
     ></rdx-json-tree>
+
+    <rdx-icon
+      *ngIf="!(keysCount$ | async)"
+      name="hard-drive"
+      diameter="100"
+    ></rdx-icon>
   </div>
 
   <rdx-icon
