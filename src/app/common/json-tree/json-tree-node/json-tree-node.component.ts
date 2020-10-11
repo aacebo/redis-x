@@ -44,6 +44,11 @@ export class JsonTreeNodeComponent {
   constructor(private readonly _el: ElementRef<HTMLElement>) { }
 
   toggle(e: Event, node: IJsonTreeNode) {
+    if (node.value === undefined) {
+      this.state[node.key].expanded = !this.state[node.key].expanded;
+      this.propertyLoadClick.emit(node);
+    }
+
     if (node.expandable) {
       e.stopImmediatePropagation();
       e.preventDefault();
